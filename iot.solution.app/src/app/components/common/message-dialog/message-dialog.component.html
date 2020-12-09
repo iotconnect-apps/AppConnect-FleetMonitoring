@@ -1,0 +1,13 @@
+<div>
+  <h2 mat-dialog-title>{{ messageAlertDataModel.title }}</h2>
+  <mat-dialog-content class="mat-typography">
+    <div class="text-center">
+      <span class="message-text"> {{ messageAlertDataModel.message }} <br />{{messageAlertDataModel?.message2}}</span>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="center">
+    <button type="button" mat-flat-button color="primary" class="m-l-10" (click)="onOkClick()">
+      {{ messageAlertDataModel.okButtonName }}
+    </button>
+  </mat-dialog-actions>
+</div>

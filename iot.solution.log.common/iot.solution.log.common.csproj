@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <Authors>Softweb-Avent</Authors>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>1.1.2</Version>
+    <Description>It contains the Logger related Packages</Description>
+    <PackageReleaseNotes>Logger management and viewer added</PackageReleaseNotes>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="6.0.0" />
+    <PackageReference Include="Microsoft.DotNet.PlatformAbstractions" Version="3.1.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="3.1.1" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="4.9.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\iot.solution.log\iot.solution.log.csproj" />
+  </ItemGroup>
+
+</Project>

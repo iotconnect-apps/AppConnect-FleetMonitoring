@@ -1,0 +1,305 @@
+<section class="content-header">
+  <h1>{{moduleName}}</h1>
+</section>
+
+<div class="content">
+  <mat-card>
+    <form [formGroup]="tripForm" (ngSubmit)="manageTrip()" class="form-horizontal common-form" autocomplete="off">
+      <section class="content-header">
+        <h1>Trip Information</h1>
+      </section>
+      <div class="row">
+        <div class="col-md-5">
+          <fieldset class="form-group form-field">
+            <label class="form-label">Source Location<b>*</b></label>
+            <mat-form-field>
+              <input placeholder="Source Location" autocorrect="off" autocapitalize="off" [(ngModel)]="tripObject['sourceLocation']"
+                     matInput name="sourceLocation" formControlName="sourceLocation" tabindex="1"
+                     spellcheck="false" type="text" class="form-control" id="searchSourceLocation"
+                     #searchSourceLocation [formControl]="sourceControl">
+              <div class="form-control-feedback" *ngIf="tripForm.controls['sourceLocation'].errors">
+                <p class="form-tooltip-error sm " [ngClass]="{'error':true}"
+                   *ngIf="tripForm.controls['sourceLocation'].errors.required && checkSubmitStatus">
+                  Please enter Source Location
+                </p>
+                <p class="form-tooltip-error sm " [ngClass]="{'error':true}"
+                   *ngIf="tripForm.controls['sourceLocation'].errors.pattern && checkSubmitStatus">
+                  Special characters and white space not allowed in Source Location
+                </p>
+              </div>
+            </mat-form-field>
+          </fieldset>
+        </div>
+        <div class="col-md-1">
+          <div class="mt-4 mb-0 pt-2">
+            <div class="form-field">
+              <div class="input-field ">
+                <button mat-flat-button color="primary" class="text-white" title="Swap" type="button" (click)="swapLocation();">
+                  <span class="material-icons">
+                    sync_alt
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <fieldset class="form-group form-field">
+            <label class="form-label">Destination Location<b>*</b></label>
+            <mat-form-field>
+
+              <input placeholder="Destination Location" autocorrect="off" autocapitalize="off" [(ngModel)]="tripObject['destinationLocation']"
+                     matInput name="destinationLocation" formControlName="destinationLocation" tabindex="2"
+                     spellcheck="false" type="text" class="form-control" id="searchDestinationLocation" #searchDestinationLocation [formControl]="destinationControl">
+              <div class="form-control-feedback" *ngIf="tripForm.controls['destinationLocation'].errors">
+                <p class="form-tooltip-error sm " [ngClass]="{'error':true}"
+                   *ngIf="tripForm.controls['destinationLocation'].errors.required && checkSubmitStatus">
+                  Please enter Destination Location
+                </p>
+                <p class="form-tooltip-error sm " [ngClass]="{'error':true}"
+                   *ngIf="tripForm.controls['destinationLocation'].errors.pattern && checkSubmitStatus">
+                  Special characters and white space not allowed in Destination Location
+                </p>
+              </div>
+            </mat-form-field>
+          </fieldset>
+        </div>
+        <div class="col-md-6">
+          <fieldset class="form-group form-field">
+            <label class="form-label">Trip ID <b>*</b></label>
+            <mat-form-field>
+              <input matInput formControlName="tripId" type="text" maxlength="20"
+                     [(ngModel)]="tripObject['tripId']" [readonly]="isEdit"
+                     class="form-control" tabindex="3" placeholder="Trip ID">
+              <div class="form-control-feedback" *ngIf="tripForm.controls['tripId'].errors">
+                <p class="form-tooltip-error sm " [ngClass]="{'error':true}"
+                   *ngIf="tripForm.controls['tripId'].errors.required && checkSubmitStatus">
+                  Please enter Trip ID
+                </p>
+              </div>
+            </mat-form-field>
+          </fieldset>
+        </div>
+        <div class="col-md-6">
+          <fieldset class="form-group form-field">
+            <label class="form-label">Start DateTime<b>*</b></label>
+            <mat-form-field>
+              <input matInput [(ngModel)]="tripObject['startDateTime']" tabindex="4"  placeholder="Start DateTime"
+                     (ngModelChange)="onChangeStartDate(tripObject['startDateTime'])" [readonly]="true"
+                     formControlName="startDateTime" #startDateTime [min]="today" [owlDateTime]="strtdt">
+              <a href="javascript:;" matSuffix class="material-icons"
+                 [owlDateTimeTrigger]="strtdt">date_range</a>
+              <owl-date-time #strtdt></owl-date-time>
+              <div class="form-control-feedback" *ngIf="tripForm.controls['startDateTime'].errors">
+                <p class="form-tooltip-error sm" [ngClass]="{'error':true}"
+                   *ngIf="tripForm.controls['startDateTime'].errors.required && checkSubmitStatus">
+                  Please select Start DateTime
+                </p>
+              </div>
+            </mat-form-field>
+          </fieldset>
+        </div>
+        <div class="col-md-12">
+          <div class="form-field">
+            <div class="input-field ">
+              <fieldset class="form-group form-field">
+
+                <span class="float-left">
+                  <button mat-flat-button color="primary"
+                          [ngClass]="isFilterShow ? 'grid-icon-active' : 'grid-icon' " type="button"
+                          class="width-auto text-white"
+                          (click)="showHideFilter();addTripStop();">
+                    <span classsss="material-icons">Add Stops</span>
+                  </button>
+                </span>
+              </fieldset>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12" [formGroup]="tripStopForm">
+          <div class="row">
+            <div class="col-md-5" formArrayName="stopName">
+              <div *ngFor="let sid of stopName.controls; index as idx">
+                <fieldset class="form-group form-field">
+                  <label class="form-label">Stop Name<b>*</b></label>
+                  <mat-form-field>
+                    <input placeholder="Stop Name" autocorrect="off" autocapitalize="off"
+                           matInput name="stopName" [formControlName]="idx"
+                           spellcheck="false" type="text"
+                           [(ngModel)]="(!tripObject['tripStops'][idx])?'':tripObject['tripStops'][idx].stopName" class="form-control parent">
+
+                    <div class="form-control-feedback" *ngIf="tripStopForm.get('stopName').controls[idx].invalid">
+                      <p class="form-tooltip-error sm " [ngClass]="{'error':true}"
+                         *ngIf="tripStopForm.get('stopName').controls[idx].invalid && checkTripStopSubmitStatus">
+                        Please enter Stop Name
+                      </p>
+                    </div>
+                  </mat-form-field>
+                </fieldset>
+              </div>
+            </div>
+            <div class="col-md-5" formArrayName="endDateTime">
+              <div *ngFor="let sid of endDateTime.controls; index as idx">
+                <fieldset class="form-group form-field">
+                  <label class="form-label">End DateTime<b>*</b></label>
+                  <mat-form-field>
+                    <input matInput [formControlName]="idx" placeholder="End DateTime"
+                           #endDateTime [owlDateTimeTrigger]="enddt" [min]="endDateValidate"
+                           [owlDateTime]="enddt" [readonly]="true"
+                           [(ngModel)]="(!tripObject['tripStops'][idx])?'':tripObject['tripStops'][idx].endDateTime">
+                    <a href="javascript:;" matSuffix class="material-icons"
+                       [owlDateTimeTrigger]="enddt">date_range</a>
+                    <owl-date-time #enddt></owl-date-time>
+                    <div class="form-control-feedback" *ngIf="tripStopForm.get('endDateTime').controls[idx].invalid">
+                      <p class="form-tooltip-error sm " [ngClass]="{'error':true}"
+                         *ngIf="tripStopForm.get('endDateTime').controls[idx].invalid && checkTripStopSubmitStatus">
+                        Please enter End DateTime
+                      </p>
+                    </div>
+                  </mat-form-field>
+                </fieldset>
+              </div>
+            </div>
+            <div class="col-md-2" formArrayName="index">
+              <div *ngFor="let sid of index.controls; index as idx">
+                <fieldset class="form-group form-field">
+                  <label style="height:22px; display: block;"></label>
+                  <div class="m-b-20">
+                    <button mat-flat-button color="primary" class="text-white" type="button" title="Delete"
+                            (click)="removeTripStop(idx)" [disabled]="idx == 0">
+                      <span>Delete</span>
+                    </button>
+                  </div>
+                </fieldset>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <hr>
+      <section class="content-header mt-2">
+        <h1>Material Information</h1>
+      </section>
+      <div class="row">
+        <div class="col-md-6">
+          <fieldset class="form-group form-field">
+            <label class="form-label">Material Type<b>*</b></label>
+            <mat-form-field>
+              <mat-select [(ngModel)]="tripObject['materialTypeGuid']" formControlName="materialTypeGuid"
+                          placeholder="Select Material Type">
+                <mat-option *ngFor="let type of materialTypeList" [value]="type.value | lowercase">
+                  {{type.text}}
+                </mat-option>
+              </mat-select>
+              <div class="form-control-feedback" *ngIf="tripForm.controls['materialTypeGuid'].errors">
+                <p class="form-tooltip-error sm" [ngClass]="{'error':true}"
+                   *ngIf="tripForm.controls['materialTypeGuid'].errors.required && checkSubmitStatus">
+                  Please select Material Type
+                </p>
+              </div>
+            </mat-form-field>
+          </fieldset>
+        </div>
+        <div class="col-md-6">
+          <fieldset class="form-group form-field">
+            <label class="form-label">Weight (Tons)<b>*</b></label>
+            <mat-form-field>
+              <input type="number" name="weight" matInput
+                     placeholder="Weight" formControlName="weight" tabindex="5"
+                     [(ngModel)]="tripObject['weight']" [min]="0">
+              <div class="form-control-feedback" *ngIf="tripForm.controls['weight'].errors">
+                <p class="form-tooltip-error sm " [ngClass]="{'error':true}"
+                   *ngIf="tripForm.controls['weight'].errors.required && checkSubmitStatus">
+                  Please enter Weight
+                </p>
+              </div>
+            </mat-form-field>
+          </fieldset>
+        </div>
+        <div class="col-md-6">
+          <fieldset class="form-group form-field">
+            <label class="form-label">Fleet<b>*</b></label>
+            <mat-form-field>
+              <mat-select [(ngModel)]="tripObject['fleetGuid']" formControlName="fleetGuid"
+                          placeholder="Select Fleet" tabindex="6">
+                <mat-option *ngFor="let fleet of fleetList" [value]="fleet.value | lowercase">
+                  {{fleet.text}}
+                </mat-option>
+              </mat-select>
+              <div class="form-control-feedback" *ngIf="tripForm.controls['fleetGuid'].errors">
+                <p class="form-tooltip-error sm" [ngClass]="{'error':true}"
+                   *ngIf="tripForm.controls['fleetGuid'].errors.required && checkSubmitStatus">
+                  Please select Fleet
+                </p>
+              </div>
+            </mat-form-field>
+          </fieldset>
+        </div>
+      </div>
+      <hr>
+
+      <div class="row">
+        <div class="col-md-6">
+          <mat-label>Shipment Information </mat-label>
+          <fieldset class="form-group">
+            <label for="mediaFile" class="upload-file" title=".pdf, .doc, .docx" alt=".pdf, .doc, .docx">
+              <input formControlName="shipmentFiles" id="mediaFile" tabindex="7"
+                     [(ngModel)]="tripObject['shipmentFiles']"
+                     (change)="handleMediaFileInput($event)" class="upload-image"
+                     type="file" accept=".pdf,.doc,.docx"
+                     multiple #mediaFile />
+            </label>
+          </fieldset>
+
+          <fieldset class="form-group">
+
+            <ul class="upload-file-list m-b-15" *ngIf="tripObject['shipmentFiles']">
+              <li *ngFor="let file of selectedFilesObj">
+                <a href="javascript:;" class="file-name" [matTooltip]="file.description" matTooltipPosition="below">
+                  <i class="fas fa-file-pdf" *ngIf="file.fileName.split('.').slice(1, 2).join('.') == 'pdf'"></i>
+                  <i class="fas fa-file-word" *ngIf="file.fileName.split('.').slice(1, 2).join('.') == 'docx' ||
+                    file.fileName.split('.').slice(1, 2).join('.') == 'docx'"></i>
+                  <span>{{file.description}}</span>
+                </a>
+                <a href="javascript:;" *ngIf="selectedFiles" (click)="removeMediaImage(file.guid)">
+                  <i class="far fa-times-circle"></i>
+                </a>
+              </li>
+            </ul>
+            <ul class="upload-file-list">
+              <li *ngFor="let file of selectedFiles">
+                <a href="javascript:;" class="file-name" [matTooltip]="file.name" matTooltipPosition="below">
+                  <i class="fas fa-file-pdf" *ngIf="file.name.split('.').slice(1, 2).join('.') == 'pdf'"></i>
+                  <i class="fas fa-file-word" *ngIf="file.name.split('.').slice(1, 2).join('.') == 'docx' ||
+                      file.name.split('.').slice(1, 2).join('.') == 'docx'"></i>
+                  <span>{{file.name}}</span>
+                </a>
+                <a href="javascript:;" *ngIf="selectedFiles" (click)="fileRemove(file.name)">
+                  <i class="far fa-times-circle"></i>
+
+                </a>
+                <!-- {{file.name.split('.').slice(1, 2).join('.')}} -->
+              </li>
+            </ul>
+          </fieldset>
+        </div>
+      </div>
+      <div class="row mb-0">
+        <div class="col-lg-12">
+          <div class="form-field">
+            <div class="input-field ">
+              <button mat-flat-button color="primary" class="text-white" title="{{buttonname}}" type="submit">
+                {{buttonName}}
+              </button>
+              <button mat-flat-button color="primary" class="text-white m-l-10" type="button" title="Cancel"
+                      routerLink="/trips">
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </mat-card>
+</div>

@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Softweb-Avent</Authors>
+    <PackageId>iot.solution.eventbus</PackageId>
+    <PackageTags>iot.solution.eventbus</PackageTags>
+    <Description>It contains the EventBus and ServiceBus related Packages</Description>
+    <Version>1.1.63</Version>
+    <PackageReleaseNotes>SubscriptionResetPasswordNotification model changes</PackageReleaseNotes>
+    <AssemblyName>iot.solution.eventbus</AssemblyName>
+    <RootNamespace>iot.solution.eventbus</RootNamespace>
+    <Product>iot.solution.eventbus</Product>
+    <RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>
+    <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Azure.ServiceBus" Version="4.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="3.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+  </ItemGroup>
+
+</Project>

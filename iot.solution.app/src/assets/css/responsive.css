@@ -1,0 +1,73 @@
+@media(max-width: 1599px){
+  .dashboard-chart h4 {
+    font-size: 20px;
+  }
+  .dashboard-chart p {
+    font-size: 16px;
+    margin: 0 10px 0 0;
+  }
+  .topwidget-icon {
+    min-width: 30px;
+    min-height: 30px;
+  }
+  .data-snippet-title{
+    font-size:24px ;
+  }
+  .alerts-dashboard span.alerts-date, .alerts-dashboard span.alerts-info{
+    font-size: 15px;
+  }
+  .alerts-dashboard span.alerts-date,
+  .alerts-dashboard span.alerts-info,
+  .alerts-dashboard span.alerts-location,
+  .alerts-dashboard span.alert-info-title{
+    font-size: 15px;
+  }
+}
+@media(max-width: 1440px){
+  .card-information-item:not(:last-of-type){
+      margin-right: 25px;
+  }
+  .mat-horizontal-stepper-header-container{
+    max-width: 840px;
+  }
+  .support-ticket-container .col{
+    min-width: 350px;
+  }
+
+  .dashboardtop-widget {
+    flex-wrap: wrap;
+  }
+  .dashboard-chart {
+    flex: 1;
+  }
+  .dashboard-chart-item {
+    min-width: 320px;
+  }
+  .media-card{
+    flex: 1;
+  }
+  
+}
+@media(max-width: 1200px){
+  .light-card-body .days span, .table-container .days span, .response-time-body .days span{margin:2px;}
+  .create-role-card .permissions-box .permissions-row .permissions-title.permissions-column {flex: 0 0 33%;}
+  .permissions-box mat-checkbox {margin-right: 60px;}
+  /* body:not(.sidebar-collapse) app-payout .mat-tab-body, body:not(.sidebar-collapse) app-invoice-list .mat-tab-body {max-width: calc(100vw - 115px);} */
+  .filter-wrap .filter-form-field > ul > li {
+      flex: 1;
+  }
+
+  .dashboard-chart-item {
+    min-width: 270px;
+  }
+  .alerts-dashboard {
+    height: inherit !important;
+    max-height: inherit !important;
+  }
+  .dashboard-card.mat-card{
+    height: auto;
+  }
+
+
+}
+

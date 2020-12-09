@@ -1,0 +1,123 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <h1>{{moduleName}}</h1>
+</section>
+<!-- Main content -->
+<section class="content">
+  <mat-card class="support-card">
+    <div class="row">
+      <div class="col col-ld-11">
+        <form [formGroup]="userForm" (ngSubmit)="updateUser()" autocomplete="off"
+              class="form-horizontal common-form">
+          <div class="row">
+            <div class="col-md-6">
+              <fieldset class="form-group form-field">
+                <label class="form-label">First Name<b>*</b></label>
+                <mat-form-field>
+                  <input matInput name="firstName" maxlength="40" formControlName="firstName" type="text"
+                         [(ngModel)]="userObject['firstName']" class="form-control" tabindex="1"
+                         placeholder="First Name">
+                  <div class="form-control-feedback" *ngIf="userForm.controls['firstName'].errors">
+                    <p class="form-tooltip-error sm " [ngClass]="{'error':true}"
+                       *ngIf="userForm.controls['firstName'].errors.required && checkSubmitStatus">
+                      Please enter First Name
+                    </p>
+                  </div>
+                </mat-form-field>
+              </fieldset>
+            </div>
+            <div class="col-md-6">
+              <fieldset class="form-group form-field">
+                <label class="form-label">Last Name<b>*</b></label>
+                <mat-form-field>
+                  <input matInput name="lastName" maxlength="40" formControlName="lastName" type="text"
+                         [(ngModel)]="userObject['lastName']" class="form-control" tabindex="2"
+                         placeholder="Last Name">
+                  <div class="form-control-feedback" *ngIf="userForm.controls['lastName'].errors">
+                    <p class="form-tooltip-error sm" [ngClass]="{'error':true}"
+                       *ngIf="userForm.controls['lastName'].errors.required && checkSubmitStatus">
+                      Please enter Last Name
+                    </p>
+                  </div>
+                </mat-form-field>
+              </fieldset>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <fieldset class="form-group form-field">
+                <label class="form-label">Contact<b>*</b></label>
+                <mat-form-field>
+                  <input matInput name="contactNo" id="mobileNumber" [textMask]="mask" formControlName="contactNo"
+                         type="text" [(ngModel)]="userObject['contactNo']" class="form-control" tabindex="3" placeholder="Contact">
+                  <div class="form-control-feedback" *ngIf="userForm.controls['contactNo'].errors">
+                    <p class="form-tooltip-error sm" [ngClass]="{'error':true}"
+                       *ngIf="userForm.controls['contactNo'].errors.required && checkSubmitStatus">
+                      Please enter Contact
+                    </p>
+                    <p class="form-tooltip-error sm" [ngClass]="{'error':true}"
+                       *ngIf="userForm.controls['contactNo'].errors.pattern && checkSubmitStatus">
+                      Please enter valid Contact Number
+                    </p>
+                  </div>
+                  <div class="form-control-feedback" *ngIf="contactNoError">
+                    <p class="form-tooltip-error sm" [ngClass]="{'error':true}"
+                       *ngIf="checkSubmitStatus">
+                      Please enter valid Contact No
+                    </p>
+                  </div>
+                </mat-form-field>
+              </fieldset>
+            </div>
+            <div class="col-md-6" *ngIf="!currentUser.userDetail.isAdmin">
+              <fieldset class="form-group form-field">
+                <label class="form-label">Time Zone<b>*</b></label>
+                <mat-form-field>
+                  <mat-select placeholder="Select Time Zone" formControlName="timeZoneGuid"
+                              [(ngModel)]="userObject['timezoneGuid']" tabindex="4">
+                    <mat-option *ngFor="let time of timezoneList" [value]="time.value | lowercase">
+                      {{time.text}}
+                    </mat-option>
+                  </mat-select>
+                  <div class="form-control-feedback" *ngIf="userForm.controls['timeZoneGuid'].errors">
+                    <p class="form-tooltip-error sm" [ngClass]="{'error':true}"
+                       *ngIf="userForm.controls['timeZoneGuid'].errors.required && checkSubmitStatus">
+                      Please select Time Zone
+                    </p>
+                  </div>
+                </mat-form-field>
+              </fieldset>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <fieldset class="form-group form-field">
+                <label class="form-label">Email</label>
+                <p>{{ userObject["email"] }}</p>
+              </fieldset>
+            </div>
+
+          </div>
+
+          <div class="row mt-4 mb-0">
+            <div class="col-lg-12">
+              <div class="form-field">
+                <div class="input-field ">
+                  <button mat-flat-button color="primary" class="text-white " title="Submit"
+                          type="submit" tabindex="5">
+                    {{buttonname}}
+                  </button>
+                  <button mat-flat-button color="primary" class="text-white m-l-10"
+                          [routerLink]="isAdmin?['/admin/dashboard']:['/dashboard']" title="Cancel">
+                    Cancel
+                  </button>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </mat-card>
+</section>

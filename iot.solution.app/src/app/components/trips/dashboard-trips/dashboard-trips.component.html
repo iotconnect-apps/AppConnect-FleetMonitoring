@@ -1,0 +1,291 @@
+<section class="content-header">
+  <h1>{{tripDetails?.tripId}} <span class="status-on">{{tripDetails?.tripStatus}}</span></h1>
+  <button type="button" title="End Trip" mat-flat-button color="primary" class="width-auto text-white"
+          (click)="endModel(tripDetails)" *ngIf="tripStatus == '(In Transit)'">
+    End Trip
+  </button>
+</section>
+
+<div class="main-page dashboard">
+  <div class="row">
+    <div class="col-xl-9">
+      <div class="drag-body dashboard-widget m-b-30">
+        <div class="panel-heading">
+          <h5 class="panel-title"> Map </h5>
+        </div>
+        <mat-card class="dashboard-card mat-card slick-carousel-mat-card">
+          <agm-map [latitude]="lat" [longitude]="lng">
+            <agm-direction [origin]="origin"
+                           [destination]="destination" [renderOptions]="renderOptions" [travelMode]="'DRIVING'">
+            </agm-direction>
+            <agm-marker [latitude]="lat"
+                        [longitude]="lng"
+                        [iconUrl]="(rightDirections.includes(truckDirection) && isStarted == false) ? './assets/images/truck-location-yellow.png':
+ (rightDirections.includes(truckDirection) && isStarted == true) ? './assets/images/truck-location-green.png' :
+ (leftDirections.includes(truckDirection) && isStarted == true) ? './assets/images/truck-location-green-i.png' :  './assets/images/truck-location-yellow-i.png'">
+              <agm-info-window [isOpen]="false" #infoWindow>
+                <div *ngIf="fleetId"> <strong>Fleet Id:</strong> <a class="green" [routerLink]="['/fleet/dashboard',fleetId]">{{fleetId}}</a></div>
+                <div *ngIf="materialTypeName"> <strong>Material Type:{{materialTypeName}}</strong></div>
+                <div *ngIf="driverGuid"> <strong>Driver Id:</strong> <a class="green" [routerLink]="['/driver/dashboard',driverGuid]">{{driverId}}</a></div>
+                <div> <strong>ETA:{{arrivalTime}}</strong></div>
+              </agm-info-window>
+            </agm-marker>
+          </agm-map>
+        </mat-card>
+      </div>
+    </div>
+    <div class="col-xl-3">
+      <div class="weather-container m-b-30">
+        <div class="weather-box">
+          <span>
+            <img [src]='"assets/images/"+ weatherIcon +".svg"'>
+          </span>
+          <div class="weather-info">
+            <h1>{{temperature | number : '1.1-1'}} <span><sup>O</sup>F</span></h1>
+            <p>{{description}}</p>
+          </div>
+        </div>
+        <div class="weather-box">
+          <span>
+            <img src="../../../../assets/images/weather-icon2.svg">
+          </span>
+          <div class="weather-info">
+            <h1>{{precipitation | number : '1.1-1'}} <span>%</span></h1>
+            <p>Precipitation</p>
+          </div>
+        </div>
+        <div class="weather-box">
+          <span>
+            <img src="../../../../assets/images/weather-icon3.svg">
+          </span>
+          <div class="weather-info">
+            <h1>{{humidity}} <span>%</span></h1>
+            <p>Humidity</p>
+          </div>
+        </div>
+        <div class="weather-box">
+          <span>
+            <img src="../../../../assets/images/weather-icon4.svg">
+          </span>
+          <div class="weather-info">
+            <h1>{{windSpeed}} <span>mph</span></h1>
+            <p>Wind</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="col-xl-7">
+      <div class="drag-body dashboard-widget m-b-30">
+        <div class="panel-heading">
+          <h5 class="panel-title w-100"> Current Trip </h5>
+        </div>
+        <mat-card class="dashboard-card mat-card tripcontainer">
+          <div class="row mt-3 mb-1">
+            <div class="col">
+              <div class="trip-track">
+                <div class="source-location">
+                  <h3>{{tripDetails?.sourceLocation}}</h3>
+                  <span>{{getLocalDate(tripDetails?.startDateTime)}}</span>
+                </div>
+                <div class="destination-location">
+                  <h3>{{tripDetails?.destinationLocation}}</h3>
+                  <span>{{tripDetails?.endDateTime == null || tripDetails?.endDateTime == '' ? '': getLocalDate(tripDetails?.endDateTime)}}</span>
+                </div>
+                <span class="track" [ngStyle]="{'background':'linear-gradient(to top, #f0f0f0 '+(100 - progressMilesPerc)+'%, #41c363 '+progressMilesPerc+'%)'}">
+                </span>
+                <img src="../../../../assets/images/truck.svg" class="truck" [ngStyle]="{'top': (tripStatus == 'Completed') ? '100%' : progressMilesPerc + '%'}">
+              </div>
+            </div>
+            <div class="col">
+              <div class="dashboard-chart bggreenlwidget text-center">
+                <h4>{{coveredMiles | number : '1.1-1'}}<span style="font-size:large"> Miles</span>/{{totalMiles | number : '1.1-1'}}<span style="font-size:large"> Miles</span></h4>
+                <!--<p class="small-widget-heading">Trip Status</p>-->
+              </div>
+              <div class="dashboard-chart bgpinkwidget text-center">
+                <h4>{{tripDetails?.materialType}}</h4>
+                <p class="small-widget-heading">Load Type</p>
+              </div>
+              <div class="dashboard-chart bgbluewidget text-center">
+                <h4>{{tripDetails?.weight}}</h4>
+                <p class="small-widget-heading">Weight (Tons)</p>
+              </div>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+    <div class="col-xl-5">
+
+      <div class="drag-body dashboard-widget m-b-30">
+        <div class="panel-heading">
+          <h5 class="panel-title"> Driver Info </h5>
+        </div>
+        <mat-card class="dashboard-card mat-card slick-carousel-mat-card p-0">
+          <div class="driver-info">
+            <div class="driver-photo">
+              <span>
+                <img alt="" class="img-fluid"
+                     src="{{mediaUrl + tripDetails?.driverImage}}" />
+                <img src="../../../../assets/images/drive-nophoto.svg">
+              </span>
+            </div>
+            <div class="driver-details">
+              <h1>{{tripDetails?.driverName}} <span>{{tripDetails?.fleetType}} Driver</span></h1>
+              <p class="mb-0">+{{tripDetails?.contactNo}}</p>
+              <!--<p class="mb-0">+{{tripDetails?.contactNo | slice:0:2}}-{{tripDetails?.contactNo | slice:3:6}}-{{tripDetails?.contactNo | slice:6:9}}-{{tripDetails?.contactNo | slice:9:13}}</p>-->
+              <p class="mb-0">
+                {{tripDetails?.email}}
+              </p>
+            </div>
+          </div>
+          <div class="driver-statics">
+            <div class="driver-statics-box">
+              <div class="driver-statics-left">
+                <h4>{{tripDetails?.aggressiveAcceleration == null || tripDetails?.aggressiveAcceleration == '' ? 0 : tripDetails?.aggressiveAcceleration
+              }}</h4>
+              <p>Aggressive Acceleration</p>
+            </div>
+            <div class="driver-statics-right">
+              <h4>{{tripDetails?.overSpeed == null || tripDetails?.overSpeed == '' ? 0 : tripDetails?.overSpeed}}</h4>
+              <p>Over Speed</p>
+            </div>
+          </div>
+          <div class="driver-statics-box">
+            <div class="driver-statics-left">
+              <h4>{{tripDetails?.harshBraking == null || tripDetails?.harshBraking == '' ? 0 : tripDetails?.harshBraking}}</h4>
+              <p>Harsh Braking</p>
+            </div>
+            <div class="driver-statics-right">
+              <h4>{{tripDetails?.idleTime == null || tripDetails?.idleTime == '' ? 0 : tripDetails?.idleTime}} mins</h4>
+              <p>Idle Time</p>
+            </div>
+          </div>
+      </div>
+      </mat-card>
+    </div>
+  </div>
+
+  <div class="col-xl-7">
+    <div class="drag-body dashboard-widget m-b-30">
+      <div class="panel-heading">
+        <h5 class="panel-title w-100"> Vehicle Info </h5>
+      </div>
+      <mat-card class="dashboard-card mat-card p-0">
+        <div class="vehicalinfo-container">
+          <div class="vehicalinfo-box">
+            <div class="vehicalinfo-icon">
+              <img src="../../../../assets/images/vehicleinfo-icon1.svg">
+            </div>
+            <div class="vehicalinfo">
+              <h1>{{tripDetails?.fuelLevel == null || tripDetails?.fuelLevel == '' ? 0 : tripDetails?.fuelLevel}} <span>%</span></h1>
+              <p>Fuel Level</p>
+            </div>
+          </div>
+          <div class="vehicalinfo-box">
+            <div class="vehicalinfo-icon">
+              <img src="../../../../assets/images/vehicleinfo-icon2.svg">
+            </div>
+            <div class="vehicalinfo">
+              <h1>{{tripDetails?.oil == null || tripDetails?.oil == '' ? 0 : tripDetails?.oil}}<span>%</span></h1>
+              <p>Oil Level</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="vehicalinfo-container">
+          <div class="vehicalinfo-box">
+            <div class="vehicalinfo-icon">
+              <img src="../../../../assets/images/vehicleinfo-icon3.svg">
+            </div>
+            <div class="vehicalinfo">
+              <h1>{{tripDetails?.engineTemp == null || tripDetails?.engineTemp == '' ? 0 : tripDetails?.engineTemp}} <span> <sup>O</sup> F</span></h1>
+              <p>Engine Temperature</p>
+            </div>
+          </div>
+          <div class="vehicalinfo-box">
+            <div class="vehicalinfo-icon">
+              <img src="../../../../assets/images/vehicleinfo-icon4.svg">
+            </div>
+            <div class="vehicalinfo">
+              <h1>{{tripDetails?.tyrePressure == null || tripDetails?.tyrePressure == '' ? 0 : tripDetails?.tyrePressure}} <span>psi</span></h1>
+              <p>Tyre Pressure</p>
+            </div>
+          </div>
+        </div>
+        <div class="vehicalinfo-container">
+          <div class="vehicalinfo-box">
+            <div class="vehicalinfo-icon">
+              <img src="../../../../assets/images/vehicleinfo-icon5.svg">
+            </div>
+            <div class="vehicalinfo">
+              <h1>{{tripDetails?.currentSpeed == null || tripDetails?.currentSpeed == '' ? 0 : tripDetails?.currentSpeed}} <span>mph</span></h1>
+              <p>Current Speed</p>
+            </div>
+          </div>
+          <div class="vehicalinfo-box">
+            <div class="vehicalinfo-icon">
+              <img src="../../../../assets/images/vehicleinfo-icon6.svg">
+            </div>
+            <div class="vehicalinfo">
+              <h1>{{tripDetails?.speedLimit == null || tripDetails?.speedLimit == '' ? 0 : tripDetails?.speedLimit}} <span>mph</span></h1>
+              <p>Speed Limit</p>
+            </div>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+  <div class="col-xl-5">
+    <div class="drag-body dashboard-widget m-b-30">
+      <div class="panel-heading">
+        <h5 class="panel-title w-100"> Alerts </h5>
+        <div style="margin-right: 20px;" class="tab-link-bar">
+          <a class="text-nowrap" [routerLink]="['/alerts']" href="javascript:;">View All</a>
+        </div>
+      </div>
+      <mat-card class="dashboard-card mat-card pt-0">
+        <ng-scrollbar class="my-scrollbar m-b-50" trackX="false" trackY="true"
+                      autohide="false" [compact]="false"
+                      *ngIf="alerts?.length>0">
+          <ul [ngStyle]="{ 'height': '290px' }"
+              class="alerts-dashboard alerts-dashboard-legend">
+            <li *ngFor="let alert of alerts" [ngClass]="alert['severity']">
+              <span class="alerts-date">{{getLocalDate(alert['eventDate'])}}</span>
+              <span class="alerts-info">{{alert['message']}}</span>
+              <span class="alerts-location">{{alert['entityName']}}</span>
+            </li>
+          </ul>
+        </ng-scrollbar>
+        <div *ngIf="!alerts.length" class="centerclass" style="height: 340px;">
+          No records found
+        </div>
+        <div class="alert-indicator-wrapper">
+          <div class="alert-indicator-list">
+            <div class="alert-indicator Critical">
+              <span class="legend"></span>
+              <span class="alert-text">Critical</span>
+            </div>
+            <div class="alert-indicator Information">
+              <span class="legend"></span>
+              <span class="alert-text">Information</span>
+            </div>
+            <div class="alert-indicator Major">
+              <span class="legend"></span>
+              <span class="alert-text">Major</span>
+            </div>
+            <div class="alert-indicator Minor">
+              <span class="legend"></span>
+              <span class="alert-text">Minor</span>
+            </div>
+            <div class="alert-indicator Warning">
+              <span class="legend"></span>
+              <span class="alert-text">Warning</span>
+            </div>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+</div>
+</div>

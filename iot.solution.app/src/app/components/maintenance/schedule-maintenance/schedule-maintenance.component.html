@@ -1,0 +1,99 @@
+<section class="content-header">
+  <h1>{{moduleName}}</h1>
+</section>
+
+<div class="content">
+  <mat-card>
+    <form [formGroup]="maintenanceForm" (ngSubmit)="scheduleMaintenance()" autocomplete="off"
+      class="form-horizontal common-form">
+      <div class="m-b-30">
+        <div class="content-box">
+          <div class="row">
+            <div class="col-md-12 col-ld-11">
+              <div class="row">
+
+                <div class="col-md-6">
+                  <fieldset class="form-group form-field">
+                    <label class="form-label">Start Date<b>*</b></label>
+                    <mat-form-field>
+                      <input matInput [(ngModel)]="maintenanceObject['startDateTime']"
+                        (ngModelChange)="onChangeStartDate(maintenanceObject['startDateTime'])" [readonly]="true"
+                        formControlName="startDateTime" #startDateTime [min]="today" [owlDateTime]="strtdt">
+                      <a href="javascript:;" matSuffix class="material-icons"
+                        [owlDateTimeTrigger]="strtdt">date_range</a>
+                      <owl-date-time #strtdt></owl-date-time>
+                      <div class="form-control-feedback" *ngIf="maintenanceForm.controls['startDateTime'].errors">
+                        <p class="form-tooltip-error sm" [ngClass]="{'error':true}"
+                          *ngIf="maintenanceForm.controls['startDateTime'].errors.required && checkSubmitStatus">
+                          Please select Start Date
+                        </p>
+                      </div>
+                    </mat-form-field>
+                  </fieldset>
+                </div>
+                <div class="col-md-6">
+                  <fieldset class="form-group form-field">
+                    <label class="form-label">End Date<b>*</b></label>
+                    <mat-form-field>
+                      <input matInput formControlName="endDateTime" [(ngModel)]="maintenanceObject['endDateTime']"
+                         #endDateTime [owlDateTimeTrigger]="enddt" [min]="endDateValidate"
+                        readonly="true" [owlDateTime]="enddt">
+                      <a href="javascript:;" matSuffix class="material-icons"
+                        [owlDateTimeTrigger]="enddt">date_range</a>
+                      <owl-date-time #enddt></owl-date-time>
+                      <div class="form-control-feedback" *ngIf="maintenanceForm.controls['endDateTime'].errors">
+                        <p class="form-tooltip-error sm" [ngClass]="{'error':true}"
+                          *ngIf="maintenanceForm.controls['endDateTime'].errors.required && checkSubmitStatus">
+                          Please select End Date
+                        </p>
+                        <p class="form-tooltip-error sm" [ngClass]="{'error':true}"
+                          *ngIf="maintenanceForm.controls['endDateTime'].errors.min && checkSubmitStatus">
+                          Please select dateTime bigger then start Date
+                        </p>
+                      </div>
+                    </mat-form-field>
+                  </fieldset>
+                </div>
+                <div class="col-md-6">
+                  <label>
+                    Fleet
+                    <span class="required">*</span>
+                  </label>
+                  <mat-form-field>
+                    <mat-select 
+                      [(ngModel)]="maintenanceObject['deviceGuid']" formControlName="deviceGuid"
+                      placeholder="Select Fleet">
+                      <mat-option *ngFor="let fleet of fleetList" [value]="fleet.value">
+                        {{fleet.text}}
+                      </mat-option>
+                    </mat-select>
+                    <div class="form-control-feedback" *ngIf="maintenanceForm.controls['deviceGuid'].errors">
+                      <p class="form-tooltip-error sm" [ngClass]="{'error':true}"
+                        *ngIf="maintenanceForm.controls['deviceGuid'].errors.required && checkSubmitStatus">
+                        Please select Fleet
+                      </p>
+                    </div>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                  <label>
+                    Description
+                  </label>
+                  <mat-form-field>
+                    <textarea matInput [(ngModel)]="maintenanceObject['description']" formControlName="description"
+                      maxlength="250" placeholder="Enter Description" rows="4"></textarea>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="button-row m-t-15">
+          <button mat-flat-button color="primary" type="submit" mat-button [title]="buttonName">{{buttonName}}</button>
+          <button mat-flat-button color="primary" [routerLink]="['/maintenance']" type="button" mat-button
+            title="Cancel">Cancel</button>
+        </div>
+      </div>
+    </form>
+  </mat-card>
+</div>

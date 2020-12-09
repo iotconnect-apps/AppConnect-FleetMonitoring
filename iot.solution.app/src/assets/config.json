@@ -1,0 +1,15 @@
+{
+  "env": {
+      "name": "uat"
+  },
+  "apiServer": {
+    "baseUrl": "https://fleetmonitoring.iotconnect.io:902/"
+  },
+  "IdsServer": {
+    "IDSAuthority": "https://login.iotconnect.io",
+    "IDSClientID": "iotconnect.avnet",
+    "IDSScope": "openid profile iotconnect.api.fullaccess",
+    "IDSArcValue": "solutionCode:a54e560f-eb64-4451-bfdd-a14730e8f9b8",
+    "webUrl": "https://fleetmonitoring.iotconnect.io"
+  }
+}

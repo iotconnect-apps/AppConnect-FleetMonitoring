@@ -1,0 +1,199 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>service.Database</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{a436dade-1110-4b31-8156-01cf1b4d7181}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql130DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>service.Database</RootNamespace>
+    <AssemblyName>service.Database</AssemblyName>
+    <ModelCollation>1033,CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+    <DefaultCollation>SQL_Latin1_General_CP1_CI_AS</DefaultCollation>
+    <DefaultFilegroup>PRIMARY</DefaultFilegroup>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Condition="'$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="dbo\" />
+    <Folder Include="dbo\Tables\" />
+    <Folder Include="Security\" />
+    <Folder Include="dbo\Stored Procedures\" />
+    <Folder Include="IOTConnect" />
+    <Folder Include="IOTConnect\Stored Procedures" />
+    <Folder Include="IOTConnect\Tables" />
+    <Folder Include="Scripts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="dbo\Tables\User.sql" />
+    <Build Include="dbo\Tables\TelemetrySummary_Hourwise.sql" />
+    <Build Include="dbo\Tables\TelemetrySummary_Daywise.sql" />
+    <Build Include="dbo\Tables\RoleModulePermission.sql" />
+    <Build Include="dbo\Tables\Role.sql" />
+    <Build Include="dbo\Tables\Module.sql" />
+    <Build Include="dbo\Tables\KitTypeCommand.sql" />
+    <Build Include="dbo\Tables\KitTypeAttribute.sql" />
+    <Build Include="dbo\Tables\KitType.sql" />
+    <Build Include="dbo\Tables\HardwareKit.sql" />
+    <Build Include="dbo\Tables\Entity.sql" />
+    <Build Include="dbo\Tables\DeviceType.sql" />
+    <Build Include="dbo\Tables\DeviceFiles.sql" />
+    <Build Include="dbo\Tables\Device.sql" />
+    <Build Include="dbo\Tables\DebugInfo.sql" />
+    <Build Include="dbo\Tables\Configuration.sql" />
+    <Build Include="dbo\Tables\CompanyConfig.sql" />
+    <Build Include="dbo\Tables\Company.sql" />
+    <Build Include="dbo\Tables\AdminUser.sql" />
+    <Build Include="dbo\Tables\AdminRule.sql" />
+    <Build Include="dbo\Stored Procedures\Validate_KitCode.sql" />
+    <Build Include="dbo\Stored Procedures\User_Search.sql" />
+    <Build Include="dbo\Stored Procedures\User_List.sql" />
+    <Build Include="dbo\Stored Procedures\Role_List.sql" />
+    <Build Include="dbo\Stored Procedures\Role_AddUpdate.sql" />
+    <Build Include="dbo\Stored Procedures\Entity_Lookup.sql" />
+    <Build Include="dbo\Stored Procedures\Entity_List.sql" />
+    <Build Include="dbo\Stored Procedures\Entity_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\Entity_AddUpdate.sql" />
+    <Build Include="dbo\Stored Procedures\IotConnect_ManageUser.sql" />
+    <Build Include="dbo\Stored Procedures\IotConnect_ManageRole.sql" />
+    <Build Include="dbo\Stored Procedures\IotConnect_ManageEntity.sql" />
+    <Build Include="dbo\Stored Procedures\IotConnect_ManageDeviceTemplate.sql" />
+    <Build Include="dbo\Stored Procedures\IotConnect_ManageDevice.sql" />
+    <Build Include="dbo\Stored Procedures\IotConnect_ManageCompany.sql" />
+    <Build Include="dbo\Stored Procedures\HardwareKit_Validate.sql" />
+    <Build Include="dbo\Stored Procedures\HardwareKit_List.sql" />
+    <Build Include="dbo\Stored Procedures\HardwareKit_GetStatus.sql" />
+    <Build Include="dbo\Stored Procedures\HardwareKit_AddUpdate.sql" />
+    <Build Include="dbo\Stored Procedures\DeviceUsage_Get.sql" />
+    <Build Include="dbo\Stored Procedures\DeviceFiles_UpdateStatus.sql" />
+    <Build Include="dbo\Stored Procedures\DeviceFiles_List.sql" />
+    <Build Include="dbo\Stored Procedures\DeviceFiles_Add.sql" />
+    <Build Include="dbo\Stored Procedures\Device_UpdateImage.sql" />
+    <Build Include="dbo\Stored Procedures\Device_Lookup.sql" />
+    <Build Include="dbo\Stored Procedures\Device_List.sql" />
+    <Build Include="dbo\Stored Procedures\Device_Get.sql" />
+    <Build Include="dbo\Stored Procedures\Device_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\Device_AddUpdate.sql" />
+    <Build Include="dbo\Stored Procedures\CompanyStatistics_Get.sql" />
+    <Build Include="dbo\Stored Procedures\Company_UpdateStatus.sql" />
+    <Build Include="dbo\Stored Procedures\Company_UpdateDetail.sql" />
+    <Build Include="dbo\Stored Procedures\Company_List.sql" />
+    <Build Include="dbo\Stored Procedures\Company_Get.sql" />
+    <Build Include="dbo\Stored Procedures\Company_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\Company_AddUpdate.sql" />
+    <Build Include="dbo\Stored Procedures\AdminUser_List.sql" />
+    <Build Include="dbo\Stored Procedures\AdminRule_List.sql" />
+    <Build Include="Security\ref.sql" />
+    <Build Include="Security\mq.sql" />
+    <Build Include="Security\IOTConnect.sql" />
+    <Build Include="IOTConnect\Stored Procedures\TelemetryAttributeValue_Bulkadd.sql" />
+    <Build Include="IOTConnect\Tables\AttributeValue.sql" />
+    <Build Include="dbo\Tables\IOTConnectAlert.sql" />
+    <Build Include="dbo\Stored Procedures\Alert_List.sql" />
+    <Build Include="dbo\Stored Procedures\Device_LatestAttributeValue_Get.sql" />
+    <Build Include="dbo\Stored Procedures\TelemetrySummary_Daywise_Add.sql" />
+    <Build Include="dbo\Stored Procedures\IOTConnectAlert_Add.sql" />
+    <Build Include="dbo\Tables\DeviceMaintenance.sql" />
+    <Build Include="dbo\Stored Procedures\DeviceMaintenance_Add.sql" />
+    <Build Include="dbo\Stored Procedures\DeviceMaintenance_Get.sql" />
+    <Build Include="dbo\Stored Procedures\DeviceMaintenance_List.sql" />
+    <Build Include="dbo\Stored Procedures\DeviceMaintenance_UpComingList.sql" />
+    <Build Include="dbo\Stored Procedures\DeviceMaintenance_UpdateStatus.sql" />
+    <Build Include="dbo\Stored Procedures\EntityStatistics_Get.sql" />
+    <Build Include="dbo\Stored Procedures\DeviceStatistics_Get.sql" />
+    <Build Include="dbo\Stored Procedures\DeviceType_AddUpdate.sql" />
+    <Build Include="dbo\Stored Procedures\DeviceType_List.sql" />
+    <Build Include="dbo\Stored Procedures\DeviceType_Delete.sql" />
+    <Build Include="dbo\Tables\DeviceAttribute.sql" />
+    <Build Include="dbo\Stored Procedures\DeviceType_Lookup.sql" />
+    <Build Include="dbo\Tables\DeviceAttributeUtilization.sql" />
+    <Build Include="dbo\Tables\UserDasboardWidget.sql" />
+    <Build Include="dbo\Tables\MasterWidget.sql" />
+    <Build Include="dbo\Tables\Fleet.sql" />
+    <Build Include="dbo\Tables\FleetType.sql" />
+    <Build Include="dbo\Tables\FleetMaterialType.sql" />
+    <Build Include="dbo\Stored Procedures\Fleet_List.sql" />
+    <Build Include="dbo\Stored Procedures\Fleet_AddUpdate.sql" />
+    <Build Include="dbo\Tables\Driver.sql" />
+    <Build Include="dbo\Stored Procedures\Driver_List.sql" />
+    <Build Include="dbo\Stored Procedures\FleetStatistics_Get.sql" />
+    <Build Include="dbo\Tables\Trip.sql" />
+    <Build Include="dbo\Tables\TripStops.sql" />
+    <Build Include="dbo\Tables\ShipmentFiles.sql" />
+    <Build Include="dbo\Stored Procedures\Trip_AddUpdate.sql" />
+    <Build Include="dbo\Stored Procedures\ShipmentFiles_Add.sql" />
+    <Build Include="dbo\Stored Procedures\TripStops_Add.sql" />
+    <Build Include="dbo\Stored Procedures\Trip_List.sql" />
+    <Build Include="dbo\Stored Procedures\ShipmentFiles_UpdateStatus.sql" />
+    <Build Include="dbo\Stored Procedures\Driver_AddUpdate.sql" />
+    <Build Include="dbo\Stored Procedures\Chart_EnergyConsumptionByFleet.sql" />
+    <Build Include="dbo\Stored Procedures\Fleet_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\Get_TripStatus.sql" />
+    <Build Include="dbo\Stored Procedures\Chart_EnergyConsumption.sql" />
+    <Build Include="dbo\Stored Procedures\Chart_UtilizationByFleetType.sql" />
+    <Build Include="dbo\Stored Procedures\Fleet_MapList.sql" />
+    <Build Include="dbo\Stored Procedures\Chart_FleetStatus.sql" />
+    <Build Include="dbo\Stored Procedures\DriverStatistics_Get.sql" />
+    <Build Include="dbo\Stored Procedures\TripStatistics_Get.sql" />
+    <Build Include="dbo\Stored Procedures\Device_ValidateDelete.sql" />
+    <Build Include="dbo\Tables\FleetIdleStatus.sql" />
+    <Build Include="dbo\Tables\FleetHaltStatus.sql" />
+    <Build Include="dbo\Stored Procedures\Chart_TripsByDriver.sql" />
+    <Build Include="dbo\Stored Procedures\TelemetrySummary_HourWise_Add.sql" />
+    <Build Include="dbo\Stored Procedures\TripStart_UpdateStatus.sql" />
+    <Build Include="dbo\Stored Procedures\Chart_OdometerReadingByFleet.sql" />
+    <Build Include="dbo\Stored Procedures\Get_TripDelayData.sql" />
+    <Build Include="dbo\Stored Procedures\Trip_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\Get_UserSubscriptionEndData.sql" />
+    <Build Include="dbo\Stored Procedures\Get_UserSubscriptionStatus.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="iot.solution.database.refactorlog" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Scripts\Script.PostDeployment.sql" />
+  </ItemGroup>
+</Project>

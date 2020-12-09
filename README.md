@@ -1,2 +1,1 @@
-# AppConnect-FleetMonitoring
-Partner Program : Fleet Monitoring Appconnect App
+# sw-iot-solution-smart-asset-monitoring

@@ -1,0 +1,88 @@
+<form [formGroup]="myForm">
+  <div>
+    <!--<mat-radio-group formControlName="selectedType" aria-label="Select an option" class="d-flex w-100" required>
+    
+          <mat-radio-button *ngIf="!isPaymentDisabled" (change)="setSelectedValuePayment(true)" [disabled]="isPaymentDisabled && isDisableType" [checked]="true" [value]="1">Payment</mat-radio-button>
+         
+        </mat-radio-group>-->
+
+    <div class="">
+
+      <mat-radio-group formControlName="selectedCard" aria-label="Select an option" class="d-flex w-100" required>
+
+        <div class="payment-cards-wrapper m-t-30 m-b-30">
+
+          <div class="add-new-card-container" [hidden]="isChangeCard ">
+            <div class="credit-card-box d-flex flex-wrap align-items-center justify-content-center">
+              <button mat-flat-button (click)="ChangeCard()" color="primary">Change Card</button>
+            </div>
+          </div>
+          <div class="saved-cards-container" [hidden]="!isChangeCard">
+            <ul class="card-list">
+              <li class="credit-card-box">
+                <div class="card-details-box">
+                  <div class="d-flex flex-wrap align-items-center card-details-item m-t-20 p-b-0">
+                    <div class="card-number-details w100p ">
+                      <mat-form-field>
+                        <input type="text" matInput placeholder="Name on Card" autocomplete="off"
+                          formControlName="cardName" (blur)="onBlurCardName()">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="d-flex flex-wrap align-items-center justify-content-end card-details-item">
+                    <div class="card-details-date">
+                      <form #checkout="ngForm" class="checkout p-2">
+                        <div class="form-row">
+                          <div id="card-info" style="width: 200% !important" #cardInfo></div>
+                          <div id="card-errors" role="alert" *ngIf="error">
+                            <mat-error> {{ error }}</mat-error>
+                          </div>
+
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                  <div
+                    class="card-renew-options d-flex flex-wrap align-items-end justify-content-between card-details-item">
+                    <div class="powered-by-logo">
+                      <img src="../../../assets/images/payment/powered_by_stripe.svg" alt="">
+                    </div>
+                    <!--<div class="button-row d-flex">
+                          <button mat-flat-button color="primary" type="submit" (click)="onSubmit()">Save Card</button>
+                        </div>-->
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+
+        </div>
+      </mat-radio-group>
+
+      <!--<div *ngIf="isAutoRenew">
+            Auto Renew
+            <mat-slide-toggle checked="false" (change)="toggle($event)"><span><font color="red">{{IsAutoStatus}}</font></span></mat-slide-toggle>
+  
+          
+            <div *ngIf="IsAuto">
+              <div *ngIf="!IsAutoCHK">
+                <mat-error>
+                  Please Select AutoRenew For Free Package
+                </mat-error>
+              </div>
+  
+            </div>
+  
+       
+          </div>-->
+      <div class="m-t-20" *ngIf="!appConstant.isEmptyList(userCardMaster)">
+        <div class="note">
+          <span>
+            Note: If you will add new card, existing card will be removed for all further transaction.
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

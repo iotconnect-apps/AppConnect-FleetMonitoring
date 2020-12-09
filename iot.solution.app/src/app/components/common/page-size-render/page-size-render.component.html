@@ -1,0 +1,8 @@
+<div class="pull-right pageview"> <span *ngIf="totalItemsCount > 0">Showing {{ ((currentPage * pageSize) - pageSize)+1  }} - {{ ((currentPage * pageSize) < totalItemsCount) ?  (currentPage * pageSize) :  totalItemsCount }} of {{ totalItemsCount }} entries {{(totalItemsCount > limitationForPageSize) ? '| Page Size ': ''}}</span>
+	<span class="btn-group dropdown" *ngIf="totalItemsCount > limitationForPageSize">
+		<button type="button" class="btn dropdown-toggle" data-toggle="dropdown"><span class="page-size">{{ pageSize }}</span></button>
+		<ul class="dropdown-menu" role="menu">
+			<li *ngFor="let itemSize of itemsPerPage" (click)="onChangeItemSize(itemSize)"><a href="javascript:void(0)">{{itemSize}}</a></li>
+		</ul>
+	</span>
+</div>

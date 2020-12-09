@@ -1,0 +1,622 @@
+<section class="dashboard-control-section">
+	<div class="container-fluid px-0">
+		<div class="new-dashboard-create-controls">
+			<div class="row justify-content-between no-gutters h-100">
+				<div class="col">
+					<div class="d-flex align-items-center flex-wrap h-100">
+						<div class="dashboard-selector-dropdown d-inline-flex align-items-center flex-wrap mr-3">
+							<div class="d-flex align-items-center">
+								<div class="form-field " *ngIf="dashboardList.length > 0 && isPreview">
+									<div class="input">
+										<mat-form-field>
+											<mat-select  name="dashboardDataIndex" id="dashboardDataIndex" [(ngModel)]="dashboardData.index" #dashboardDataIndex="ngModel" matNativeControl (selectionChange)="editDashboard('view','n')" [disabled]="!isPreview">
+												<mat-select-trigger *ngIf="dashboardList.length > 0">
+													<span *ngIf="!dashboardList[dashboardData.index].isDefault">{{dashboardList[dashboardData.index].dashboardName}}
+													</span>
+													<strong *ngIf="dashboardList[dashboardData.index].isDefault">{{dashboardList[dashboardData.index].dashboardName}}
+													</strong>
+												</mat-select-trigger>
+												<ng-container *ngFor="let dashboard of dashboardList;let di = index;">
+													<mat-option [value]="di">
+														<div style="display:flex; justify-content: space-between">
+															<span *ngIf="!dashboard.isDefault">{{dashboard.dashboardName}}
+															</span>
+															<strong *ngIf="dashboard.isDefault">{{dashboard.dashboardName}}
+															</strong>
+														</div>
+													</mat-option>
+												</ng-container>
+											</mat-select>
+										</mat-form-field>
+									</div>
+								</div>
+								<div class="form-field m-l-10">
+									<div class='input' *ngIf="!isPreview">
+										<mat-form-field class="add-dashboard-input">
+											<input type="text" matInput placeholder="Dashboard Name" autocomplete="off" name="dashboardName" id="dashboardName" (keyup.enter)="saveDashboard()" [(ngModel)]="dashboardData.dashboardName" #dashboardName="ngModel" required maxlength="100"><span class="note"matSuffix><span>{{(dashboardData.dashboardName.trim()).length}}</span> /100</span>
+										</mat-form-field>
+										<mat-error *ngIf="dashboardName.invalid && dashboardName.touched">
+											<span *ngIf="dashboardName.hasError('required') && dashboardName.touched">
+											Please enter dashboard name.</span>
+										</mat-error>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="ml-auto is-default-dashboard">
+							<div class='input' *ngIf="!isPreview">
+								<mat-checkbox name="isDefault" id="isDefault" [(ngModel)]="dashboardData.isDefault" [checked]="dashboardData.isDefault" class="example-margin">Is Default</mat-checkbox>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="">
+					<div class="new-dashboard-controls d-flex flex-wrap align-items-center dashboard-controls-right text-right h-100 justify-content-end">
+
+						<ng-container *ngIf="isPreview">
+							<button mat-flat-button type="button" color="primary" class="dashboard-controls save-dashboard-btn" (click)="editDashboard('','n')"  title="New">New</button>
+
+							<button mat-flat-button type="button" color="primary" class="dashboard-controls 
+							add-new-dashboard-btn" *ngIf="dashboardList.length > 0" (click)="editDashboard('copy','n')" title="Clone" >Clone</button>
+						</ng-container>
+
+						<ng-container *ngIf="!isPreview">
+							<button mat-flat-button type="button" color="primary" class="dashboard-controls save-dashboard-btn"
+							(click)="saveDashboard()" [disabled]="dashboardWidgetsIndex.length == 0 || (dashboardData.dashboardName.trim()).length == 0">Save</button>
+
+							<button mat-flat-button type="button" color="primary" class="dashboard-controls add-new-dashboard-btn" (click)="editDashboard('view','y')" 
+							*ngIf="dashboardList.length > 0">Cancel</button>
+						</ng-container>
+
+						<ng-container *ngIf="isPreview && dashboardList.length > 0">
+							<ng-container *ngIf="!dashboardList[dashboardData.index].isSystemDefault">
+								<button mat-flat-button type="button" color="primary" class="dashboard-controls delete-dashboard-btn" (click)="editDashboard('edit','n');" >Edit</button>
+
+								<button mat-flat-button type="button" color="primary" class="undo" (click)="deleteDashbord();">Delete</button>
+							</ng-container>
+						</ng-container>
+
+						<ng-container *ngIf="(isPreview || dashboardList.length == 0)">
+							<button mat-flat-button routerLink="/dashboard" type="button" color="primary" class="undo">Back</button>
+						</ng-container>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<div class="tab dynamic-dashboard-sidebar allwidgets-menu" *ngIf="!isPreview">
+	<h2>All Widgets</h2>
+	<ng-scrollbar class="my-scrollbar" trackX="false" trackY="true" autohide="true" [compact]="false">
+		<ul class="list widgets-list">
+			<li class="title"><label>KPI</label></li>
+			<ng-container *ngFor="let element of defaultWidgets;let bi = index;">
+				<li draggable="true" (dragstart)="dragStartHandler($event,element,bi)" *ngIf="element.type == 'counter'" [ngClass]="{'added':(dashboardWidgetsIndex.indexOf(element.id) >= 0 || isPreview)}">
+					<a href="javascript:void(0);" >{{element.name}}<span class="icon"></span></a>
+					<button class="add-link"  href="javascript:void(0);" *ngIf="(dashboardWidgetsIndex.indexOf(element.id) < 0 && !isPreview)">
+						<img src="../../../../assets/images/drag-handle.svg" width="18" alt="Drag Widget">
+					</button>
+					<button class="add-link" [disabled]="true" href="javascript:void(0);" *ngIf="(dashboardWidgetsIndex.indexOf(element.id) >= 0 || isPreview)">
+						<img [src]="((dashboardWidgetsIndex.indexOf(element.id) >= 0 && !isPreview) ? '../../../../assets/images/right-sign-icon.svg' : '../../../../assets/images/drag-handle.svg')" width="18" alt="Drag Widget">
+					</button>
+				</li>
+			</ng-container>
+			<li class="title"><label>Alert</label></li>
+			<ng-container *ngFor="let element of defaultWidgets;let bi = index;">
+				<li draggable="true" (dragstart)="dragStartHandler($event,element,bi)" *ngIf="element.type == 'alert'" [ngClass]="{'added':(dashboardWidgetsIndex.indexOf(element.id) >= 0 || isPreview)}">
+					<a href="javascript:void(0);" >{{element.name}}<span class="icon"></span></a>
+					<button class="add-link"  href="javascript:void(0);" *ngIf="(dashboardWidgetsIndex.indexOf(element.id) < 0 && !isPreview)">
+						<img src="../../../../assets/images/drag-handle.svg" width="18" alt="Drag Widget">
+					</button>
+					<button class="add-link" [disabled]="true" href="javascript:void(0);" *ngIf="(dashboardWidgetsIndex.indexOf(element.id) >= 0 || isPreview)">
+						<img [src]="((dashboardWidgetsIndex.indexOf(element.id) >= 0 && !isPreview) ? '../../../../assets/images/right-sign-icon.svg' : '../../../../assets/images/drag-handle.svg')" width="18" alt="Drag Widget">
+					</button>
+				</li>
+			</ng-container>
+			<li class="title"><label>Chart</label></li>
+			<ng-container *ngFor="let element of defaultWidgets;let bi = index;">
+				<li draggable="true" (dragstart)="dragStartHandler($event,element,bi)" *ngIf="element.type == 'chart'" [ngClass]="{'added':(dashboardWidgetsIndex.indexOf(element.id) >= 0 || isPreview)}">
+					<a href="javascript:void(0);" >{{element.name}}<span class="icon"></span></a>
+					<button class="add-link" href="javascript:void(0);" *ngIf="(dashboardWidgetsIndex.indexOf(element.id) < 0 && !isPreview)">
+						<img src="../../../../assets/images/drag-handle.svg" width="18" alt="Drag Widget">
+					</button>
+					<button class="add-link" [disabled]="true" href="javascript:void(0);" *ngIf="(dashboardWidgetsIndex.indexOf(element.id) >= 0 || isPreview)">
+						<img [src]="((dashboardWidgetsIndex.indexOf(element.id) >= 0 && !isPreview) ? '../../../../assets/images/right-sign-icon.svg' : '../../../../assets/images/drag-handle.svg')" width="18" alt="Drag Widget">
+					</button>
+				</li>
+			</ng-container>
+			<li class="title"><label>Map View</label></li>
+			<ng-container *ngFor="let element of defaultWidgets;let bi = index;">
+				<li draggable="true" (dragstart)="dragStartHandler($event,element,bi)" *ngIf="element.type == 'map'" [ngClass]="{'added':(dashboardWidgetsIndex.indexOf(element.id) >= 0 || isPreview)}">
+					<a href="javascript:void(0);" >{{element.name}}<span class="icon"></span></a>
+					<button class="add-link"  href="javascript:void(0);" *ngIf="(dashboardWidgetsIndex.indexOf(element.id) < 0 && !isPreview)">
+						<img src="../../../../assets/images/drag-handle.svg" width="18" alt="Drag Widget">
+					</button>
+					<button class="add-link" [disabled]="true" href="javascript:void(0);" *ngIf="(dashboardWidgetsIndex.indexOf(element.id) >= 0 || isPreview)">
+						<img [src]="((dashboardWidgetsIndex.indexOf(element.id) >= 0 && !isPreview) ? '../../../../assets/images/right-sign-icon.svg' : '../../../../assets/images/drag-handle.svg')" width="18" alt="Drag Widget">
+					</button>
+				</li>
+			</ng-container>
+		</ul>
+	</ng-scrollbar>
+</div>
+
+<section class="content">
+	<app-size-detector (deviceSizeChange)="deviceSizeChange($event)"></app-size-detector>
+	<div class="main-content">
+		<div class="gridster-wrapper">
+			<gridster [options]="options" class="gridster white-bkd" #gridster [ngClass]="{'white-bkd':isPreview,'edit-mode-dashboard':!isPreview}">
+				<gridster-item [item]="item" *ngFor="let item of dashboardWidgets;let index = index;" [class]="item.properties?.className +' '+ item.componentName" [ngStyle]="{'background': (item.type == 'counter' ? item.widgetProperty?.background : '#fff'),'width':item.properties?.w+'px','height':item.properties?.h+'px'}">
+					<app-widget-counter-a *ngIf="item.componentName === 'widget-counter-a'" [resizeEvent]="resizeEvent" [widget]="item" [count]="{total:totalFleetCount,active:inTransitFleetCount,inactive:inGarageFleetCount}">
+					</app-widget-counter-a>
+					<app-widget-counter-b *ngIf="item.componentName === 'widget-counter-b'" [resizeEvent]="resizeEvent" [widget]="item" [count]="driverUtilizationPer">
+					</app-widget-counter-b>
+					<app-widget-counter-c *ngIf="item.componentName === 'widget-counter-c'" [resizeEvent]="resizeEvent" [widget]="item" [count]="fleetUtilizationPer">
+					</app-widget-counter-c>
+					<app-widget-counter-d *ngIf="item.componentName === 'widget-counter-d'" [resizeEvent]="resizeEvent" [widget]="item" [count]="totalFuelConsumption">
+					</app-widget-counter-d>
+					<app-widget-counter-e *ngIf="item.componentName === 'widget-counter-e'" [resizeEvent]="resizeEvent" [widget]="item" [count]="totalAlerts">
+					</app-widget-counter-e>
+					<app-widget-counter-f *ngIf="item.componentName === 'widget-counter-f'" [resizeEvent]="resizeEvent" [widget]="item" [count]="{total:totalUserCount,active:activeUserCount,inactive:inactiveUserCount}">
+					</app-widget-counter-f>
+					<app-widget-map-a *ngIf="item.componentName === 'widget-map-a'" [resizeEvent]="resizeEvent" [widget]="item" [zoomChangeEvent]="zoomChangeEvent">
+					</app-widget-map-a>
+					<app-widget-alert-a *ngIf="item.componentName === 'widget-alert-a'" [resizeEvent]="resizeEvent" [alertLimitchangeEvent]="alertLimitchangeEvent" [widget]="item">
+					</app-widget-alert-a>
+					<app-widget-chart-a [class]="item.properties?.className +' '+ item.componentName" [ngStyle]="{'width':item.properties?.w+'px',
+					'height':item.properties?.h+'px'}" *ngIf="item.componentName === 'widget-chart-a'" [resizeEvent]="resizeEvent" [chartTypeChangeEvent]="chartTypeChangeEvent" [widget]="item" [gridster]="gridster"></app-widget-chart-a>
+					<app-widget-chart-b [class]="item.properties?.className +' '+ item.componentName" [ngStyle]="{'width':item.properties?.w+'px',
+					'height':item.properties?.h+'px'}" *ngIf="item.componentName === 'widget-chart-b'" [resizeEvent]="resizeEvent" [chartTypeChangeEvent]="chartTypeChangeEvent" [widget]="item" [gridster]="gridster"></app-widget-chart-b>
+					<app-widget-chart-c [class]="item.properties?.className +' '+ item.componentName" [ngStyle]="{'width':item.properties?.w+'px',
+					'height':item.properties?.h+'px'}" *ngIf="item.componentName === 'widget-chart-c'" [resizeEvent]="resizeEvent" [chartTypeChangeEvent]="chartTypeChangeEvent" [widget]="item" [gridster]="gridster"></app-widget-chart-c>
+					<div class="button-holder pull-right" *ngIf="!isPreview">
+						<a href="javascript:;" (click)="editProperties($event, item,index)" class="">
+							<img src="../../../../assets/images/icon-edit-black.svg" width="15" alt="">
+						</a>
+						<a href="javascript:;" (click)="removeItem($event, item,index)"  class="m-l-5">
+							<img src="../../../../assets/images/icon-delete-black.svg" width="15" alt="">
+						</a>
+					</div>
+				</gridster-item>
+			</gridster>
+		</div>
+	</div>
+</section>
+
+<section class="create-drawer transform" *ngIf="isEditItem">
+	<div class="head">
+		<a href="javascript:void(0);" class="closedrawer" (click)="cancelEditWidget('n');">
+			<i class="material-icons">close</i>
+		</a>
+		<h2>Widget Settings</h2>
+	</div>
+	<div class="form-container">
+		<div class="view-form">
+			<form class="form-horizontal" >
+				<div class="container-fluid">
+					<ng-container *ngIf="dashboardWidgets[editWidgetIndex].type == 'counter'">
+						<div class="row no-gutters">
+							<h3 class="create-drawer-title">
+								Common Settings
+							</h3>
+							<div class="col-lg-12">
+								<div class="d-flex justify-content-between drawer-inner-section-list">
+									<span>Background</span>
+									<div class="ml-auto">
+										<input class="color-picker-input"
+										[(colorPicker)]="dashboardWidgets[editWidgetIndex].widgetProperty.background"
+										[style.background]="dashboardWidgets[editWidgetIndex].widgetProperty.background"
+										matInput autocomplete="off" name="background" id="background"/>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row no-gutters">
+							<h3 class="create-drawer-title">
+								Title Settings
+							</h3>
+							<div class="col-lg-12">
+
+								<label for="ctitle">Title</label>
+								<mat-form-field class="w-100 mb-0">
+									<input type="text" matInput placeholder="Enter Title*" autocomplete="off" name="ctitle" id="ctitle" [(ngModel)]="dashboardWidgets[editWidgetIndex].widgetProperty.contents.entities.title" #ctitle="ngModel">
+								</mat-form-field>
+								<mat-error *ngIf="ctitle.invalid && ctitle.touched">
+									<span *ngIf="ctitle.hasError('required') && ctitle.touched"> Please enter title.</span>
+								</mat-error>
+
+								<div class="d-flex justify-content-between drawer-inner-section-list">
+									<span>Font Color</span>
+									<div class="ml-auto">
+										<input class="color-picker-input" [(colorPicker)]="dashboardWidgets[editWidgetIndex].widgetProperty.contents.entities.fontColor"
+										[style.background]="dashboardWidgets[editWidgetIndex].widgetProperty.contents.entities.fontColor"
+										matInput autocomplete="off" name="tfontColor" id="tfontColor"
+										[cpPosition]="'bottom-left'" />
+									</div>
+								</div>
+
+								<label>Font Family</label>
+								<ng-select name="tfontFamily" id="tfontFamily" [(ngModel)]="dashboardWidgets[editWidgetIndex].widgetProperty.contents.entities.fontFamily" [searchable]="true" class="custom" [selectOnTab]="false" [items]="fontList"  notFoundText="No Fonts Found." [clearable]="false" placeholder="Search Fonts" bindLabel="name" bindValue="name">
+									<ng-template ng-label-tmp let-item="item">
+										<span [ngStyle]="{'font-family':item.name}">{{item.name}}</span>
+									</ng-template>
+									<ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+										<span [ngStyle]="{'font-family':item.name}">{{item.name}}</span>
+									</ng-template>
+								</ng-select>
+
+								<div class="m-t-10 w-100">
+									<span class="w-100">Font Size</span>
+									<ng5-slider [(value)]="dashboardWidgets[editWidgetIndex].widgetProperty.contents.entities.fontSize" [options]="sliderOptions"name="tfontSize" id="tfontSize"></ng5-slider>
+								</div>
+							</div>
+						</div>
+						<div class="row" *ngIf="dashboardWidgets[editWidgetIndex].componentName != 'widget-counter-b'&& dashboardWidgets[editWidgetIndex].componentName != 'widget-counter-a'">
+							<h3 class="create-drawer-title">
+								Count Settings
+							</h3>
+							<div class="col-lg-12">
+
+								<div class="d-flex justify-content-between drawer-inner-section-list">
+									<span>Font Color</span>
+									<div class="ml-auto">
+										<input class="color-picker-input"
+										[(colorPicker)]="dashboardWidgets[editWidgetIndex].widgetProperty.contents.count.fontColor"
+										[style.background]="dashboardWidgets[editWidgetIndex].widgetProperty.contents.count.fontColor"
+										matInput autocomplete="off" name="ctfontColor" id="ctfontColor"
+										[cpPosition]="'bottom-left'" />
+									</div>
+								</div>
+
+								<label>Font Family</label>
+								<ng-select name="ctfontFamily" id="ctfontFamily" [(ngModel)]="dashboardWidgets[editWidgetIndex].widgetProperty.contents.count.fontFamily" [searchable]="true" class="custom" [selectOnTab]="false" [items]="fontList"  notFoundText="No Fonts Found." [clearable]="false" placeholder="Search Fonts" bindLabel="name" bindValue="name">
+									<ng-template ng-label-tmp let-item="item">
+										<span [ngStyle]="{'font-family':item.name}">{{item.name}}</span>
+									</ng-template>
+									<ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+										<span [ngStyle]="{'font-family':item.name}">{{item.name}}</span>
+									</ng-template>
+								</ng-select>
+
+								<div class="m-t-10 w-100">
+									<span class="w-100">Font Size</span>
+									<ng5-slider [(value)]="dashboardWidgets[editWidgetIndex].widgetProperty.contents.count.fontSize" [options]="sliderOptions"  name="ctfontSize" id="ctfontSize"></ng5-slider>
+								</div>
+							</div>
+						</div>
+						<div class="row" [ngClass]="{'no-gutters':dashboardWidgets[editWidgetIndex].componentName == 'widget-counter-a'}" *ngIf="dashboardWidgets[editWidgetIndex].componentName != 'widget-counter-f'&& dashboardWidgets[editWidgetIndex].componentName != 'widget-counter-a' ">
+							<h3 class="create-drawer-title">
+								Icon Settings
+							</h3>
+							<div class="col-lg-12">
+								<div class="is-default-dashboard">
+									<div class='input' >
+										<mat-checkbox name="iconisRequired" id="iconisRequired" [(ngModel)]="dashboardWidgets[editWidgetIndex].widgetProperty.contents.icon.isRequired" [checked]="dashboardWidgets[editWidgetIndex].widgetProperty.contents.icon.isRequired" class="example-margin">Icon Required</mat-checkbox>
+									</div>
+								</div>
+								<ng-container *ngIf="dashboardWidgets[editWidgetIndex].widgetProperty.contents.icon.isRequired">
+									<label>Select Icon<span class="required"></span></label>
+									<ng-select [(ngModel)]="dashboardWidgets[editWidgetIndex].widgetProperty.contents.icon.iconClass" name="iconClass" id="iconClass" [searchable]="true" class="custom" [selectOnTab]="false" [items]="dynamicDashboardService.iconList"  notFoundText="No Icons Found." [clearable]="false" placeholder="Search Icons">
+										<ng-template ng-label-tmp let-item="item">
+											<i class="{{item}}"></i>
+											&nbsp;&nbsp;{{getIconName(item)}}
+										</ng-template>
+										<ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+											<i class="{{item}}"></i>
+											&nbsp;&nbsp;{{getIconName(item)}}
+										</ng-template>
+									</ng-select>
+									<div class="d-flex justify-content-between drawer-inner-section-list">
+										<span>Icon Color</span>
+										<div class="ml-auto">
+											<input class="color-picker-input"
+											[(colorPicker)]="dashboardWidgets[editWidgetIndex].widgetProperty.contents.icon.fontColor"
+											[style.background]="dashboardWidgets[editWidgetIndex].widgetProperty.contents.icon.fontColor"
+											matInput autocomplete="off" name="iconfontColor" id="iconfontColor"
+											[cpPosition]="'bottom-left'" />
+										</div>
+									</div>
+									<div class="m-t-10 w-100">
+										<span class="w-100">Icon Size</span>
+										<ng5-slider [(value)]="dashboardWidgets[editWidgetIndex].widgetProperty.contents.icon.fontSize" [options]="iconOptions"  name="iconfontSize" id="iconfontSize"></ng5-slider>
+									</div>
+								</ng-container>
+							</div>
+						</div>
+						<ng-container *ngIf="dashboardWidgets[editWidgetIndex].componentName == 'widget-counter-a' || dashboardWidgets[editWidgetIndex].componentName == 'widget-counter-f' ">
+							<div class="row no-gutters">
+								<h3 class="create-drawer-title">
+									Count Icon Settings
+								</h3>
+								<div class="col-lg-12">
+									<div class="is-default-dashboard">
+										<div class='input' >
+											<mat-checkbox name="entitiesIconisRequired" id="entitiesIconisRequired" [(ngModel)]="dashboardWidgets[editWidgetIndex].widgetProperty.contents.entitiesIcon.isRequired" [checked]="dashboardWidgets[editWidgetIndex].widgetProperty.contents.entitiesIcon.isRequired" class="example-margin">Icon Required</mat-checkbox>
+										</div>
+									</div>
+									<ng-container *ngIf="dashboardWidgets[editWidgetIndex].widgetProperty.contents.entitiesIcon.isRequired">
+										<label>Select Icon<span class="required"></span></label>
+										<ng-select [(ngModel)]="dashboardWidgets[editWidgetIndex].widgetProperty.contents.entitiesIcon.iconClass" name="entitiesIconClass" id="entitiesIconClass" [searchable]="true" class="custom" [selectOnTab]="false" [items]="dynamicDashboardService.iconList"  notFoundText="No Icons Found." [clearable]="false" placeholder="Search Icons">
+											<ng-template ng-label-tmp let-item="item">
+												<i class="{{item}}"></i>
+												&nbsp;&nbsp;{{getIconName(item)}}
+											</ng-template>
+											<ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+												<i class="{{item}}"></i>
+												&nbsp;&nbsp;{{getIconName(item)}}
+											</ng-template>
+										</ng-select>
+										<div class="d-flex justify-content-between drawer-inner-section-list">
+											<span>Icon Color</span>
+											<div class="ml-auto">
+												<input class="color-picker-input"
+												[(colorPicker)]="dashboardWidgets[editWidgetIndex].widgetProperty.contents.entitiesIcon.fontColor"
+												[style.background]="dashboardWidgets[editWidgetIndex].widgetProperty.contents.entitiesIcon.fontColor"
+												matInput autocomplete="off" name="entitiesIconfontColor" id="entitiesIconfontColor"
+												[cpPosition]="'bottom-left'" />
+											</div>
+										</div>
+										<div class="m-t-10 w-100">
+											<span class="w-100">Icon Size</span>
+											<ng5-slider [(value)]="dashboardWidgets[editWidgetIndex].widgetProperty.contents.entitiesIcon.fontSize" [options]="iconOptions"  name="entitiesIconfontSize" id="entitiesIconfontSize"></ng5-slider>
+										</div>
+									</ng-container>
+								</div>
+							</div>
+							<div class="row no-gutters">
+								<h3 class="create-drawer-title">
+									Active Settings
+								</h3>
+								<div class="col-lg-12">
+
+									<label for="atitle">Title</label>
+									<mat-form-field class="w-100 mb-0">
+										<input type="text" matInput placeholder="Enter Title*" autocomplete="off" name="atitle" id="atitle" [(ngModel)]="dashboardWidgets[editWidgetIndex].widgetProperty.contents.active.title" #atitle="ngModel">
+									</mat-form-field>
+									<mat-error *ngIf="atitle.invalid && atitle.touched">
+										<span *ngIf="atitle.hasError('required') && atitle.touched"> Please enter title.</span>
+									</mat-error>
+
+									<div class="d-flex justify-content-between drawer-inner-section-list">
+										<span>Font Color</span>
+										<div class="ml-auto">
+											<input class="color-picker-input" [(colorPicker)]="dashboardWidgets[editWidgetIndex].widgetProperty.contents.active.fontColor"
+											[style.background]="dashboardWidgets[editWidgetIndex].widgetProperty.contents.active.fontColor"
+											matInput autocomplete="off" name="afontColor" id="afontColor"
+											[cpPosition]="'bottom-left'" />
+										</div>
+									</div>
+
+									<label>Font Family</label>
+									<ng-select name="afontFamily" id="afontFamily" [(ngModel)]="dashboardWidgets[editWidgetIndex].widgetProperty.contents.active.fontFamily" [searchable]="true" class="custom" [selectOnTab]="false" [items]="fontList"  notFoundText="No Fonts Found." [clearable]="false" placeholder="Search Fonts" bindLabel="name" bindValue="name">
+										<ng-template ng-label-tmp let-item="item">
+											<span [ngStyle]="{'font-family':item.name}">{{item.name}}</span>
+										</ng-template>
+										<ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+											<span [ngStyle]="{'font-family':item.name}">{{item.name}}</span>
+										</ng-template>
+									</ng-select>
+
+									<div class="m-t-10 w-100">
+										<span class="w-100">Font Size</span>
+										<ng5-slider [(value)]="dashboardWidgets[editWidgetIndex].widgetProperty.contents.active.fontSize" [options]="sliderOptions"name="afontSize" id="afontSize"></ng5-slider>
+									</div>
+								</div>
+							</div>
+							<div class="row no-gutters">
+								<h3 class="create-drawer-title">
+									Active Count Settings
+								</h3>
+								<div class="col-lg-12">
+
+									<div class="d-flex justify-content-between drawer-inner-section-list">
+										<span>Font Color</span>
+										<div class="ml-auto">
+											<input class="color-picker-input"
+											[(colorPicker)]="dashboardWidgets[editWidgetIndex].widgetProperty.contents.activeCount.fontColor"
+											[style.background]="dashboardWidgets[editWidgetIndex].widgetProperty.contents.activeCount.fontColor"
+											matInput autocomplete="off" name="acfontColor" id="acfontColor"
+											[cpPosition]="'bottom-left'" />
+										</div>
+									</div>
+
+									<label>Font Family</label>
+									<ng-select name="acfontFamily" id="acfontFamily" [(ngModel)]="dashboardWidgets[editWidgetIndex].widgetProperty.contents.activeCount.fontFamily" [searchable]="true" class="custom" [selectOnTab]="false" [items]="fontList"  notFoundText="No Fonts Found." [clearable]="false" placeholder="Search Fonts" bindLabel="name" bindValue="name">
+										<ng-template ng-label-tmp let-item="item">
+											<span [ngStyle]="{'font-family':item.name}">{{item.name}}</span>
+										</ng-template>
+										<ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+											<span [ngStyle]="{'font-family':item.name}">{{item.name}}</span>
+										</ng-template>
+									</ng-select>
+
+									<div class="m-t-10 w-100">
+										<span class="w-100">Font Size</span>
+										<ng5-slider [(value)]="dashboardWidgets[editWidgetIndex].widgetProperty.contents.activeCount.fontSize" [options]="sliderOptions"  name="acfontSize" id="acfontSize"></ng5-slider>
+									</div>
+								</div>
+							</div>
+							<div class="row no-gutters">
+								<h3 class="create-drawer-title">
+									Inactive Title Settings
+								</h3>
+								<div class="col-lg-12">
+
+									<label for="intitle">Title</label>
+									<mat-form-field class="w-100 mb-0">
+										<input type="text" matInput placeholder="Enter Title*" autocomplete="off" name="intitle" id="intitle" [(ngModel)]="dashboardWidgets[editWidgetIndex].widgetProperty.contents.inactive.title" #intitle="ngModel">
+									</mat-form-field>
+									<mat-error *ngIf="intitle.invalid && intitle.touched">
+										<span *ngIf="intitle.hasError('required') && intitle.touched"> Please enter title.</span>
+									</mat-error>
+
+									<div class="d-flex justify-content-between drawer-inner-section-list">
+										<span>Font Color</span>
+										<div class="ml-auto">
+											<input class="color-picker-input" [(colorPicker)]="dashboardWidgets[editWidgetIndex].widgetProperty.contents.inactive.fontColor"
+											[style.background]="dashboardWidgets[editWidgetIndex].widgetProperty.contents.inactive.fontColor"
+											matInput autocomplete="off" name="infontColor" id="infontColor"
+											[cpPosition]="'bottom-left'" />
+										</div>
+									</div>
+
+									<label>Font Family</label>
+									<ng-select name="infontFamily" id="infontFamily" [(ngModel)]="dashboardWidgets[editWidgetIndex].widgetProperty.contents.inactive.fontFamily" [searchable]="true" class="custom" [selectOnTab]="false" [items]="fontList"  notFoundText="No Fonts Found." [clearable]="false" placeholder="Search Fonts" bindLabel="name" bindValue="name">
+										<ng-template ng-label-tmp let-item="item">
+											<span [ngStyle]="{'font-family':item.name}">{{item.name}}</span>
+										</ng-template>
+										<ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+											<span [ngStyle]="{'font-family':item.name}">{{item.name}}</span>
+										</ng-template>
+									</ng-select>
+
+									<div class="m-t-10 w-100">
+										<span class="w-100">Font Size</span>
+										<ng5-slider [(value)]="dashboardWidgets[editWidgetIndex].widgetProperty.contents.inactive.fontSize" [options]="sliderOptions"name="infontSize" id="infontSize"></ng5-slider>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<h3 class="create-drawer-title">
+									Inactive Count Settings
+								</h3>
+								<div class="col-lg-12">
+
+									<div class="d-flex justify-content-between drawer-inner-section-list">
+										<span>Font Color</span>
+										<div class="ml-auto">
+											<input class="color-picker-input"
+											[(colorPicker)]="dashboardWidgets[editWidgetIndex].widgetProperty.contents.inactiveCount.fontColor"
+											[style.background]="dashboardWidgets[editWidgetIndex].widgetProperty.contents.inactiveCount.fontColor"
+											matInput autocomplete="off" name="incfontColor" id="incfontColor"
+											[cpPosition]="'bottom-left'" />
+										</div>
+									</div>
+
+									<label>Font Family</label>
+									<ng-select name="incfontFamily" id="incfontFamily" [(ngModel)]="dashboardWidgets[editWidgetIndex].widgetProperty.contents.inactiveCount.fontFamily" [searchable]="true" class="custom" [selectOnTab]="false" [items]="fontList"  notFoundText="No Fonts Found." [clearable]="false" placeholder="Search Fonts" bindLabel="name" bindValue="name">
+										<ng-template ng-label-tmp let-item="item">
+											<span [ngStyle]="{'font-family':item.name}">{{item.name}}</span>
+										</ng-template>
+										<ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+											<span [ngStyle]="{'font-family':item.name}">{{item.name}}</span>
+										</ng-template>
+									</ng-select>
+
+									<div class="m-t-10 w-100">
+										<span class="w-100">Font Size</span>
+										<ng5-slider [(value)]="dashboardWidgets[editWidgetIndex].widgetProperty.contents.inactiveCount.fontSize" [options]="sliderOptions"  name="incfontSize" id="incfontSize"></ng5-slider>
+									</div>
+								</div>
+							</div>
+						</ng-container>
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="d-flex flex-wrap drawer-inner-section-list list-no-border">
+									<button mat-flat-button type="button" color="primary" class="dashboard-controls save-dashboard-btn" (click)="cancelEditWidget('y');">
+										Save
+									</button>
+									<button mat-flat-button type="button" color="primary" class="dashboard-controls add-new-dashboard-btn" (click)="resetWidget(dashboardWidgets[editWidgetIndex].id);">
+										Reset To Default
+									</button>
+								</div>
+							</div>
+						</div>
+					</ng-container>
+					<ng-container *ngIf="dashboardWidgets[editWidgetIndex].type != 'counter'">
+						<div class="row no-gutters">
+							<h3 class="create-drawer-title">
+								Common Settings
+							</h3>
+							<div class="col-lg-12">
+								<div class="d-flex justify-content-between drawer-inner-section-list">
+									<span>Background</span>
+									<div class="ml-auto">
+										<input class="color-picker-input"
+										[(colorPicker)]="dashboardWidgets[editWidgetIndex].widgetProperty.background"
+										[style.background]="dashboardWidgets[editWidgetIndex].widgetProperty.background"
+										matInput autocomplete="off" name="background" id="background"
+										[cpPosition]="'bottom-left'" />
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row no-gutters">
+							<h3 class="create-drawer-title">
+								Title Settings
+							</h3>
+							<div class="col-lg-12">
+								<label for="ctitle">Title Name</label>
+								<mat-form-field class="w-100">
+									<input type="text" matInput placeholder="Enter Title Name*" autocomplete="off" name="ctitle" id="ctitle" [(ngModel)]="dashboardWidgets[editWidgetIndex].widgetProperty.title" #ctitle="ngModel">
+								</mat-form-field>
+								<mat-error *ngIf="ctitle.invalid && ctitle.touched">
+									<span *ngIf="ctitle.hasError('required') && ctitle.touched"> Please enter title.</span>
+								</mat-error>
+								<div class="d-flex justify-content-between drawer-inner-section-list">
+									<span>Font Color</span>
+									<div class="ml-auto">
+										<input class="color-picker-input" [(colorPicker)]="dashboardWidgets[editWidgetIndex].widgetProperty.fontColor" [style.background]="dashboardWidgets[editWidgetIndex].widgetProperty.fontColor" autocomplete="off" name="fontColor" id="fontColor"
+										[cpPosition]="'bottom-left'" class="color-picker-input" />
+									</div>
+								</div>
+								<div class="w-100">
+									<label>Font Family</label>
+									<ng-select name="cfontFamily" id="cfontFamily" [(ngModel)]="dashboardWidgets[editWidgetIndex].widgetProperty.fontFamily" [searchable]="true" class="custom" [selectOnTab]="false" [items]="fontList"  notFoundText="No Fonts Found." [clearable]="false" placeholder="Search Fonts" bindLabel="name" bindValue="name">
+										<ng-template ng-label-tmp let-item="item">
+											<span [ngStyle]="{'font-family':item.name}">{{item.name}}</span>
+										</ng-template>
+										<ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+											<span [ngStyle]="{'font-family':item.name}">{{item.name}}</span>
+										</ng-template>
+									</ng-select>
+								</div>
+
+								<div class="m-t-10 w-100">
+									<span class="w-100 m-b-10">Font Size</span>
+									<ng5-slider [(value)]="dashboardWidgets[editWidgetIndex].widgetProperty.fontSize" [options]="sliderOptions" name="cfontSize" id="cfontSize"></ng5-slider>
+								</div>
+							</div>
+						</div>
+						<div class="row" *ngIf="dashboardWidgets[editWidgetIndex].type == 'alert'">
+							<h3 class="create-drawer-title">
+								Alert Settings
+							</h3>
+							<div class="col-lg-12">
+								<div class="m-t-10 w-100" >
+									<span class="w-100">Alert Limit</span>
+									<ng5-slider [(value)]="dashboardWidgets[editWidgetIndex].widgetProperty.alertLimit" [options]="sliderOptions"  name="alertLimit" id="alertLimit"></ng5-slider>
+								</div>
+							</div>
+						</div>
+						<div class="row" *ngIf="dashboardWidgets[editWidgetIndex].type == 'map'">
+							<h3 class="create-drawer-title">
+								Map Settings
+							</h3>
+							<div class="col-lg-12">
+								<div class="m-t-10 w-100">
+									<span class="w-100">Zoom</span>
+									<ng5-slider [(value)]="dashboardWidgets[editWidgetIndex].widgetProperty.zoom" [options]="mapOptions"  name="zoom" id="zoom" (mouseup)="zoomChanged(editWidgetIndex)"></ng5-slider>
+								</div>
+							</div>
+						</div>
+						
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="d-flex flex-wrap drawer-inner-section-list list-no-border">
+								<button mat-flat-button type="button" color="primary" class="dashboard-controls save-dashboard-btn" (click)="cancelEditWidget('y');">
+									Save
+								</button>
+								<button mat-flat-button type="button" color="primary" class="dashboard-controls add-new-dashboard-btn" (click)="resetWidget(dashboardWidgets[editWidgetIndex].id);">
+									Reset To Default
+								</button>
+							</div>
+						</div>
+					</div>
+				</ng-container>
+			</div>
+		</form>
+	</div>
+</div>
+</section>

@@ -1,0 +1,14 @@
+<div class="drag-body dashboard-widget">
+		<div class="panel-heading" [ngStyle]="{'background':widget?.widgetProperty?.background}">
+			<h5 class="panel-title w-100" [ngStyle]="{'font-size':widget?.widgetProperty?.fontSize+'px',
+			'font-family':widget?.widgetProperty?.fontFamily,
+			'color':widget?.widgetProperty?.fontColor}"> {{widget?.widgetProperty?.title}} </h5>
+		  </div>
+		  <mat-card class="dashboard-card mat-card slick-carousel-mat-card">
+			<google-chart *ngIf="graphChartData.dataTable.length" [data]="graphChartData"></google-chart>
+			<div class="centerclass soil-nutritions" *ngIf="!graphChartData.dataTable.length">
+			  No Data Found
+			</div>
+		  </mat-card>
+	</div>
+  

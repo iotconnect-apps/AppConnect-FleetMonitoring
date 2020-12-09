@@ -1,0 +1,37 @@
+<aside class="main-sidebar">
+  <!-- sidebar: style can be found in sidebar.less -->
+  <div class="logopart">
+    <div class="favicon-logo"><img src="./assets/images/logo-favicon.svg" alt=""></div>
+    <div class="white-logo"><img src="./assets/images/logo-sidebar.svg" alt=""></div>
+  </div>
+  <section class="sidebar">
+    <!-- sidebar menu: : style can be found in sidebar.less -->
+    <ng-scrollbar class="my-scrollbar" trackX="false" 
+    trackY="true" 
+    autohide="false" 
+    [compact]="false">
+    <ul class="sidebar-menu">
+      <li *ngFor="let menu of menuList let i = index" class="with-sub" routerLinkActive="active"
+          class="menu.li_color" (click)="onClickMenu(i)" appTooltip="{{menu.name}}" placement="right" delay="200">
+        <i class="icon-sidebar" [ngClass]="menu.icon" [routerLink]="[menu.link]" *ngIf="menu.applylink"></i>
+        <a (click)="manageNavigateUrl(menu.link)" *ngIf="menu.applylink" title="{{menu.name}}">
+          <span>{{menu.name}}</span>
+        </a>
+        <span *ngIf="!menu.applylink" title="{{menu.name}}" (click)="showSubMenu(menu)">
+          <i class="font-icon" [ngClass]="menu.icon"></i>
+          <span *ngIf="menu.applylink==false" class="lbl" title="{{menu.name}}">{{menu.name}}</span>
+        </span>
+        <span class="no-padding" *ngIf="menu.showSunMenu">
+          <ul class="submenu" *ngIf="menu.isSubmenu">
+            <li class="menu-active" *ngFor="let subMenu of menu.submenu">
+              <a class="menu-active" [routerLink]="[subMenu.link]" title="{{subMenu.name}}">
+                <span class="lbl">{{subMenu.name}}</span>
+              </a>
+            </li>
+          </ul>
+        </span>
+      </li>
+    </ul>
+    </ng-scrollbar>
+  </section>
+</aside>

@@ -1,0 +1,33 @@
+﻿@model component.services.logger.viewer.Models.LoggerModel.Error
+
+<div>
+    <p><b>Date:</b> @Model.LogDate</p>
+    <p><b>File Name:</b> @Model.LogFile</p>
+    <p><b>Method Name:</b> @Model.Method</p>
+    <p><b>Error Code:</b> @Model.ErrorCode</p>
+    <p><b>Message:</b> @Model.Message</p>
+    <details>
+        <summary><b>Message Data</b> </summary>
+        <br />
+        <p>@Model.MessageData</p>
+    </details>
+    <details>
+        <summary><b>Stack Trace</b> </summary>
+        <br />
+        <p>@Model.StackTrace</p>
+    </details>
+    <details>
+        <summary><b>Exception</b> </summary>
+        <br />
+        <p>@Model.Exception</p>
+    </details>
+</div>
+
+<style>
+    p {
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 10px;
+        padding-top: 10px;
+        word-wrap: break-word;
+    }
+</style>

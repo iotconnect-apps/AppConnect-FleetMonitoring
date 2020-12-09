@@ -1,0 +1,12 @@
+
+[
+     {"severityId": "1","urgencyId": "1","priorityId": 1},
+     {"severityId": "1","urgencyId": "2","priorityId": 2},
+     {"severityId": "1","urgencyId": "3","priorityId": 3},
+     {"severityId": "2","urgencyId": "1","priorityId": 2},
+     {"severityId": "2","urgencyId": "2","priorityId": 3},
+     {"severityId": "2","urgencyId": "3","priorityId": 4},
+     {"severityId": "3","urgencyId": "1","priorityId": 3},
+     {"severityId": "3","urgencyId": "2","priorityId": 4},
+     {"severityId": "3","urgencyId": "3","priorityId": 5}
+]

@@ -1,0 +1,435 @@
+<div class="login-box">
+  <div class="login-form content p-l-40 p-r-40 pt-0">
+    <mat-card class="support-card">
+      <mat-card-content>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-12">
+              <h3>{{modulename}}</h3>
+              <form class="form-horizontal common-form" [formGroup]="SubscriberFormGroup" autocomplete="off">
+                <div class="row subscriber-form" *ngIf="!isShowPayment">
+                  <div class="col-lg-12">
+                    <h4>Company Details</h4>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-field">
+                      <label>Company Name<span class="required">*</span></label>
+                      <div class="input-field">
+                        <mat-form-field>
+                          <input type="text" matInput placeholder="Company Name" autocomplete="off"
+                            formControlName="companyName">
+                          <mat-icon
+                            *ngIf="SubscriberFormGroup.controls.companyName?.errors && !SubscriberFormGroup.controls.companyName?.errors?.required"
+                            class="custom-error-icon" matTooltipHideDelay="1500"
+                            [matTooltip]="SubscriberFormGroup.controls.companyName.errors?.name?.message">
+                            info
+                          </mat-icon>
+                          <mat-error
+                            *ngIf="SubscriberFormGroup.controls.companyName.errors && SubscriberFormGroup.controls.companyName?.errors?.required">
+                            <span>
+                              {{SubscriberFormGroup.controls.companyName.errors?.required?.message}}
+                            </span>
+                          </mat-error>
+                          <mat-error
+                            *ngIf="SubscriberFormGroup.controls.companyName.errors && SubscriberFormGroup.controls.companyName?.errors?.maxLength">
+                            <span>
+                              {{SubscriberFormGroup.controls.companyName.errors?.maxLength?.message}}
+                            </span>
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <div class="col-md-2">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <label>Country Code<span class="required">*</span></label>
+                        <div class="select-field contact-select-field">
+                          
+                          <mat-form-field>
+                            <input maxlength="3" type="text" matInput placeholder="Enter country code" formControlName="ccode">
+                            <mat-icon *ngIf="SubscriberFormGroup.controls.ccode.errors?.ccode" class="custom-error-icon"
+                              matTooltipHideDelay="1500"
+                              [matTooltip]="SubscriberFormGroup.controls.ccode.errors?.ccode?.message">info</mat-icon>
+                          
+                            <mat-error
+                              *ngIf="SubscriberFormGroup.controls.ccode.errors && SubscriberFormGroup.controls.ccode?.errors?.required">
+                              <span>
+                                {{SubscriberFormGroup.controls.ccode.errors?.required?.message}}</span>
+                            </mat-error>
+                            <mat-error
+                              *ngIf="SubscriberFormGroup.controls.ccode.errors && SubscriberFormGroup.controls.ccode?.errors?.maxLength">
+                              <span>
+                                {{SubscriberFormGroup.controls.ccode.errors?.maxLength?.message}}</span>
+                            </mat-error>
+                          </mat-form-field>
+
+                          
+                        </div>
+                      </div>
+                    </div>
+                  </div> -->
+                  <div class="col-md-6">
+                    <div class="row">
+                      <div class="col-md-12">
+
+                        <label>Contact<span class="required">*</span></label>
+                        <div class="select-field contact-select-field">
+                          <!--<div class="select-field contact-select-field d-flex">-->
+                          <mat-form-field style="width: 120px;float: left;">
+                            <mat-select placeholder="" formControlName="phoneCountryCode">
+                              <mat-option>-- Select Any --</mat-option>
+                              <mat-option value="+61">AUS(+61)</mat-option>
+                              <mat-option value="+43">AUT(+43)</mat-option>
+                              <mat-option value="+45">DNK(+45)</mat-option>
+                              <mat-option value="+358">FIN(+358)</mat-option>
+                              <mat-option value="+33">FRA(+33)</mat-option>
+                              <mat-option value="+49">DEU(+49)</mat-option>
+                              <mat-option value="+30">GRC(+30)</mat-option>
+                              <mat-option value="+91">IN(+91)</mat-option>
+                              <mat-option value="+353">IRL(+353)</mat-option>
+                              <mat-option value="+39">ITA(+39)</mat-option>
+                              <mat-option value="+60">MYS(+60)</mat-option>
+                              <mat-option value="+31">NLD(+31)</mat-option>
+                              <mat-option value="+64">NZL(+64)</mat-option>
+                              <mat-option value="+48">POL(+48)</mat-option>
+                              <mat-option value="+65">SGP(+65)</mat-option>
+                              <mat-option value="+34">ESP(+34)</mat-option>
+                              <mat-option value="+46">SWE(+46)</mat-option>
+                              <mat-option value="+41">CHE(+41)</mat-option>
+                              <mat-option value="+44">GB(+44)</mat-option>
+                              <mat-option value="+1">USA(+1)</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="SubscriberFormGroup.controls.phoneCountryCode.errors">
+                              <span>{{SubscriberFormGroup.controls.phoneCountryCode.errors?.required?.message}}</span>
+                            </mat-error>
+                          </mat-form-field>
+
+                          <mat-form-field style="margin-left: 120px;">
+                            <input type="text" matInput placeholder="Enter Contact Number" maxlength="10" minlength="8" formControlName="phone">
+                            <mat-icon *ngIf="SubscriberFormGroup.controls.phone.errors?.phone" class="custom-error-icon"
+                              matTooltipHideDelay="1500"
+                              [matTooltip]="SubscriberFormGroup.controls.phone.errors?.phone?.message">info
+                            </mat-icon>
+                            <!--<mat-icon *ngIf="f.companyPhone.errors?.maxLength" class="custom-error-icon" matTooltipHideDelay="1500" matTooltip=" You have reached the maximum character limit for this field.">info</mat-icon>
+                                <mat-icon *ngIf="f.companyPhone.errors?.minLength" class="custom-error-icon" matTooltipHideDelay="1500" matTooltip=" Invalid Phone Number.">info</mat-icon>-->
+                            <mat-error
+                              *ngIf="SubscriberFormGroup.controls.phone.errors && SubscriberFormGroup.controls.phone?.errors?.required">
+                              <span>
+                                {{SubscriberFormGroup.controls.phone.errors?.required?.message}}</span>
+                            </mat-error>
+                            <mat-error
+                              *ngIf="SubscriberFormGroup.controls.phone.errors && SubscriberFormGroup.controls.phone?.errors?.minLength">
+                              <span>
+                                {{SubscriberFormGroup.controls.phone.errors?.minLength?.message}}</span>
+                            </mat-error>
+                            <mat-error
+                              *ngIf="SubscriberFormGroup.controls.phone.errors && SubscriberFormGroup.controls.phone?.errors?.maxLength">
+                              <span>
+                                {{SubscriberFormGroup.controls.phone.errors?.maxLength?.message}}</span>
+                            </mat-error>
+                            <mat-error
+                              *ngIf="SubscriberFormGroup.controls.phone.errors && SubscriberFormGroup.controls.phone?.errors?.pattern">
+                              <span>
+                                {{SubscriberFormGroup.controls.phone.errors?.pattern?.message}}</span>
+                            </mat-error>
+                          </mat-form-field>
+
+                          <!--</div>-->
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-field">
+                      <label>Address<span class="required">*</span></label>
+                      <div class="input-field">
+                        <mat-form-field>
+                          <input type="text" matInput placeholder="Address" autocomplete="off"
+                            formControlName="address" maxlength="300">
+                          <mat-error *ngIf="SubscriberFormGroup.controls.address.errors">
+                            <span>{{SubscriberFormGroup.controls.address.errors?.required?.message}}</span>
+                          </mat-error>
+                        </mat-form-field>
+                        <mat-error
+                          *ngIf="SubscriberFormGroup.controls.address.errors && SubscriberFormGroup.controls.address?.errors?.maxLength">
+                          <span>
+                            {{SubscriberFormGroup.controls.address.errors?.maxLength?.message}}
+                          </span>
+                        </mat-error>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-sm-6">
+                    <label>Country<span class="required">*</span>
+                    </label>
+                    <ng-select [searchable]="SubscriberFormGroup.controls.countryName.value?false:true" class="custom"
+                      [selectOnTab]="true" [placeholder]="SubscriberFormGroup.controls.countryName.value?'':'Country'"
+                      formControlName="countryName" [items]="countryList" (change)="changeCountry($event)"
+                      bindLabel="countryName" bindValue="countryId">
+                    </ng-select>
+                    <mat-error style="margin-top: 5px;line-height: 1.2;"
+                      *ngIf="SubscriberFormGroup.controls.countryName.errors && isSubmitted">
+                      <span>{{SubscriberFormGroup.controls.countryName.errors?.required?.message}}</span>
+                    </mat-error>
+
+                  </div>
+                  <div class="col-sm-6">
+                    <label>State<span class="required">*</span>
+                    </label>
+                    <ng-select [searchable]="SubscriberFormGroup.controls.stateName.value?false:true" class="custom"
+                      [selectOnTab]="true" [placeholder]="SubscriberFormGroup.controls.stateName.value?'':'State'"
+                      formControlName="stateName" [items]="stateList" bindLabel="stateName" bindValue="stateId">
+                    </ng-select>
+                    <mat-error style="margin-top: 5px;line-height: 1.2;"
+                      *ngIf="SubscriberFormGroup.controls.stateName.errors && isSubmitted">
+                      <span>{{SubscriberFormGroup.controls.stateName.errors?.required?.message}}</span>
+                    </mat-error>
+
+                    <!-- <mat-form-field>
+                      <mat-select placeholder="State" formControlName="stateName">
+                        <mat-option>-- Select Any --</mat-option>
+                        <mat-option *ngFor="let item of stateList" [value]="item.stateId">
+                          {{item.stateName}}
+                        </mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="SubscriberFormGroup.controls.stateName.errors">
+                        <span>{{SubscriberFormGroup.controls.stateName.errors?.required?.message}}</span>
+                      </mat-error>
+                    </mat-form-field> -->
+                  </div>
+
+                  <div class="col-sm-6">
+                    <label>City<span class="required">*</span>
+                    </label>
+                    <mat-form-field>
+                      <input type="text" matInput formControlName="cityName" placeholder="City Name" autocomplete="off"
+                        maxlength="50">
+                      <mat-icon
+                        *ngIf="SubscriberFormGroup.controls.cityName?.errors && !SubscriberFormGroup.controls.cityName?.errors?.required"
+                        class="custom-error-icon" matTooltipHideDelay="1500"
+                        [matTooltip]="SubscriberFormGroup.controls.cityName.errors?.name?.message">
+                        info
+                      </mat-icon>
+                      <mat-error
+                        *ngIf="SubscriberFormGroup.controls.cityName.errors && SubscriberFormGroup.controls.cityName?.errors?.required">
+                        <span>
+                          {{SubscriberFormGroup.controls.cityName.errors?.required?.message}}
+                        </span>
+                      </mat-error>
+                      <mat-error
+                        *ngIf="SubscriberFormGroup.controls.cityName.errors && SubscriberFormGroup.controls.cityName?.errors?.maxLength">
+                        <span>
+                          {{SubscriberFormGroup.controls.cityName.errors?.maxLength?.message}}
+                        </span>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-field">
+                      <label>Time Zone<span class="required">*</span></label>
+                      <div class="select-field">
+                        <mat-form-field>
+                          <mat-select placeholder="Time Zone" formControlName="timezoneId">
+                            <mat-option>-- Select Any --</mat-option>
+                            <mat-option *ngFor="let item of timezoneList" [value]="item.timeZoneGuid">
+                              {{item.name}}
+                            </mat-option>
+                          </mat-select>
+                          <mat-error *ngIf="SubscriberFormGroup.controls.timezoneId.errors">
+                            <span>{{SubscriberFormGroup.controls.timezoneId.errors?.required?.message}}</span>
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <label>Zip Code<span class="required">*</span>
+                    </label>
+                    <mat-form-field>
+                      <input type="text" matInput placeholder="Zip Code" maxlength="7" autocomplete="off"
+                        formControlName="postalCode">
+                      <mat-icon
+                        *ngIf="SubscriberFormGroup.controls.postalCode?.errors && !SubscriberFormGroup.controls.postalCode?.errors?.required"
+                        class="custom-error-icon" matTooltipHideDelay="1500"
+                        [matTooltip]="SubscriberFormGroup.controls.postalCode.errors?.companyPostalCode?.message">
+                        info
+                      </mat-icon>
+                      <mat-error
+                        *ngIf="SubscriberFormGroup.controls.postalCode.errors && SubscriberFormGroup.controls.postalCode?.errors?.required">
+                        <span>
+                          {{SubscriberFormGroup.controls.postalCode.errors?.required?.message}}
+                        </span>
+                      </mat-error>
+                      <mat-error
+                        *ngIf="SubscriberFormGroup.controls.postalCode.errors && SubscriberFormGroup.controls.postalCode?.errors?.maxLength">
+                        <span>
+                          {{SubscriberFormGroup.controls.postalCode.errors?.maxLength?.message}}
+                        </span>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-lg-12">
+                    <h4>Contact Person Details</h4>
+                  </div>
+
+                  <div class="col-sm-6">
+                    <div class="form-field">
+                      <label>First Name<span class="required">*</span></label>
+                      <div class="input-field">
+                        <mat-form-field>
+                          <input type="text" matInput placeholder="First Name" autocomplete="off"
+                            formControlName="firstName" />
+                          <mat-icon
+                            *ngIf="SubscriberFormGroup.controls.firstName?.errors && !SubscriberFormGroup.controls.firstName?.errors?.required"
+                            class="custom-error-icon" matTooltipHideDelay="1500"
+                            [matTooltip]="SubscriberFormGroup.controls.firstName.errors?.name?.message">
+                            info
+                          </mat-icon>
+                          <mat-error
+                            *ngIf="SubscriberFormGroup.controls.firstName.errors && SubscriberFormGroup.controls.firstName?.errors?.required">
+                            <span>
+                              {{SubscriberFormGroup.controls.firstName.errors?.required?.message}}
+                            </span>
+                          </mat-error>
+                          <mat-error
+                            *ngIf="SubscriberFormGroup.controls.firstName.errors && SubscriberFormGroup.controls.firstName?.errors?.maxLength">
+                            <span>
+                              {{SubscriberFormGroup.controls.firstName.errors?.maxLength?.message}}
+                            </span>
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-field">
+                      <label>Last Name<span class="required">*</span></label>
+                      <div class="input-field">
+                        <mat-form-field>
+                          <input type="text" matInput placeholder="Last Name" autocomplete="off"
+                            formControlName="lastName" />
+                          <mat-icon
+                            *ngIf="SubscriberFormGroup.controls.lastName?.errors && !SubscriberFormGroup.controls.lastName?.errors?.required"
+                            class="custom-error-icon" matTooltipHideDelay="1500"
+                            [matTooltip]="SubscriberFormGroup.controls.lastName.errors?.name?.message">
+                            info
+                          </mat-icon>
+                          <mat-error
+                            *ngIf="SubscriberFormGroup.controls.lastName.errors && SubscriberFormGroup.controls.lastName?.errors?.required">
+                            <span>
+                              {{SubscriberFormGroup.controls.lastName.errors?.required?.message}}
+                            </span>
+                          </mat-error>
+                          <mat-error
+                            *ngIf="SubscriberFormGroup.controls.lastName.errors && SubscriberFormGroup.controls.lastName?.errors?.maxLength">
+                            <span>
+                              {{SubscriberFormGroup.controls.lastName.errors?.maxLength?.message}}
+                            </span>
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <div class="col-sm-6">
+                    <div class="form-field">
+                      <label>Contact Number: <span class="required">*</span></label>
+                      <div class="input-field">
+                        <mat-form-field>
+                          <input type="text" matInput placeholder="Enter Contact Number" autocomplete="off"
+                            formControlName="Enter Contact Number" maxlength="50" />
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </div> -->
+
+                  <div class="col-sm-6">
+                    <div class="form-field">
+                      <label>Email<span class="required">*</span></label>
+                      <div class="input-field">
+                        <mat-form-field>
+                          <input type="text" matInput placeholder="Email" autocomplete="off" formControlName="email" />
+                          <mat-icon *ngIf="SubscriberFormGroup.controls.email.errors?.email" class="custom-error-icon"
+                            matTooltipHideDelay="1500"
+                            [matTooltip]="SubscriberFormGroup.controls.email.errors?.email?.message">info</mat-icon>
+                          <mat-error
+                            *ngIf="SubscriberFormGroup.controls.email.errors && SubscriberFormGroup.controls.email?.errors?.required">
+                            <span>
+                              {{SubscriberFormGroup.controls.email.errors?.required?.message}}
+                            </span>
+                          </mat-error>
+                          <mat-error
+                            *ngIf="SubscriberFormGroup.controls.email.errors && SubscriberFormGroup.controls.email?.errors?.maxLength">
+                            <span>
+                              {{SubscriberFormGroup.controls.email.errors?.maxLength?.message}}
+                            </span>
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <div class="col-sm-6">
+                    <div class="form-field">
+                      <label>Password<span class="required">*</span></label>
+                      <div class="input-field">
+                        <mat-form-field>
+                          <input [type]="'password'" matInput placeholder="password" autocomplete="new-password"
+                            formControlName="password" />
+                          <mat-icon *ngIf="SubscriberFormGroup.controls.password.errors?.password"
+                            class="custom-error-icon" matTooltipHideDelay="1500"
+                            [matTooltip]="SubscriberFormGroup.controls.password.errors?.password?.message">
+                            info
+                          </mat-icon>
+                          <mat-error
+                            *ngIf="SubscriberFormGroup.controls.password.errors && SubscriberFormGroup.controls.password?.errors?.required">
+                            <span>
+                              {{SubscriberFormGroup.controls.password.errors?.required?.message}}
+                            </span>
+                          </mat-error>
+                          <mat-error
+                            *ngIf="SubscriberFormGroup.controls.password.errors && SubscriberFormGroup.controls.password?.errors?.maxLength">
+                            <span>
+                              {{SubscriberFormGroup.controls.password.errors?.maxLength?.message}}
+                            </span>
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="payment-form row" *ngIf="isSubmitted && isShowPayment">
+                  <app-purchase-plan></app-purchase-plan>
+                </div>
+
+                <div class="row mt-3 mb-0">
+                  <div class="col-lg-12">
+                    <div class="form-field mb-0">
+                      <div class="input-field ">
+                        <button mat-flat-button *ngIf="isShowPayment" color="primary" (click)="goBack()"
+                          class="text-white" [disabled]="isFormSubmittedSuccessfully" title="Back">
+                          Back
+                        </button>
+                        <button mat-flat-button color="primary" (click)="doPayment()" class="text-white"
+                          [disabled]="isFormSubmittedSuccessfully" title="next">
+                          {{ (!isShowPayment) ? "Next" : "Confirm"}}
+                        </button>
+
+                        <button mat-flat-button color="primary" routerLink="/" class="text-white m-l-10"
+                          title="Cancel">Cancel</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

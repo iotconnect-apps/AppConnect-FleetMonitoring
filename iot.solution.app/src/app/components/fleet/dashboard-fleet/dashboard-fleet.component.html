@@ -1,0 +1,350 @@
+<section class="content-header">
+  <h1>{{fleetid}} <span class="status-on">{{fleetStatusDisplay}}</span></h1>
+</section>
+<div class="main-page dashboard">
+  <div class="row dashboardtop-widget">
+    <div class="col-xl-4 col-lg-4">
+      <div class="dashboard-chart bgbluewidget text-center">
+        <div class="widget-readings-box">
+          <div class="widget-reading-left">
+            <h4>{{totalCompletedTripCount ? totalCompletedTripCount : 0}}</h4>
+            <p>Completed</p>
+          </div>
+          <div class="widget-reading-right">
+            <h4>{{totalScheduledTripCount ? totalScheduledTripCount : 0}}</h4>
+            <p>Upcoming</p>
+          </div>
+        </div>
+        <p class="small-widget-heading">Total Trips - <strong>{{totalTripCount ? totalTripCount : 0}}</strong> </p>
+      </div>
+    </div>
+    <div class="col-xl-2 col-lg-2">
+      <div class="dashboard-chart bggreenlwidget text-center">
+        <h4>{{totalFuelConsumption ? totalFuelConsumption : 0}} / Gallons</h4>
+        <p class="small-widget-heading">Fuel Consumption (Total)</p>
+      </div>
+    </div>
+    <div class="col-xl-2 col-lg-2">
+      <div class="dashboard-chart bgpinkwidget text-center">
+        <h4>{{attributes?.can_hours_operation ? attributes?.can_hours_operation : 0 }}</h4>
+        <p class="small-widget-heading">Total Hours of Operation (Hrs)</p>
+      </div>
+    </div>
+    <div class="col-xl-2 col-lg-2">
+      <div class="dashboard-chart bgyellowwidget text-center">
+        <h4>{{attributes?.can_distance_to_service ? attributes?.can_distance_to_service : 0 }}</h4>
+        <p class="small-widget-heading">Distance to Service (KM)</p>
+      </div>
+    </div>
+    <div class="col-xl-2 col-lg-2">
+      <div class="dashboard-chart bgorangewidget text-center">
+        <h4><a style="color:#000;" [routerLink]="['/alerts']">{{totalAlerts ? totalAlerts : 0 }}</a></h4>
+        <p class="small-widget-heading">Alerts (Today)</p>
+      </div>
+    </div>
+  </div>
+  <div class="row dashboardtop-widget">
+    <div class="col-xl-3 col-lg-3">
+      <div class="dashboard-chart bgorangewidget text-center">
+        <div class="widget-readings-box">
+          <div class="widget-reading-left">
+            <h4>{{attributes?.can_engine_rpm_total ? ((( attributes?.can_engine_rpm_total / attributes?.can_hours_operation) * 60) | number : '1.1-1') : 0 }}</h4>
+            <p>Average Rotation Per Min</p>
+          </div>
+
+        </div>
+        <p class="small-widget-heading">Total Engine Rotation  - <strong>{{ attributes?.can_engine_rpm_total ? attributes?.can_engine_rpm_total : 0 }}</strong> </p>
+      </div>
+    </div>
+    <div class="col-xl-9 col-lg-9">
+      <div class="d-flex flex-wrap h-100 borderbox">
+        <div class="dashboard-chart bgwhitewidget text-center">
+          <h4>{{attributes?.can_vehicle_speed ? attributes?.can_vehicle_speed : 0 }}</h4>
+          <p class="small-widget-heading">
+            Highest Speed
+            (KMPH)
+          </p>
+        </div>
+        <div class="dashboard-chart bgwhitewidget text-center">
+          <h4>{{attributes?.vehicle_ign_sense ? attributes?.vehicle_ign_sense : 0 }}</h4>
+          <p class="small-widget-heading">
+            Total Fleet Ignition Sense
+            (Hrs)
+          </p>
+        </div>
+        <div class="dashboard-chart bgwhitewidget text-center">
+          <h4>{{attributes?.gateway_uptime ? attributes?.gateway_uptime : 0 }}</h4>
+          <p class="small-widget-heading">
+            Today’s Gateway Uptime
+            (Min)
+          </p>
+        </div>
+        <div class="dashboard-chart bgwhitewidget text-center">
+          <h4>{{attributes?.gps_num_sats ? attributes?.gps_num_sats : 0}}</h4>
+          <p class="small-widget-heading">No. of Satelites</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xl-8">
+
+      <div class="drag-body dashboard-widget m-b-30" style="height: 95%;">
+        <div class="panel-heading">
+          <h5 class="panel-title"> Fleet Locations {{isStarted}} </h5>
+        </div>
+        <mat-card class="dashboard-card mat-card slick-carousel-mat-card">
+          <agm-map [latitude]="lat" [longitude]="lng" style="height: 100%;" [zoom]="zoom">
+
+            <agm-direction [origin]="origin" [destination]="destination"
+                           [travelMode]="'DRIVING'" [waypoints]="waypoints">
+            </agm-direction>
+            <agm-marker [latitude]="lat"
+                        [longitude]="lng"
+                        [iconUrl]="(rightDirections.includes(truckDirection) && isStarted == false && fleetStatus != 'Maintenance') ? './assets/images/truck-location-yellow.png':
+              (rightDirections.includes(truckDirection) && isStarted == true && fleetStatus != 'Maintenance') ? './assets/images/truck-location-green.png' :
+              (leftDirections.includes(truckDirection) && isStarted == true && fleetStatus != 'Maintenance') ? './assets/images/truck-location-green-i.png' :
+              (isStarted == false && fleetStatus == 'Maintenance') ? './assets/images/truck-location-red.png' :'./assets/images/truck-location-yellow-i.png'">
+            </agm-marker>
+            <agm-circle [latitude]="radiusLat" [longitude]="radiusLng"
+                        [(radius)]="radius"
+                        [fillColor]=" isStarted == false && fleetStatus == 'Maintenance' ? 'red': isStarted == true && fleetStatus == 'On Duty' ? 'green' : '#D5990F'"
+                        [circleDraggable]="false">
+            </agm-circle>
+          </agm-map>
+        </mat-card>
+      </div>
+    </div>
+    <div class="col-xl-4">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="drag-body dashboard-widget m-b-30">
+            <div class="panel-heading">
+              <h5 class="panel-title"> GPS Details </h5>
+            </div>
+
+            <mat-card class="dashboard-card mat-card slick-carousel-mat-card p-0">
+              <div class="dashboard-chart grayborderbox text-center p-4 mb-0">
+                <h4 id="currentLocation"></h4>
+                <p class="small-widget-heading">Last GPS Location</p>
+              </div>
+              <div class="d-flex flex-wrap h-100">
+                <div class="dashboard-chart grayborderbox text-center p-4 mb-0">
+                  <h4>{{attributes?.gps_time ? (attributes?.gps_time | date:'shortTime') : '00:00'}}</h4>
+                  <p class="small-widget-heading">Fleet Last GPS Time</p>
+                </div>
+                <div class="dashboard-chart grayborderbox text-center p-4 mb-0">
+                  <h4>{{attributes?.gps_altitude ? attributes?.gps_altitude : 0 }} M</h4>
+                  <p class="small-widget-heading">Altitude </p>
+                </div>
+              </div>
+            </mat-card>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="drag-body dashboard-widget m-b-30">
+            <div class="panel-heading">
+              <h5 class="panel-title"> Maintenance </h5>
+            </div>
+
+            <mat-card class="dashboard-card mat-card slick-carousel-mat-card p-0">
+              <div class="dashboard-chart grayborderbox text-center p-4 mb-0">
+                <h4>{{totalCompletedMaintenanceCount}}/{{totalMaintenanceCount}}</h4>
+                <p>Total Completed</p>
+              </div>
+              <div class="dashboard-chart grayborderbox text-center p-4 mb-0">
+                <h4>{{nextMaintenanceDateTime? getLocalDate(nextMaintenanceDateTime) : ''}}</h4>
+                <p>Next Maintenance Date</p>
+              </div>
+            </mat-card>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-6">
+      <div class="drag-body dashboard-widget m-b-30">
+        <div class="panel-heading">
+          <h5 class="panel-title"> Fuel Consumption (Last 5 Trips) </h5>
+        </div>
+        <mat-card class="dashboard-card mat-card slick-carousel-mat-card">
+          <google-chart *ngIf="graphChartData.dataTable.length" [data]="graphChartData"></google-chart>
+          <div class="centerclass soil-nutritions" *ngIf="!graphChartData.dataTable.length" style="height: 398px;">
+            No Data Found
+          </div>
+        </mat-card>
+      </div>
+    </div>
+    <div class="col-xl-6">
+      <div class="drag-body dashboard-widget m-b-30">
+        <div class="panel-heading">
+          <h5 class="panel-title w-100"> Fuel Consumption vs Mileage Avarage (Last 5 Trips) </h5>
+        </div>
+        <mat-card class="dashboard-card mat-card slick-carousel-mat-card">
+          <google-chart *ngIf="lineChartData.dataTable.length" [data]="lineChartData"></google-chart>
+          <div class="centerclass soil-nutritions" *ngIf="!lineChartData.dataTable.length" style="height: 398px;">
+            No Data Found
+          </div>
+        </mat-card>
+      </div>
+    </div>
+    <div class="col-xl-4">
+      <div class="drag-body dashboard-widget m-b-30">
+        <div class="panel-heading">
+          <h5 class="panel-title"> Odometer Reading (Last 5 Trips) </h5>
+        </div>
+        <mat-card class="dashboard-card mat-card slick-carousel-mat-card">
+          <google-chart *ngIf="OdometerreadingChartData.dataTable.length" [data]="OdometerreadingChartData"></google-chart>
+          <div class="centerclass soil-nutritions" *ngIf="!OdometerreadingChartData.dataTable.length" style="height: 398px;">
+            No Data Found
+          </div>
+        </mat-card>
+      </div>
+    </div>
+    <div class="col-xl-8">
+      <div class="drag-body dashboard-widget m-b-30" style="height: 483px;">
+        <div class="panel-heading">
+          <h5 class="panel-title"> Total Trips </h5>
+        </div>
+        <mat-card class="dashboard-card mat-card" style="overflow: auto">
+          <mat-tab-group class="w-100" (selectedTabChange)="onTabChange($event)">
+            <mat-tab label="{{triplabel.text}}" *ngFor="let triplabel of datatrip">
+              <div class="sticky-table-wrapper table-container">
+                <table mat-table [dataSource]="tripList" matSort class="mat-elevation-z8" (matSortChange)="setOrder($event)"
+                       matSortActive="tripId" matSortDirection="asc" matSortDisableClear>
+
+                  <!-- Trip Id Column -->
+                  <ng-container matColumnDef="tripId">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Trip Id </th>
+                    <td mat-cell *matCellDef="let element">
+                      <a [routerLink]="['/trips/dashboard/',element.guid]">{{element.tripId}}</a>
+                    </td>
+                  </ng-container>
+
+                  <!-- Driver Name Column -->
+                  <ng-container matColumnDef="driverName">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Driver Name </th>
+                    <td mat-cell *matCellDef="let element"> {{element.driverName}} </td>
+                  </ng-container>
+
+                  <!-- Start Date & Time Column -->
+                  <ng-container matColumnDef="startDateTime">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Start Date & Time </th>
+                    <td mat-cell *matCellDef="let element"> {{element.startDateTime ? getLocalDate(element.startDateTime) :'-' }} </td>
+                  </ng-container>
+
+                  <!-- End Date & Time Column -->
+                  <ng-container matColumnDef="endDateTime">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> End Date & Time </th>
+                    <td mat-cell *matCellDef="let element"> {{element.endDateTime ? getLocalDate(element.endDateTime) :'-' }} </td>
+                  </ng-container>
+
+                  <!--Miles/Total Column -->
+                  <ng-container matColumnDef="totalMiles">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Miles/Total </th>
+                    <td mat-cell *matCellDef="let element"> {{element.totalMiles}} </td>
+                  </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+                <div *ngIf="tripList.length === 0" class="centerclass">No records found</div>
+              </div>
+              <mat-paginator #paginator [length]="totalRecords" [pageIndex]="searchParameters.pageNumber"
+                             [pageSize]="searchParameters.pageSize" [pageSizeOptions]="pageSizeOptions" (page)="ChangePaginationAsPageChange($event)"
+                             [showFirstLastButtons]="true">
+              </mat-paginator>
+            </mat-tab>
+          </mat-tab-group>
+        </mat-card>
+      </div>
+    </div>
+    <div class="col-xl-7">
+      <div class="drag-body dashboard-widget m-b-30" style="height: 438px;">
+        <div class="panel-heading">
+          <h5 class="panel-title" matTooltip="Maintenance" matTooltipPosition="right">
+            Maintenance
+          </h5>
+        </div>
+        <mat-card class="dashboard-card mat-card">
+          <div class="sticky-table-wrapper table-container">
+            <table mat-table [dataSource]="maintainceList" matSort class="mat-elevation-z8" (matSortChange)="MaintaincesetOrder($event)"
+                   matSortActive="fleetId" matSortDirection="asc" matSortDisableClear>
+              <!-- startdate Column -->
+              <ng-container matColumnDef="startDateTime">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Start Date </th>
+                <td mat-cell *matCellDef="let element"> {{element.startDateTime ? getLocalDate(element.startDateTime) :'-' }} </td>
+              </ng-container>
+              <!-- endtDateTime Column -->
+              <ng-container matColumnDef="endDateTime">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> End Date </th>
+                <td mat-cell *matCellDef="let element"> {{element.endDateTime ? getLocalDate(element.endDateTime) :'-' }} </td>
+              </ng-container>
+              <!-- Status Column -->
+              <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef> status </th>
+                <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="displayedColmaintaince"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColmaintaince;"></tr>
+            </table>
+            <div *ngIf="maintainceList.length === 0" class="centerclass">No records found</div>
+          </div>
+          <mat-paginator #paginator [length]="totalmaintainceRecords" [pageIndex]="maintainceParameters.pageNumber"
+                         [pageSize]="maintainceParameters.pageSize" [pageSizeOptions]="pageSizeOptions" (page)="MaintainceAsPageChange($event)"
+                         [showFirstLastButtons]="true">
+          </mat-paginator>
+        </mat-card>
+      </div>
+    </div>
+    <div class="col-xl-5">
+      <div class="drag-body dashboard-widget ">
+        <div class="panel-heading">
+          <h5 class="panel-title w-100"> Alerts </h5>
+          <div style="margin-right: 20px;" class="tab-link-bar" *ngIf="alerts?.length>0">
+            <a class="text-nowrap" [routerLink]="['/alerts/', zoneId]"
+               href="javascript:;">View All</a>
+          </div>
+        </div>
+        <mat-card class="dashboard-card mat-card pt-0">
+          <ng-scrollbar class="my-scrollbar m-b-55" trackX="false" trackY="true"
+                        autohide="false" [compact]="false" *ngIf="alerts?.length>0">
+            <ul class="alerts-dashboard alerts-building-list fleet-alerts-custom">
+              <li [ngClass]="alert['severity']" *ngFor="let alert of alerts">
+                <span class="alerts-date">{{getLocalDate(alert['eventDate'])}}</span>
+                <span class="alerts-info">{{alert.message}}</span>
+              </li>
+            </ul>
+          </ng-scrollbar>
+          <div *ngIf="alerts?.length==0" class="centerclass no-record-building-details" style="height: 368px;">
+            No records
+            found
+          </div>
+          <div class="alert-indicator-wrapper">
+            <div class="alert-indicator-list">
+              <div class="alert-indicator Critical">
+                <span class="legend"></span>
+                <span class="alert-text">Critical</span>
+              </div>
+              <div class="alert-indicator Information">
+                <span class="legend"></span>
+                <span class="alert-text">Information</span>
+              </div>
+              <div class="alert-indicator Major">
+                <span class="legend"></span>
+                <span class="alert-text">Major</span>
+              </div>
+              <div class="alert-indicator Minor">
+                <span class="legend"></span>
+                <span class="alert-text">Minor</span>
+              </div>
+              <div class="alert-indicator Warning">
+                <span class="legend"></span>
+                <span class="alert-text">Warning</span>
+              </div>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,73 @@
+<!-- Content Header (Page header) -->
+
+<section class="content-header">
+  <h1>{{moduleName}}</h1>
+</section>
+<!-- Main content -->
+
+<section class="content">
+  <mat-card class="support-card">
+    <div class="row">
+      <div class="col col-ld-11">
+        <form [formGroup]="roleForm" (ngSubmit)="addRole()" autocomplete="off" class="form-horizontal common-form">
+          <div class="row">
+            <div class="col-md-6">
+              <fieldset class="form-group form-field">
+                <label class="form-label">Name <b>*</b></label>
+                <mat-form-field>
+                  <input matInput formControlName="name" type="text" maxlength="60" [(ngModel)]="roleObject['name']" [readonly]="isEdit"
+                         class="form-control" tabindex="1" placeholder="Name">
+                  <div class="form-control-feedback" *ngIf="roleForm.controls['name'].errors">
+                    <p class="form-tooltip-error sm " [ngClass]="{'error':true}"
+                       *ngIf="roleForm.controls['name'].errors.required && checkSubmitStatus">
+                      Please enter name
+                    </p>
+                    <p class="form-tooltip-error sm " [ngClass]="{'error':true}"
+                       *ngIf="roleForm.controls['name'].errors.minlength && checkSubmitStatus">
+                      Please enter minimum 4 character
+                    </p>
+                  </div>
+                </mat-form-field>
+              </fieldset>
+            </div>
+            <div class="col-md-6">
+              <fieldset class="form-group form-field">
+                <label class="form-label">Description <b>*</b></label>
+                <mat-form-field>
+                  <input matInput tabindex="3" rows="3" maxlength="500" formControlName="description" type="text" [(ngModel)]="roleObject['description']"
+                         class="form-control" placeholder="Description">
+                  <div class="form-control-feedback" *ngIf="roleForm.controls['description'].errors">
+                    <p class="form-tooltip-error sm" [ngClass]="{'error':true}"
+                       *ngIf="roleForm.controls['description'].errors.required && checkSubmitStatus">
+                      Please enter description
+                    </p>
+                    <p class="form-tooltip-error sm " [ngClass]="{'error':true}"
+                       *ngIf="roleForm.controls['description'].errors.minlength && checkSubmitStatus">
+                      Please enter minimum 4 character
+                    </p>
+                  </div>
+                </mat-form-field>
+              </fieldset>
+            </div>
+          </div>
+          <div class="row mt-4 mb-0">
+            <div class="col-lg-12">
+              <div class="form-field">
+                <div class="input-field ">
+                  <button mat-flat-button color="primary"
+                          class="text-white " [title]="buttonName" type="Save">
+                          {{buttonName}}
+                  </button>
+                  <button mat-flat-button color="primary" class="text-white m-l-10" [routerLink]="['/roles']"
+                          title="Cancel">
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </mat-card>
+</section>

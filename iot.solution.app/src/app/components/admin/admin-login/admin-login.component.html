@@ -1,0 +1,97 @@
+<div class="login-box">
+		<div class="right-img"><img src="./assets/images/admin-login-box-img.jpg" alt=""></div>
+		<div class="login-form">
+			
+			<div id="divLoginSection" class="login-wrap">
+				<div id="message-error" class="alert alert-error" style="display: none"></div>
+				<div id="message-success" class="alert alert-success" style="display: none"></div>
+				<a class="btn btn-default cancel-bt" id="CancelUrl" style="display:none">X</a>
+				<form [formGroup]="loginform" (ngSubmit)="login()" class="sign-box">
+					<div class="mb-4">
+						<h3>Sign in</h3>
+					</div>
+					<div class="form">
+						<div class="localAccount">
+							<div class="entry">
+							 
+								<div class="entry-item has-feedback">
+									<label for="logonIdentifier">
+										<img src="./assets/images/email-icon.svg" width="23" height="23" alt="">
+											 <p>Email Address</p>
+									</label>									
+									<input [(ngModel)]="loginObject['username']" formControlName="username" name="username" type="text"
+										class="form-control" placeholder="Email Address">
+									<div class="form-control-feedback" *ngIf="loginform.controls['username'].errors">
+										<p class="form-tooltip-error sm" [ngClass]="{'error':true}"
+											*ngIf="loginform.controls['username'].errors.required && checkSubmitStatus">
+											Please enter email
+										</p>
+										<p class="form-tooltip-error sm" [ngClass]="{'error':true}"
+											*ngIf="loginform.controls['username'].errors.email && checkSubmitStatus">
+											Please enter valid email
+										</p>
+									</div>
+								</div>
+								<div class="entry-item has-feedback">
+									<label for="password">
+										<img src="./assets/images/password-icon.svg" width="23" height="23" alt="">
+											  <p>Password</p>
+									</label>
+									<input [(ngModel)]="loginObject['password']" formControlName="password" name="password" type="password"
+										class="form-control" placeholder="Password">
+									<div class="form-control-feedback" *ngIf="loginform.controls['password'].errors">
+										<p class="form-tooltip-error sm" [ngClass]="{'error':true}"
+											*ngIf="loginform.controls['password'].errors.required && checkSubmitStatus">
+											Please enter password
+										</p>
+									</div>
+									<!-- <a id="forgotPassword" style="cursor:pointer" (click)="forgotPassword($event)">Forgot your password?</a> -->
+								</div>
+							</div>
+							<div class="entry">
+								<!-- <div class="rememberMe">
+									<input id="rememberMe" type="checkbox" name="rememberMe" tabindex="1">
+									<label for="rememberMe">Keep me signed in</label>
+								</div> -->
+								<div class="buttons">
+									<button type="submit" id="btn-login" class="btn btn-primary btn-block">
+										Log In
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+
+			<div id="divForgotPwdSection" class="login-wrap" style="display: none">
+				<a id="ancCancelForgotPwd" class="btn btn-default cancel-bt" (click)="forgotPasswordCancel($event)">X</a>
+				<div class="mb-4">
+					<h3 class="forgotpassheader">Forgot password</h3>
+					<p class="forgotpassinfo">Enter your email address to get instruction for reset password.</p>
+				</div>
+				<div class="form">
+					<div class="localAccount">
+						 <form id="formForgotPwd" onsubmit="return false;" method="post">
+							<input type="hidden" id="ReturnUrl" name="ReturnUrl">
+							<div class="entry">
+								<div class="entry-item">
+									<label for="txtEmailForReset">
+										<img src="./assets/images/email-icon.svg" width="23" height="23" alt="">
+											  <p>Email Address</p>
+									</label>
+									<input class="form-control" placeholder="Email Address" autofocus="" type="txtEmailForgotPwd" data-val="true" data-val-required="Email Address Required" id="txtEmailForReset" name="txtEmailForReset" value="">
+									<span class="error field-validation-valid" data-valmsg-for="txtEmailForReset" data-valmsg-replace="true"></span>
+								</div>
+							</div>
+							<div class="entry">
+								<div class="buttons">
+									<button type="submit" id="btnForgotPwd" class="btn btn-primary btn-block">Submit</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>

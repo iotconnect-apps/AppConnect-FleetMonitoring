@@ -1,0 +1,21 @@
+<div class="drag-body dashboard-widget ">
+		<div class="panel-heading" [ngStyle]="{'background':widget?.widgetProperty?.background}">
+			<h5 class="panel-title w-100" [ngStyle]="{'font-size':widget?.widgetProperty?.fontSize+'px',
+			'font-family':widget?.widgetProperty?.fontFamily,
+			'color':widget?.widgetProperty?.fontColor}"> {{widget?.widgetProperty?.title}} </h5>
+		  </div>
+	  <mat-card  >
+		<div class="centerclass soil-nutritions no-records-usage-box " *ngIf="graphdata.length == 0">
+		  No Data found
+		</div>
+		<ul class="fleet-usage" *ngIf="graphdata.length != 0">
+		  <li *ngFor="let usage of graphdata;">
+			<div class="d-flex align-item-center justify-content-between">
+			  <p>{{usage.name}} </p>
+			  <strong>{{usage.utilizationPer}}%</strong>
+			</div>
+			<mat-progress-bar mode="determinate" [color]="getcolor(usage.color)" value="{{usage.utilizationPer}}"></mat-progress-bar>
+		  </li>
+		</ul>
+	  </mat-card>
+	</div>

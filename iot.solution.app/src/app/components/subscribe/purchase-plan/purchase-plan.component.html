@@ -1,0 +1,366 @@
+<form [formGroup]="myForm" class="custom-plan-detail-box">
+  <div [ngClass]="!appConstant.isEmptyString(subscriberId) || appConstant.isEmptyString(selectedPlan.planCode) ? 'plan-purchase-mail-container': '' ">
+
+    <div class="content">
+      <mat-card class="environment-technical-details">
+
+        <div class="mb-4" *ngIf="subscriberId != '' &&  !appConstant.isEmptyString(subscriberId)">
+          <!-- <mat-card class="small-padding custom-padding-mat-card"> -->
+          <div class="row">
+
+            <div class="col-md-12">
+              <div class="light-card">
+                <div class="light-card-header">
+                  <span>Company Details</span>
+                </div>
+                <div class="light-card-body">
+                  <ul class="m-0">
+
+                    <li>
+                      <span class="plan-decription">First Name</span>
+                      <span class="plan-details">{{subscriberData.firstName}}</span>
+                    </li>
+                    <li>
+                      <span class="plan-decription">Last Name</span>
+                      <span class="plan-details">{{subscriberData.lastName}}</span>
+                    </li>
+                    <li>
+                      <span class="plan-decription">Email</span>
+                      <span class="plan-details">{{subscriberData.email}}</span>
+                    </li>
+                    <li>
+                      <span class="plan-decription">Country</span>
+                      <span class="plan-details">{{subscriberData.country}}</span>
+                    </li>
+                    <li>
+                      <span class="plan-decription">State</span>
+                      <span class="plan-details">{{subscriberData.state}}</span>
+                    </li>
+                    <li>
+                      <span class="plan-decription">City</span>
+                      <span class="plan-details">{{subscriberData.cityName}}</span>
+                    </li>
+                    <li>
+                      <span class="plan-decription">Company Name</span>
+                      <span class="plan-details">{{subscriberData.companyName}}</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- </mat-card> -->
+        </div>
+
+        <div *ngIf="!appConstant.isEmptyObject(selectedPlan) && isPlanPurchased">
+          <div class="row align-items-center no-gutters m-b-20">
+            <div class="col-md-6">
+              <h2 class="m-0 subscription-plan-si-title">
+                Your current subscription plan detail for solution:
+                {{currentUserModel?.solutionName}}
+              </h2>
+            </div>
+            <div class="col-md-6">
+              <div class="d-flex flex-wrap align-items-center justify-content-end">
+                <div class="time-sync-container p-r-10">
+                  <!-- <img src="../../../assets/images/sync-01.svg" alt="" class="img-fluid"> -->
+                  <span>Last sync {{lastSyncDate}}</span>
+                </div>
+                <div class="p-r-10">
+                  <mat-slide-toggle formControlName="isAutoRenewal"
+                                    (click)="myForm.value.isAutoRenewal && CancelSubscription()"
+                                    [disabled]="!myForm.value.isAutoRenewal">Cancel Subscription</mat-slide-toggle>
+                </div>
+                <div class="text-right">
+                  <button *ngIf="myForm.value.isAutoRenewal" mat-flat-button color="primary" type="button"
+                          (click)="hide = !hide = hide">
+                    Change Plan
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="plan-data style2 selected-plan-wrapper mb-4 row no-gutters selected-plan-margin m-l-0">
+            <div class="plan-item active current-plan-wrapper m-l-0">
+              <div [className]="selectedPlan.status ? 'plan-title activeplan' : 'plan-title inactiveplan'">
+                <div class="d-flex flex-wrap align-items-center plan-planName">
+                  <!-- <span class="mr-1"></span> -->
+                  <p class="m-0" [title]="selectedPlan?.planName">{{selectedPlan?.planName}}</p>
+                </div>
+                <!--<div class="d-flex flex-wrap align-items-center plan-planPrice">
+                  <p class="m-0">USD {{selectedPlan?.consumerPlanPrice}}<span>/mo</span></p>
+                </div>-->
+              </div>
+
+              <div class="plan-value-container custom-scroll-wrapper selected-plan-scroller-custom">
+                <ul class="plan-value ">
+
+                  <ng-scrollbar class="my-scrollbar" trackX="false" trackY="true" autohide="false" [compact]="false">
+                    <li *ngFor="let feature of selectedPlan.features;"
+                        [hidden]="(!feature.isCustomeFeature && !feature.isInternal)">
+                      <!-- <div class="row align-items-center feature-item-box no-gutters"> -->
+                      <!-- <div class="col-md-7"> -->
+                      <div class="feature-name-text text-left">
+                        <p class="feature-icon-holder">
+
+                          <!-- <img *ngIf="!feature.isCustomeFeature"  src="../../../assets/images/{{feature.featureName | lowercase}}.svg" class="img-fluid feature-small-icon">
+                                    <img *ngIf="feature.isCustomeFeature"  src="../../../assets/images/custom features.svg" class="img-fluid feature-small-icon"> -->
+
+                          <span *ngIf="!feature.isInternal"> {{feature?.featureName}}</span>
+                          <span *ngIf="feature.isInternal"> {{feature?.displayName}}</span>
+                        </p>
+                      </div>
+                      <!-- </div>
+                            <div class="col-md-5"> -->
+                      <div class="feature-name-value text-right d-flex flex-wrap align-items-center"
+                           [ngClass]="feature.featureName == 'Connectors' ? 'feature-with-connector' : '' ">
+                        <p *ngIf="feature.featureName == 'Messages'" class="decimal m-0">
+                          {{feature?.featureValue | shortNumber}} /day
+                        </p>
+                        <p *ngIf="feature.featureName != 'Messages' && feature.featureName != 'Connectors'"
+                           class="decimal m-0" [title]="feature.featureValue | shortNumber">
+                          {{feature?.featureValue | shortNumber}}
+                        </p>
+
+                        <p class="decimal m-0" *ngIf="feature.featureName == 'Connectors'">
+                          {{feature?.featureValue?.split(',')[0]}}
+
+                        </p>
+                        <div class="feature-counter-wrapper" *ngIf="feature.featureName == 'Connectors' ">
+                          <div class="connector-dropdown-holder">
+                            <button class="m-l-5 counter-small-icon-btn" *ngIf="feature.subFeatures?.length > 1"
+                                    (click)="subfeatureList(i,feature)">
+                              {{feature?.subFeatures?.length || '0'}}
+                            </button>
+
+                            <div class="connectors-dropdown-info" *ngIf="subfeaturedisplayIndex==i">
+                              <ul>
+                                <ng-scrollbar class="my-scrollbar" trackX="false" trackY="true" autohide="false"
+                                              [compact]="false">
+                                  <li *ngFor="let subfeatureitem of feature.subFeatures;">
+                                    <a href="javascript:;"
+                                       class="connector-dropdown-item">{{subfeatureitem?.subFeatureName}}</a>
+                                  </li>
+                                </ng-scrollbar>
+                              </ul>
+
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- </div>
+                          </div> -->
+                    </li>
+                  </ng-scrollbar>
+                </ul>
+              </div>
+
+            </div>
+            <div class="consumption-plan-wrapper">
+
+              <!--  -->
+
+              <div class="light-card">
+                <div class="light-card-header">
+                  <span>Plan Consumption Details - {{selectedPlan?.planName}}</span>
+                </div>
+                <div class="light-card-body">
+                  <ul class="m-0">
+                    <li>
+                      <span class="plan-decription">Subscription Date</span>
+                      <span class="plan-details">{{ConsumptionDetail?.subscriptionDate| date:'MM/dd/yyyy'}}</span>
+                    </li>
+                    <li>
+                      <span class="plan-decription">Renewal Date</span>
+                      <span class="plan-details">{{ConsumptionDetail?.renewalDate| date:'MM/dd/yyyy'}}</span>
+                    </li>
+                    <li>
+                      <span class="plan-decription">Total Cost</span>
+                      <span class="plan-details">USD {{ConsumptionDetail?.price}}/mo</span>
+                    </li>
+                    <li>
+                      <span class="plan-decription"># of Messages</span>
+                      <span class="plan-details">
+                        {{ConsumptionDetail?.noOfMessages | shortNumber}}
+                        ({{ConsumptionDetail?.planPerDayMessages | shortNumberFixnumber}} /day)
+                      </span>
+                    </li>
+                    <li>
+                      <span class="plan-decription"># of Users</span>
+                      <span class="plan-details">{{ConsumptionDetail.noOfUsers | shortNumber}}</span>
+                    </li>
+                    <li>
+                      <span class="plan-decription"># of Devices</span>
+                      <span class="plan-details">{{ConsumptionDetail?.noOfDevices | shortNumber}}</span>
+                    </li>
+                    <li *ngFor="let sub of ConsumptionDetail.subFeaturesConsumptionDatas;let i = index">
+                      <span class="plan-decription">{{sub.subFeatureName}}</span>
+                      <span class="plan-details d-flex flex-wrap align-items-center">
+                        {{sub?.value| shortNumber}}
+                        <i class="material-icons check-green-icon">check_circle_outline</i>
+                      </span>
+                    </li>
+                    <li>
+                      <span class="plan-decription">Others</span>
+                      <span class="plan-details">{{other | shortNumber}}</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <!--  -->
+
+            </div>
+          </div>
+
+        </div>
+
+        <div *ngIf="hide || !appConstant.isEmptyString(subscriberId) || appConstant.isEmptyString(selectedPlan.planCode)">
+          <h2 class="m-b-20">Subscription plan</h2>
+          <!-- <ng-scrollbar class="my-scrollbar plans-view-scrollview" trackX="true" trackY="false" autohide="false"> -->
+          <div>
+            <mat-radio-group formControlName="selectedPlanCode" aria-label="Select an option" class="d-flex w-100"
+                             required>
+              <div class="ml-0 plan-data style2 selected-plans-listing small-packages p-t-25 border p-r-20 purchase-plan-data-wrapper"
+                   *ngIf="!appConstant.isEmptyList(solutionPlans)">
+                <div class="plan-item-wrapper" *ngFor="let data of solutionPlans; let i = index">
+                  <div class="plan-item active">
+                    <div [className]="data.status ?'plan-title activeplan' :'plan-title inactiveplan'">
+                      <div class="d-flex flex-wrap align-items-center plan-planName">
+                        <!-- <span class="mr-1"></span> -->
+                        <p class="m-0" [title]="data?.planName">{{data?.planName}}</p>
+                      </div>
+                      <!--<div class="d-flex flex-wrap align-items-center plan-planPrice">
+                        <p class="m-0">USD {{data?.consumerPlanPrice}}<span>/mo</span></p>
+                      </div>-->
+                    </div>
+
+                    <div class="plan-value-container custom-scroll-wrapper">
+                      <ul class="plan-value">
+                        <!-- <ng-scrollbar class="my-scrollbar" trackX="false" trackY="true" autohide="false" [compact]="false"> -->
+                        <!-- {{data.features|json}} -->
+                        <li *ngFor="let feature of data?.planFeatures;"
+                            [hidden]="(!feature?.isCustomeFeature && !feature?.isInternal)">
+                          <!-- <div class="row align-items-center feature-item-box no-gutters">
+                                    <div class="col-md-7"> -->
+                          <div class="feature-name-text text-left">
+                            <p class="feature-icon-holder">
+
+                              <!-- <img *ngIf="!feature.isCustomeFeature"  src="../../../assets/images/{{feature.featureName | lowercase}}.svg" class="img-fluid feature-small-icon">
+                                            <img *ngIf="feature.isCustomeFeature"  src="../../../assets/images/custom features.svg" class="img-fluid feature-small-icon"> -->
+                              <span *ngIf="!feature?.isInternal"> {{feature?.featureName}}</span>
+                              <span *ngIf="feature?.isInternal"> {{feature?.displayName}}</span>
+
+                            </p>
+                          </div>
+                          <!-- </div>
+                                    <div class="col-md-5"> -->
+                          <div class="feature-name-value text-right d-flex flex-wrap align-items-center"
+                               [ngClass]="feature?.featureName == 'Connectors' ? 'feature-with-connector' : '' ">
+                            <p *ngIf="feature?.featureName == 'Messages'" class="decimal m-0">
+                              {{feature?.featureValue | shortNumber}} /day
+                            </p>
+                            <p *ngIf="feature?.featureName != 'Messages' && feature?.featureName != 'Connectors'"
+                               class="decimal m-0" [title]="feature?.featureValue | shortNumber">
+                              {{feature.featureValue | shortNumber}}
+                            </p>
+                            <p class="decimal m-0" *ngIf="feature?.featureName == 'Connectors'">
+                              {{feature?.featureValue.split(',')[0]}}
+
+                            </p>
+                            <div class="feature-counter-wrapper" *ngIf="feature?.featureName == 'Connectors' ">
+                              <div class="connector-dropdown-holder">
+                                <button class="m-l-5 counter-small-icon-btn" *ngIf="feature?.subFeatures?.length > 1"
+                                        (click)="subfeatureList(i,feature)">
+                                  {{feature?.subFeatures?.length || '0'}}
+                                </button>
+
+                                <div class="connectors-dropdown-info" *ngIf="subfeaturedisplayIndex==i">
+                                  <ul>
+                                    <ng-scrollbar class="my-scrollbar" trackX="false" trackY="true" autohide="false"
+                                                  [compact]="true">
+                                      <li *ngFor="let subfeatureitem of feature.subFeatures;">
+                                        <a href="javascript:;"
+                                           class="connector-dropdown-item">{{subfeatureitem?.subFeatureName}}</a>
+                                      </li>
+                                    </ng-scrollbar>
+                                  </ul>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <!-- </div>
+                                  </div> -->
+                        </li>
+                        <!-- </ng-scrollbar> -->
+                        <li *ngFor="let featureValueDeatil of data?.features;">
+                          <div class="feature-name-text text-left">
+                            <p class="feature-icon-holder">
+                              <span> {{featureValueDeatil.displayName}}</span>
+                            </p>
+                          </div>
+                          <div *ngIf="featureValueDeatil.displayName === 'Messages'"
+                               class="feature-name-value text-right d-flex flex-wrap align-items-center">
+                            <p class="decimal m-0">
+                              {{featureValueDeatil.featureValue/1000}}K/day
+                            </p>
+                          </div>
+                          <div *ngIf="featureValueDeatil.displayName !== 'Messages'"
+                               class="feature-name-value text-right d-flex flex-wrap align-items-center">
+                            <p class="decimal m-0">
+                              {{featureValueDeatil.featureValue}}
+                            </p>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+
+                    <div class="plan-selected">
+                      <mat-radio-button (click)="!data?.isPlanSelected && SelectPlan(data)" [value]="data?.planId"
+                                        [checked]="data?.isPlanSelected" [disabled]="!data?.isPlanSelected">
+                        {{data.isPlanSelected ? 'Selected' : 'Select'}}
+                      </mat-radio-button>
+                      <!-- <h2>{{data.isPlanSelected ? 'Selected' : 'Select'}}</h2> -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </mat-radio-group>
+            <div *ngIf="appConstant.isEmptyList(solutionPlans)" class="text-center">
+              <h2 class="p-t-20 px-3">No plans</h2>
+            </div>
+          </div>
+          <!-- </ng-scrollbar> -->
+        </div>
+        <div class="row m-t-20"
+             *ngIf="hide || !appConstant.isEmptyString(subscriberId) || appConstant.isEmptyString(selectedPlan.planCode)">
+          <div class="col-md-12 col-ld-12">
+            <div class="p-b-10 confirm-payment"
+                 *ngIf="myForm.value.selectedPlanName != '' && !appConstant.isEmptyList(solutionPlans)">
+              <!--<h2>Confirm Payment</h2>-->
+              <p>
+                You have selected plan : <span class="green"> {{myForm.value.selectedPlanName}}</span>
+                <!--. It should cost
+                you USD
+                <b>{{myForm.value.selectedPlanPrice}}/mo</b>-->
+              </p>
+            </div>
+            <!--<div class="clearfix m-t-30" *ngIf="!appConstant.isEmptyList(solutionPlans)">
+              <app-payment [email]="emailId" [IsOpenPage]="false"></app-payment>
+            </div>-->
+            <!--
+            <div class="button-row d-flex  m-t-30">
+              <button mat-flat-button color="primary" type="button" (click)="onSubmitPayment()" class="m-r-10"
+                *ngIf="!appConstant.isEmptyList(solutionPlans)">Confirm</button>
+              <button mat-flat-button color="primary" (click)="onSolutionChange()">
+                Cancel
+              </button>
+            </div> -->
+
+          </div>
+        </div>
+
+      </mat-card>
+    </div>
+  </div>
+</form>

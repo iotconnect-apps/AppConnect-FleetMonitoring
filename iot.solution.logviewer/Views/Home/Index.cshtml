@@ -1,0 +1,82 @@
+﻿@model component.services.logger.viewer.Models.LoggerModel.LoggerModel
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<style>
+    .lstlogger {
+        margin: 10px;
+        width: 30%;
+        float: left;
+        /*border : 1px solid #000000;*/
+    }
+
+    .logger {
+        background-color: #ffd800;
+    }
+
+    h4 {
+        padding: 10px;
+    }
+
+    .severity {
+        background-color: cornsilk;
+        padding: 5px;
+    }
+</style>
+<div>
+    @using (Html.BeginForm("Index", "Home", FormMethod.Post))
+    {
+        <div style="margin-top:10px;width:100%;">
+            <span style="float:left;width:25%;margin-left:10px;">
+                @Html.DropDownListFor(n => n.ConStringId, new SelectList(Model.ConnectionList, "Value", "Text"), new { id = "drpConnection", @class = "form-control" })
+            </span>
+            <span style="float:left;width:25%;margin-left:10px;">
+                @Html.DropDownListFor(n => n.ApplicationCode, new SelectList(Model.ApplicationList, "Value", "Text"), new { id = "drpApplication", @class = "form-control" })
+            </span>
+            <span style="float:left;width:25%;margin-left:10px;margin-right:10px;">
+                @Html.DropDownListFor(n => n.Hours, new SelectList(Model.HoursList, "Value", "Text"), "Select Before Hours", new { id = "drpHours", @class = "form-control" })
+            </span>
+            <span style="float:left;">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </span>
+        </div>
+        <div style="clear:both;">
+            
+        </div>
+    }
+   
+    @foreach (var item in Model.LoggerList)
+    {
+        <div class="lstlogger">
+            <div class="logger">
+                <h4>@item.Logger (@item.LoggerCount)</h4>
+            </div>
+            @foreach (var item1 in Model.SeverityList.Where(t => t.Logger == item.Logger))
+            {
+                <div class="severity">
+                    <a href="javascript:ErrorList('@item.Logger','@item1.Severity');">@item1.Severity (@item1.SeverityCount)</a>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+<script>
+     @*@Url.Action("ErrorList", "Home", new { Logger = item.logger, severity = item1.severity })*@
+    function ErrorList(varlogger, varseverity) {
+
+        var varhours = $("#drpHours").val();
+        var varConnId = $("#drpConnection").val();
+        if (varhours == "") {
+            varhours = 0;
+        }
+        else {
+            varhours = $("#drpHours").val();
+        }
+        var url = '@Url.Action("ErrorList", "Home")?Logger=' + varlogger + '&severity=' + varseverity + '&hours=' + varhours + '&connId=' + varConnId;
+        window.location = url;
+    }
+
+
+</script>

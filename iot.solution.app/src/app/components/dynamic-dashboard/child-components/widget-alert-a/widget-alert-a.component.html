@@ -1,0 +1,47 @@
+<div class="drag-body dashboard-widget">
+	<div class="panel-heading" [ngStyle]="{'background':widget?.widgetProperty?.background}">
+	  <h5 class="panel-title w-100" [ngStyle]="{'font-size':widget?.widgetProperty?.fontSize+'px',
+	  'font-family':widget?.widgetProperty?.fontFamily,
+	  'color':widget?.widgetProperty?.fontColor}"> {{widget?.widgetProperty?.title}} </h5>
+	</div>
+	<mat-card class="dashboard-card mat-card pt-0" style="padding-bottom: 60px !important;" [ngStyle]="{'height':height+'px'}">
+	  <ng-scrollbar class="my-scrollbar m-b-55" trackX="false" trackY="true"
+	  autohide="false" [compact]="false">
+		<ul *ngIf="alerts.length>0" class="alerts-dashboard dashboard-alerts-custom">
+		  <li [ngClass]="alert['severity']"  *ngFor="let alert of alerts">
+			<span class="alerts-date">{{getLocalDate(alert['eventDate'])}}</span>
+			<span class="alerts-info">{{alert.message}}</span>
+		  </li>
+		</ul>
+		<ul *ngIf="alerts.length ==0" class="alerts-dashboard d-flex align-items-center justify-content-center">
+			<div class="centerclass">No records found</div>
+		</ul>
+
+	  </ng-scrollbar>
+	  <div *ngIf="alerts.length >0" class="alert-indicator-wrapper">
+		<div class="alert-indicator-list">
+		  <div class="alert-indicator Critical">
+			<span class="legend"></span>
+			<span class="alert-text">Critical</span>
+		  </div>
+		  <div class="alert-indicator Information">
+			<span class="legend"></span>
+			<span class="alert-text">Information</span>
+		  </div>
+		  <div class="alert-indicator Major">
+			<span class="legend"></span>
+			<span class="alert-text">Major</span>
+		  </div>
+		  <div class="alert-indicator Minor">
+			<span class="legend"></span>
+			<span class="alert-text">Minor</span>
+		  </div>
+		  <div class="alert-indicator Warning">
+			<span class="legend"></span>
+			<span class="alert-text">Warning</span>
+		  </div>
+		</div>
+	  </div>
+	</mat-card>
+  </div>
+

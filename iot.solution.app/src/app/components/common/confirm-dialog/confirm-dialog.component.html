@@ -1,0 +1,28 @@
+<div class="modal animated fade-scale" id="{{ dialogId }}" role="dialog">
+	<div class="modal-dialog" style="width: 400px;">
+		<div class="modal-content">
+			<div class="modal-header p-b-0">
+				<button type="button" class="close p-b-0 p-t-2" data-dismiss="modal">×</button>
+			</div>
+			<div class="modal-body">
+				<h4 class="modal-title">Change Status</h4>
+				<p *ngIf="msgType === 0" class="text-center text-style">Are you sure you want to
+					<strong class="status-bg">{{  (status === false || status === 0) ? ' Activate ' : ' Inactivate ' }}</strong>
+					<strong>{{ moduleName }}?</strong> </p>
+				<p *ngIf="msgType !== 0" class="text-center text-style">All associated records under this {{ moduleName }} will be set as <strong class="status-bg">{{  status === false ? 'activated' : 'inactivated' }}</strong>. Do you still want to
+					<strong class="status-bg">{{  (status === false || status === 0) ? ' Activate ' : ' Inactivate ' }}</strong>
+					<strong>{{ moduleName }}?</strong></p>
+			</div>
+			<div class="modal-footer">
+				<div class="row">
+					<div class="col-sm-12">
+						<button type="submit" (click)="clickOnSave()" class="btn bluebtn btn-inline" value="OK" data-dismiss="modal">
+							<i class="fa fa-check"></i>OK
+						</button>
+						<a class="cancel-link" data-dismiss="modal"> Cancel</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

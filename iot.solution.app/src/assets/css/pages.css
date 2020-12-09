@@ -1,0 +1,42 @@
+
+/***********Signup page*****/
+/* .signup-wrapper{ padding:0; margin-top: 20px;height:calc(100vh - 310px);display:flex;align-items: center;}
+.signup-wrapper .mat-card{ width: 570px; margin: 0px auto; padding:55px 45px; background: #e2e3e4;}
+.signup-wrapper .mat-card .signup-box {  max-width: 540px; margin: 0 auto;}
+.signup-wrapper .mat-card .signup-box h2{ margin-bottom: 30px;}
+.signup-wrapper .mat-card .signup-box h4{ margin-bottom: 30px;}
+.signup-wrapper .signin-link{text-transform: uppercase; font-size: 16px; color: #000000; font-family: Arial, Helvetica, sans-serif;}
+.signup-wrapper .signin-link a{font-weight: bold; text-decoration: underline;}
+.login-logo{ display: block;}
+.signup-steps{ max-width: 996px; margin:0 auto;}
+.terms-use-box{ height: 445px; font-family: Arial, Helvetica, sans-serif; font-size: 13px; line-height: 22px;}
+.terms-use-box ol{ list-style-type: decimal; padding-left: 15px;}
+.terms-use-box ol li{ padding-left: 10px}
+.terms-use-box ol li p{ margin-bottom: 30px; color: #000000;}
+.terms-use-footer{border-top:solid 1px #000000; margin-top: 15px; padding-top: 15px;}
+.signup-form h3 {font-size: 30px; color: #000; font-family: "Avenir-Roman"; padding: 0 0 40px 0; text-align: center;} */
+
+.signup-page {background: url(../images/login-bg.jpg) no-repeat center center;   background-size: cover; min-height: calc(100vmin - 153px);}
+.signup-form { max-width: 950px;margin: 0 auto; min-height: calc(100vh - 192px); padding: 40px 0; display: flex; align-items: center;}
+.signup-form-inside {width: 100%;}
+.signup-form-wrap {background: #fff; display: flex;}
+.signup-leftpart {  background-size: cover; width: 370px;}
+.signup-formpart { flex: 1; max-width: 425px; margin: 0 auto; padding: 50px 0;}
+.signup-form h2 { font-size: 36px; color: #000; font-family: "ApercuPro-Bold-Web"; padding: 0 0 40px 0;}
+.signup-form h3 { font-size: 30px; color: #000; font-family: 'Avenir'; font-weight:normal; padding: 0 0 40px 0; text-align: center;}
+/* .signup-form .mat-form-field .mat-form-field-wrapper { margin-bottom: 20px;} */
+.signup-form .formlabel i { font-size: 15px; vertical-align: baseline;}
+.signup-formpart mat-label > img{ vertical-align: middle;  position: relative; top: -2px;}
+.formlabel { font-size: 14px; color: #000; margin: 0;}
+.submit-btn { position: absolute; right: -110px; margin-top: 10px;}
+.submit-btn .submitbtn { width: 95px; height: 95px; background: #000; color: #fff; border-radius: 100%; border: solid 10px #fff; box-shadow: none;}
+.submit-btn .submitbtn i { font-size: 45px;}
+.submit-btn .submitbtn:hover { background: #e0e0e0 !important;}
+.already-content { padding-top: 10px;}
+.already-content p { font-size: 16px;}
+.already-content p a { color: #000; text-decoration: underline;}
+
+.confirm-message { background: #fadd57; text-align: center; font-size: 17px; padding: 20px; margin-bottom: 40px;}
+.confirm-message p { margin: 0;}
+.walcome-page .content-wrapper, .walcome-page .right-side{min-height: calc(100vh - 76px);margin-left:0;background-color:#000000;}
+.walcome-page .main-footer {padding: 16px 15px;border:0;}

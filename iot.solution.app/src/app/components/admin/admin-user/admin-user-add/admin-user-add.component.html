@@ -1,0 +1,162 @@
+<!-- Content Header (Page header) -->
+
+<section class="content-header">
+  <h1>{{moduleName}}</h1>
+</section>
+<!-- Main content -->
+
+<section class="content">
+  <mat-card class="support-card">
+    <div class="row">
+      <div class="col col-ld-11">
+        <form [formGroup]="userForm" (ngSubmit)="manageUser()" autocomplete="off" class="form-horizontal common-form">
+          <div class="row">
+            <div class="col-md-6">
+              <fieldset class="form-group form-field">
+                <label class="form-label">First Name<b>*</b></label>
+                <mat-form-field>
+                  <input matInput name="firstName" formControlName="firstName" type="text" maxlength="50" [(ngModel)]="userObject['firstName']"
+                         class="form-control" tabindex="1" placeholder="First Name">
+                  <div class="form-control-feedback" *ngIf="userForm.controls['firstName'].errors">
+                    <p class="form-tooltip-error sm " [ngClass]="{'error':true}"
+                       *ngIf="userForm.controls['firstName'].errors.required && checkSubmitStatus">
+                      Please enter First Name
+                    </p>
+                    <p class="form-tooltip-error sm " [ngClass]="{'error':true}"
+                       *ngIf="userForm.controls['firstName'].hasError('whitespace')">
+                      Please enter valid data
+                    </p>
+                  </div>
+                </mat-form-field>
+              </fieldset>
+            </div>
+            <div class="col-md-6">
+              <fieldset class="form-group form-field">
+                <label class="form-label">Last Name<b>*</b></label>
+                <mat-form-field>
+                  <input matInput name="lastName" formControlName="lastName" type="text" maxlength="50" [(ngModel)]="userObject['lastName']"
+                         class="form-control" tabindex="2" placeholder="Last Name">
+                  <div class="form-control-feedback" *ngIf="userForm.controls['lastName'].errors">
+                    <p class="form-tooltip-error sm" [ngClass]="{'error':true}"
+                       *ngIf="userForm.controls['lastName'].errors.required && checkSubmitStatus">
+                      Please enter Last Name
+                    </p>
+                    <p class="form-tooltip-error sm " [ngClass]="{'error':true}"
+                       *ngIf="userForm.controls['lastName'].hasError('whitespace')">
+                      Please enter valid data
+                    </p>
+                  </div>
+                </mat-form-field>
+              </fieldset>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <fieldset class="form-group form-field">
+                <label class="form-label">Email<b>*</b></label>
+                <mat-form-field>
+                  <input matInput name="email"   formControlName="email" type="text" maxlength="50" [(ngModel)]="userObject['email']"
+                         class="form-control" tabindex="3" placeholder="Email" [readonly]="isEdit" >
+                  <div class="form-control-feedback" *ngIf="userForm.controls['email'].errors">
+                    <p class="form-tooltip-error sm" [ngClass]="{'error':true}"
+                       *ngIf="userForm.controls['email'].errors.required && checkSubmitStatus">
+                      Please enter Email
+                    </p>
+                    <p class="form-tooltip-error sm" [ngClass]="{'error':true}"
+                       *ngIf="userForm.controls['email'].errors.pattern">
+                      Email must be valid Email Address
+                    </p>
+                  </div>
+                </mat-form-field>
+              </fieldset>
+            </div>
+            <div class="col-md-6">
+              <fieldset class="form-group form-field">
+                <label class="form-label">Contact<b>*</b></label>
+                <mat-form-field>
+                  <input matInput name="contactNo" [textMask]="mask" formControlName="contactNo" type="text" maxlength="50" [(ngModel)]="userObject['contactNo']"
+                         class="form-control" tabindex="4" placeholder="91-1234567890">
+                  <div class="form-control-feedback" *ngIf="userForm.controls['contactNo'].errors">
+                    <p class="form-tooltip-error sm" [ngClass]="{'error':true}"
+                       *ngIf="userForm.controls['contactNo'].errors.required && checkSubmitStatus">
+                      Please enter Contact
+                    </p>
+                    <p class="form-tooltip-error sm" [ngClass]="{'error':true}"
+                       *ngIf="userForm.controls['contactNo'].errors.pattern && checkSubmitStatus">
+                      Please enter valid Contact Number
+                    </p>
+                  </div>
+                  <div class="form-control-feedback" *ngIf="contactNoError">
+                    <p class="form-tooltip-error sm" [ngClass]="{'error':true}"
+                       *ngIf="checkSubmitStatus">
+                      Please enter valid Contact No
+                    </p>
+                  </div>
+                </mat-form-field>
+              </fieldset>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <fieldset class="form-group form-field">
+                <label class="form-label">Password<b>*</b></label>
+                <mat-form-field>
+                  <input matInput [type]="'password'" name="password" maxlength="20" formControlName="password" type="text"  [(ngModel)]="userObject['password']"
+                         class="form-control" tabindex="5" placeholder="Password" autocomplete="new-password">
+                  <div class="form-control-feedback" *ngIf="userForm.controls['password'].errors">
+                    <p class="form-tooltip-error sm" [ngClass]="{'error':true}"
+                       *ngIf="userForm.controls['password'].errors.required && checkSubmitStatus">
+                      Please enter Password
+                    </p>
+                    <p class="form-tooltip-error sm " [ngClass]="{'error':true}"
+                    *ngIf="userForm.controls['password'].errors.pattern  && checkSubmitStatus">
+                      Password between 8 and 20 characters; must contain at least one lowercase letter, one uppercase letter, one numeric digit, and one special character, but cannot contain whitespace.
+                    </p>
+                  </div>
+                </mat-form-field>
+              </fieldset>
+            </div>
+            <div class="col-md-6">
+              <fieldset class="form-group form-field">
+                <label class="form-label">Confirm Password<b>*</b></label>
+                <mat-form-field>
+                  <input matInput [type]="'password'" name="password" maxlength="20" formControlName="confirmPassword" type="password"
+                         class="form-control" tabindex="6" autocomplete="new-password" placeholder="Confirm Password">
+                  <div class="form-control-feedback" *ngIf="userForm.controls['confirmPassword'].errors">
+                    <p class="form-tooltip-error sm" [ngClass]="{'error':true}"
+                       *ngIf="userForm.controls['confirmPassword'].errors.required && checkSubmitStatus">
+                      Please enter Confirm Password
+                    </p>
+                  </div>
+                  <div class="form-control-feedback"
+                       *ngIf="userForm.errors?.invalid && !userForm.controls['confirmPassword'].errors">
+                    <p class="form-tooltip-error sm " [ngClass]="{'error':true}"
+                       *ngIf="userForm.errors?.invalid && checkSubmitStatus">
+                      Passwords must match
+                    </p>
+                  </div>
+                </mat-form-field>
+              </fieldset>
+            </div>
+          </div>
+          <div class="row mt-4 mb-0">
+            <div class="col-lg-12">
+              <div class="form-field">
+                <div class="input-field ">
+                  <button mat-flat-button color="primary"
+                          class="text-white " title="{{buttonname}}" type="submit">
+                    {{buttonname}}
+                  </button>
+                  <button mat-flat-button color="primary" class="text-white m-l-10" [routerLink]="['/admin/users']"
+                          title="Cancel">
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </mat-card>
+</section>

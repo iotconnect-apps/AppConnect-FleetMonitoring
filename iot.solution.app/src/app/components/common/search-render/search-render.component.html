@@ -1,0 +1,8 @@
+<mat-form-field class="example-full-width">
+		<input #searchFocus class="search" matInput placeholder="Any Keyword" autocomplete="off"
+			[(ngModel)]="searchText" (keyup)='changeSearch(searchText)' (keydown.enter)="search(searchText)" tabindex="1"
+		   >
+		<button type="button" matSuffix mat-button (click)='search(searchText)' class="search-btn">
+				<img src="../../../../assets/images/search-icon.svg" alt="">
+		</button>
+</mat-form-field>

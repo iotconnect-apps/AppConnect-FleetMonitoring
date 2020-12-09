@@ -1,0 +1,58 @@
+<div class="col">
+	<div class="row m-t-10 align-items-center"
+	[ngClass]="{'m-t-10':widget.widgetProperty?.contents?.entitiesIcon?.isRequired,'m-t-30':!widget.widgetProperty?.contents?.entitiesIcon?.isRequired}">
+	    <div class="col-lg-12 text-center icon-content" *ngIf="widget.widgetProperty?.contents?.entitiesIcon?.isRequired">
+	      <i [ngStyle]="{'color':widget.widgetProperty?.contents?.entitiesIcon?.fontColor}"  class="{{widget?.widgetProperty?.contents?.entitiesIcon?.iconClass}} fa-{{widget?.widgetProperty?.contents?.entitiesIcon?.fontSize}}x"></i>
+	    </div>
+		<div class="col-lg-8">
+			<p class="m-0"
+			[ngStyle]="{
+			'font-size':widget.widgetProperty?.contents?.entities?.fontSize+'px',
+			'font-family':widget.widgetProperty?.contents?.entities?.fontFamily,
+			'color':widget.widgetProperty?.contents?.entities?.fontColor}">
+			{{widget?.widgetProperty?.contents?.entities?.title}}</p>
+		</div>
+		<div class="col-lg-4">
+			<h4 class="m-0"
+			[ngStyle]="{
+			'font-size':widget.widgetProperty?.contents?.count?.fontSize+'px',
+			'font-family':widget.widgetProperty?.contents?.count?.fontFamily,
+			'color':widget.widgetProperty?.contents?.count?.fontColor}">
+			{{count.total}}</h4>
+		</div>
+	</div>
+	<div class="row m-t-10">
+		<div class="col-lg-6">
+			<div class="text-center">
+				<h4 class="m-0"
+				[ngStyle]="{
+				'font-size':widget.widgetProperty?.contents?.activeCount?.fontSize+'px',
+				'font-family':widget.widgetProperty?.contents?.activeCount?.fontFamily,
+				'color':widget.widgetProperty?.contents?.activeCount?.fontColor}">
+				{{count.active}}</h4>
+				<p class="m-0"
+				[ngStyle]="{
+				'font-size':widget.widgetProperty?.contents?.active?.fontSize+'px',
+				'font-family':widget.widgetProperty?.contents?.active?.fontFamily,
+				'color':widget.widgetProperty?.contents?.active?.fontColor}">
+				{{widget?.widgetProperty?.contents?.active?.title}}</p>
+			</div>
+		</div>
+		<div class="col-lg-6">
+			<div class="text-center">
+				<h4 class="m-0"
+				[ngStyle]="{
+				'font-size':widget.widgetProperty?.contents?.inactiveCount?.fontSize+'px',
+				'font-family':widget.widgetProperty?.contents?.inactiveCount?.fontFamily,
+				'color':widget.widgetProperty?.contents?.inactiveCount?.fontColor}">
+				{{count.inactive}}</h4>
+				<p class="m-0"
+				[ngStyle]="{
+				'font-size':widget.widgetProperty?.contents?.inactive?.fontSize+'px',
+				'font-family':widget.widgetProperty?.contents?.inactive?.fontFamily,
+				'color':widget.widgetProperty?.contents?.inactive?.fontColor}">
+				{{widget?.widgetProperty?.contents?.inactive?.title}}</p>
+			</div>
+		</div>
+	</div>
+</div>

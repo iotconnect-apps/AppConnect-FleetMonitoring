@@ -1,0 +1,95 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
+    <AspNetCoreModuleName>AspNetCoreModule</AspNetCoreModuleName>
+    <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>bin\Debug\netcoreapp3.0\iot.solution.host.xml</DocumentationFile>
+    <OutputPath>bin\Debug\netcoreapp3.0\</OutputPath>
+    <NoWarn>1701;1702;1591</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Models\**" />
+    <Compile Remove="wwwroot\CompanyFiles\DevicesFiles\**" />
+    <Content Remove="Models\**" />
+    <Content Remove="wwwroot\CompanyFiles\DevicesFiles\**" />
+    <EmbeddedResource Remove="Models\**" />
+    <EmbeddedResource Remove="wwwroot\CompanyFiles\DevicesFiles\**" />
+    <None Remove="Models\**" />
+    <None Remove="wwwroot\CompanyFiles\DevicesFiles\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Controllers\HardwareKitController.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="chartdata\EnergyUsage.txt" />
+    <None Remove="chartdata\SoilNutritions.txt" />
+    <None Remove="chartdata\WaterUsage.txt" />
+    <None Remove="iot.solution.host.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="5.0.1" />
+    <PackageReference Include="AutoMapper" Version="9.0.0" />
+    <PackageReference Include="Hangfire.AspNetCore" Version="1.7.10" />
+    <PackageReference Include="Hangfire.Core" Version="1.7.10" />
+    <PackageReference Include="Hangfire.SqlServer" Version="1.7.10" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="4.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.5.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="chartdata\EnergyUsage.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="chartdata\SoilNutritions.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="chartdata\WaterUsage.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="iot.solution.host.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="nlog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="web.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Extension\" />
+    <Folder Include="wwwroot\CompanyFiles\EntityImages\" />
+    <Folder Include="wwwroot\CompanyFiles\DriverImageFiles\" />
+    <Folder Include="wwwroot\CompanyFiles\DriverLicenceFiles\" />
+    <Folder Include="wwwroot\CompanyFiles\ShipmentFiles\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\iot.solution.common\iot.solution.common.csproj" />
+    <ProjectReference Include="..\iot.solution.helper\iot.solution.helper.csproj" />
+    <ProjectReference Include="..\iot.solution.loghandler\iot.solution.loghandler.csproj" />
+    <ProjectReference Include="..\iot.solution.messaging\iot.solution.messaging.csproj" />
+    <ProjectReference Include="..\iot.solution.service\iot.solution.service.csproj" />
+  </ItemGroup>
+
+</Project>

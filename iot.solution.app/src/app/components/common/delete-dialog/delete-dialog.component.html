@@ -1,0 +1,17 @@
+<div>
+		<h2 mat-dialog-title>{{ deleteAlertDataModel.title }}</h2>
+		<mat-dialog-content class="mat-typography">
+		  <div class="text-center">
+			<span class="delete-text"> {{ deleteAlertDataModel.message }} </span>
+		  </div>
+		</mat-dialog-content>
+		<mat-dialog-actions align="center">
+		  <button type="button" mat-flat-button color="primary"  (click)="deleteItem()" cdkFocusInitial>
+				{{ deleteAlertDataModel.okButtonName }}
+		  </button>
+		  <button type="button" mat-flat-button color="primary" class="m-l-10" (click)="onNoClick()">
+				{{ deleteAlertDataModel.cancelButtonName }}
+		  </button>
+	  
+		</mat-dialog-actions>
+</div>

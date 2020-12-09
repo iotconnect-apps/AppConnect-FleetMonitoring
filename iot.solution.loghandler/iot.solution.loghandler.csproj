@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <PackageId>component.services.loghandler</PackageId>
+    <Company>Softweb-Avnet</Company>
+    <Description>It contains the Logger related Packages</Description>
+    <Authors>Softweb-Avent</Authors>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Product>component.services.loghandler</Product>
+    <Version>1.1.7</Version>
+    <PackageReleaseNotes>Version Change</PackageReleaseNotes>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Options" Version="3.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="4.9.0" />
+    <PackageReference Include="NuGet.CommandLine" Version="4.9.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\iot.solution.eventbus\iot.solution.eventbus.csproj" />
+    <ProjectReference Include="..\iot.solution.log.common\iot.solution.log.common.csproj" />
+    <ProjectReference Include="..\iot.solution.log\iot.solution.log.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,72 @@
+<header class="main-header">
+  <!-- Sidebar toggle button-->
+  <a href="javascript:void(0)" class="sidebar-toggle" data-toggle="offcanvas" role="button" (click)="sidebarToggle()">
+    <i class="collapse-icon"><img src="./assets/images/more-nav-icon.svg" alt=""></i>
+    <i class="expand"><img src="./assets/images/more-nav-icon.svg" alt=""></i>
+  </a>
+  <!-- Logo -->
+  <a (click)="gotoDash()" class="logo cursor-pointer">
+    <!-- logo for regular state and mobile devices -->
+    <span class="logo-lg0"><img src="./assets/images/logo.svg" alt=""></span>
+  </a>
+  <!-- Header Navbar: style can be found in header.less -->
+  <nav class="navbar navbar-static-top">
+    <div class="navbar-custom-menu">
+      <ul class="nav navbar-nav">
+        <li class="notification"  *ngIf="!isAdmin">
+          <a href="javascript:void(0)" style="cursor:pointer" (click)="Respond()" title="View">
+            <span *ngIf="unReadAlerts">{{ unReadAlerts }}</span><i class="far fa-bell"></i>
+          </a>
+        </li>
+        <li class="dropdown user user-menu">
+          <a href="javascript:void(0)" (click)="isMenuOpen?isMenuOpen=false:isMenuOpen=true;" class="dropdown-toggle">
+            <span class="user-img">
+              <i class="material-icons user-icon align-middle">person</i>
+            </span>
+            <span class="hidden-xs">Welcome <b>{{_appConstant.username}}</b></span>
+          </a>
+          <ul class="dropdown-menu user-drop-box" *ngIf="isMenuOpen" #showDropdown
+              (clickOutside)="onClickedOutside($event)">
+            <li class="user-body">
+              <a [routerLink]="['/my-profile']">
+                <img class="m-r-5" src="./assets/images/info-icon.svg" alt="My Profile"> My Profile
+              </a>
+              <a [routerLink]="['/change-password']">
+                <img class="m-r-5" src="./assets/images/icon-change-password.png" alt="Change Password"> Change Password
+              </a>
+              <a (click)="logout()" class="cursor-pointer">
+                <img class="m-r-5" src="./assets/images/icon_logout.svg" alt="Sign Out"> Sign Out
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>
+<section class="create-drawer transform" *ngIf="respondShow">
+  <div class="head">
+    <a href="javascript:void()" class="closedrawer" (click)="Respond()"><i class="material-icons">close</i></a>
+    <h2>Notifications</h2>
+  </div>
+  <div class="form-container">
+    <div class="view-form">
+      <div class="notification-alerts">
+        <ul>
+          <li *ngFor="let item of alerts" class="{{item['severity']}}">
+            <div class="alerts-icon">
+              <i class="material-icons">warning</i>
+            </div>
+            <div class="alerts-info">
+              <p>{{item['message']}}</p>
+              <span>{{item['time']}}</span>
+            </div>
+          </li>
+        </ul>
+        <div *ngIf="!alerts.length" class="notification-none">
+          No any notfication
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

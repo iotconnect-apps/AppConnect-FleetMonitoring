@@ -1,0 +1,14 @@
+﻿
+
+Scaffold-DbContext "Server=40.113.196.248;initial catalog=dev-fleetmonitoring;user id=devuser;password=softweb#123;MultipleActiveResultSets=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -Force
+
+
+
+protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+{
+    if (!optionsBuilder.IsConfigured)
+    {
+        string connString = component.helper.SolutionConfiguration.Configuration.ConnectionString;
+        optionsBuilder.UseSqlServer(connString);
+    }
+}

@@ -1,0 +1,122 @@
+﻿@model component.services.logger.viewer.Models.SettingModel.SettingModel
+@{
+    ViewBag.Title = "Component Configuration Page";
+}
+
+<style>
+    .heading {
+        background-color: #ffd800;
+        width: 100%;
+    }
+
+    h3 {
+        padding: 10px;
+    }
+
+    .divSetting {
+    }
+</style>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+
+<div>
+    @using (Html.BeginForm("BindSetting", "Setting", FormMethod.Post))
+    {
+    <div style="margin-top:10px;width:100%;">
+        <span style="float:left;width:25%;margin-left:10px;">
+            @Html.DropDownListFor(n => n.ConStringId, new SelectList(Model.ConnectionList, "Value", "Text"), new { id = "drpConnection", @class = "form-control" })
+        </span>
+        <span style="float:left;width:25%;margin-left:10px;">
+            @Html.DropDownListFor(n => n.ApplicationCode, new SelectList(Model.ApplicationList, "Value", "Text"), new { id = "drpApplication", @class = "form-control" })
+        </span>
+        <span style="float:left;">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </span>
+    </div>
+        <div style="clear:both;">
+
+        </div>
+    }
+
+</div>
+
+@using (Html.BeginForm("Index", "Setting", FormMethod.Post))
+{
+    <div class="heading">
+        <h3> Component Configuration </h3>
+    </div>
+    <div class="divSetting">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Setting Name</th>
+                    <th>debug </th>
+                    <th>error</th>
+                    <th>fatal</th>
+                    <th>info</th>
+                    <th>warn</th>
+                    <th>subscribedebug</th>
+                    <th>subscribeerror</th>
+                    <th>cronjobdebug</th>
+                    <th>cronjoberror</th>
+                    <th>cronjobfatal</th>
+                    <th>cronjobinfo</th>
+                    <th>cronjobwarn</th>
+                    <th>omslog</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    int i = 0;
+                    foreach (var item in Model.SettingList.ToList())
+                    {
+                <tr>
+                    @Html.HiddenFor(m => m.SettingList[i].ComponentConfigId, new { @id = "id_" + i })
+                    @Html.HiddenFor(m => m.SettingList[i].Name, new { @id = "Name_" + i })
+                    <td>@item.Name</td>
+                    <td>@Html.CheckBoxFor(m => m.SettingList[i].Debug, new { @id = "debug_" + i })</td>
+                    <td>@Html.CheckBoxFor(m => m.SettingList[i].Error, new { @id = "error_" + i })</td>
+                    <td>@Html.CheckBoxFor(m => m.SettingList[i].Fatal, new { @id = "fatal_" + i })</td>
+                    <td>@Html.CheckBoxFor(m => m.SettingList[i].Info, new { @id = "info_" + i })</td>
+                    <td>@Html.CheckBoxFor(m => m.SettingList[i].Warn, new { @id = "warn_" + i })</td>
+                    <td>@Html.CheckBoxFor(m => m.SettingList[i].SubscribeDebug, new { @id = "subscribedebug_" + i })</td>
+                    <td>@Html.CheckBoxFor(m => m.SettingList[i].SubscribeError, new { @id = "subscribeerror_" + i })</td>
+
+                    <td>@Html.CheckBoxFor(m => m.SettingList[i].CronJobDebug, new { @id = "cronjobdebug_" + i })</td>
+                    <td>@Html.CheckBoxFor(m => m.SettingList[i].CronJobError, new { @id = "cronjoberror_" + i })</td>
+                    <td>@Html.CheckBoxFor(m => m.SettingList[i].CronJobFatal, new { @id = "cronjobfatal_" + i })</td>
+                    <td>@Html.CheckBoxFor(m => m.SettingList[i].CronJobInfo, new { @id = "cronjobinfo_" + i })</td>
+                    <td>@Html.CheckBoxFor(m => m.SettingList[i].CronJobWarn, new { @id = "cronjobwarn_" + i })</td>
+
+                    <td>@Html.CheckBoxFor(m => m.SettingList[i].OmsLog, new { @id = "omslog_" + i })</td>
+                </tr>
+                        i++;
+                    }
+                }
+            </tbody>
+
+        </table>
+    </div>
+    <span style="float:left;">
+        @Html.HiddenFor(m => m.ConStringId)
+        @Html.HiddenFor(m => m.ApplicationCode)
+        <button type="submit" class="btn btn-primary">Save</button>
+    </span>
+}
+
+<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js">
+</script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.2/js/toastr.min.js">
+</script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        if ('@ViewBag.Message' != "") {
+            toastr.success('@ViewBag.Message');
+        }
+    });
+
+
+</script>

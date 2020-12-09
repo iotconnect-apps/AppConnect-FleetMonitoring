@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>host.iot.solution</name>
+    </assembly>
+    <members>
+        <member name="T:host.iot.solution.Controllers.UserController">
+            <summary>
+            User
+            </summary>
+        </member>
+        <member name="M:host.iot.solution.Controllers.UserController.#ctor(iot.solution.service.Interface.IUserEngine)">
+            <summary>
+            Default constructor with injection parameter
+            </summary>
+            <param name="userEngine"></param>
+        </member>
+        <member name="M:host.iot.solution.Controllers.UserController.AddUser(model.iot.solution.Request.AddUserModel)">
+            <summary>
+            Add user
+            </summary>
+            <param name="addUserModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:host.iot.solution.Controllers.UserController.EditUser(System.Guid,model.iot.solution.Request.AddUserModel)">
+            <summary>
+            Edir user
+            </summary>
+            <param name="addUserModel"></param>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:host.iot.solution.Controllers.UserController.GetUserByUserName(System.String)">
+            <summary>
+            Get user
+            </summary>
+            <param name="username"></param>
+            <returns></returns>
+        </member>
+        <member name="M:host.iot.solution.Controllers.UserController.ValidateUser(model.iot.solution.Request.LoginUserModel)">
+            <summary>
+            Validate user
+            </summary>
+            <param name="loginUserModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:host.iot.solution.Controllers.UserController.ChangePassword(model.iot.solution.Request.ChangePasswordModel)">
+            <summary>
+            Change Password
+            </summary>
+            <param name="changePasswordModel"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

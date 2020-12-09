@@ -1,0 +1,11 @@
+<div class="dashboard-chart  text-center" >
+	<div class="text-center icon-content" *ngIf="widget.widgetProperty?.contents?.icon?.isRequired">
+		<i [ngStyle]="{'color':widget.widgetProperty?.contents?.icon?.fontColor}"
+		class="{{widget?.widgetProperty?.contents?.icon?.iconClass}} fa-{{widget?.widgetProperty?.contents?.icon?.fontSize}}x"></i>
+	</div>
+	<div class="m-t-20 text-center">
+		<h4 [ngStyle]="{ 'font-size':widget.widgetProperty?.contents?.count?.fontSize+'px', 'font-family':widget.widgetProperty?.contents?.count?.fontFamily, 'color':widget.widgetProperty?.contents?.count?.fontColor}">
+		{{count}}</h4>
+		<p [ngStyle]="{ 'font-size':widget.widgetProperty?.contents?.entities?.fontSize+'px', 'font-family':widget.widgetProperty?.contents?.entities?.fontFamily, 'color':widget.widgetProperty?.contents?.entities?.fontColor}"> {{widget?.widgetProperty?.contents?.entities?.title}}</p>
+	</div>
+</div>

@@ -1,0 +1,30 @@
+<mat-drawer-container [class]="isLoginURL ? 'wrapper' : ''">
+	<app-header *ngIf="isLoginURL"></app-header>
+	<app-login-header *ngIf="!isLoginURL"></app-login-header>
+	<app-left-menu *ngIf="isLoginURL && isAdmin"></app-left-menu>
+	<section [class]="!isLoginURL ? 'wrapper' : 'content-wrapper'">
+	<div [class]="!isLoginURL ? '' : isAdmin ? 'page-content':'page-content p-l-0'">
+		<div [class]="isLoginURL ? 'container-fluid' : 'login-fluid'">
+			<router-outlet></router-outlet>
+		</div>
+	</div>
+	</section>
+	<app-footer *ngIf="isLoginURL"></app-footer>
+	</mat-drawer-container> 
+	<app-login-footer *ngIf="!isLoginURL"></app-login-footer>
+	<ngx-spinner bdOpacity=0.1 bdColor="rgba(255,255,255,0.7)" size="default" color="#00a8ff" type="line-scale" [fullScreen]="true">
+		<p style="color: white"> Please wait... </p>
+	</ngx-spinner>
+	<!-- <div *ngIf="loading || isAdminLoading" class="loader_container" style="display: block; z-index: 999;">
+		<div class="loader">
+			<div class="loader--dot"></div>
+			<div class="loader--dot"></div>
+			<div class="loader--dot"></div>
+			<div class="loader--dot"></div>
+			<div class="loader--dot"></div>
+			<div class="loader--dot"></div>
+			<div class="loader--text"></div>
+		</div>
+	</div> -->
+	<app-flash-message></app-flash-message>
+	

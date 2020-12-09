@@ -1,0 +1,333 @@
+<section class="content-header">
+  <h1>{{moduleName}}</h1>
+</section>
+
+<div class="content">
+  <mat-card>
+    <form [formGroup]="fleetForm" (ngSubmit)="manageFleet()" class="form-horizontal common-form" autocomplete="off">
+      <div class="row">
+        <div class="col-md-6">
+          <fieldset class="form-group form-field">
+            <label class="form-label">Fleet ID<b>*</b></label>
+            <mat-form-field>
+              <input type="text" name="fleetId" matInput placeholder="Fleet ID" formControlName="fleetId" tabindex="1"
+                     [(ngModel)]="fleetObject['fleetId']" maxlength="50" [readonly]="isEdit" class="form-control">
+              <div class="form-control-feedback" *ngIf="fleetForm.controls['fleetId'].errors">
+                <p class="form-tooltip-error sm " [ngClass]="{'error':true}"
+                   *ngIf="fleetForm.controls['fleetId'].errors.required && checkSubmitStatus">
+                  Please enter Fleet ID
+                </p>
+                <p class="form-tooltip-error sm " [ngClass]="{'error':true}"
+                   *ngIf="fleetForm.controls['fleetId'].errors.pattern && checkSubmitStatus">
+                  Special characters and white space not allowed in Fleet ID
+                </p>
+              </div>
+            </mat-form-field>
+          </fieldset>
+        </div>
+        <div class="col-md-6">
+          <fieldset class="form-group form-field">
+            <label class="form-label">Fleet Registration Number<b>*</b></label>
+            <mat-form-field>
+              <input type="text" name="registrationNo" matInput placeholder="Fleet Registration Number"
+                     formControlName="registrationNo" tabindex="2" [(ngModel)]="fleetObject['registrationNo']"
+                     maxlength="50" [readonly]="isEdit" class="form-control">
+              <div class="form-control-feedback" *ngIf="fleetForm.controls['registrationNo'].errors">
+                <p class="form-tooltip-error sm " [ngClass]="{'error':true}"
+                   *ngIf="fleetForm.controls['registrationNo'].errors.required && checkSubmitStatus">
+                  Please enter Fleet Registration Number
+                </p>
+                <p class="form-tooltip-error sm " [ngClass]="{'error':true}"
+                   *ngIf="fleetForm.controls['registrationNo'].errors.pattern && checkSubmitStatus">
+                  Special characters and white space not allowed in Fleet Registration Number
+                </p>
+              </div>
+            </mat-form-field>
+          </fieldset>
+        </div>
+        <div class="col-md-6">
+          <fieldset class="form-group form-field">
+            <label class="form-label">Fleet Type<b>*</b></label>
+            <mat-form-field>
+              <mat-select placeholder="Select Fleet Type" formControlName="typeGuid" tabindex="3"
+                          [(ngModel)]="fleetObject['typeGuid']" [disabled]="isEdit">
+                <mat-option *ngFor="let fleetType of fleetTypeList" [value]="fleetType.value | lowercase">
+                  {{fleetType.text}}
+                </mat-option>
+              </mat-select>
+              <div class="form-control-feedback" *ngIf="fleetForm.controls['typeGuid'].errors">
+                <p class="form-tooltip-error sm " [ngClass]="{'error':true}"
+                   *ngIf="fleetForm.controls['typeGuid'].errors.required && checkSubmitStatus">
+                  Please select Fleet Type
+                </p>
+              </div>
+            </mat-form-field>
+          </fieldset>
+        </div>
+        <div class="col-md-6">
+          <fieldset class="form-group form-field">
+            <label class="form-label">Loading Capacity (Tons)<b>*</b></label>
+            <mat-form-field>
+              <input type="number" name="loadingCapacity" matInput placeholder="Loading Capacity"
+                     formControlName="loadingCapacity" tabindex="4" [(ngModel)]="fleetObject['loadingCapacity']"
+                     min="0" step="1"
+                     oninput="validity.valid||(value='');" onKeyPress="if(this.value.length==9) return false;">
+              <div class="form-control-feedback" *ngIf="fleetForm.controls['loadingCapacity'].errors">
+                <p class="form-tooltip-error sm " [ngClass]="{'error':true}"
+                   *ngIf="fleetForm.controls['loadingCapacity'].errors.required && checkSubmitStatus">
+                  Please enter Fleet Loading Capacity
+                </p>
+                <p class="form-tooltip-error sm " [ngClass]="{'error':true}"
+                   *ngIf="fleetForm.controls['loadingCapacity'].errors.pattern && checkSubmitStatus">
+                  Special characters and white space not allowed in Loading Capacity
+                </p>
+              </div>
+            </mat-form-field>
+          </fieldset>
+        </div>
+        <div class="col-md-6">
+          <fieldset class="form-group form-field">
+            <label class="form-label">Speed Limit<b>*</b></label>
+            <mat-form-field>
+              <input type="number" name="speedLimit" matInput placeholder="Speed Limit" formControlName="speedLimit"
+                     tabindex="5" [(ngModel)]="fleetObject['speedLimit']"
+                     min="0" step="1" 
+                     oninput="validity.valid||(value='');" onKeyPress="if(this.value.length==9) return false;">
+              <div class="form-control-feedback" *ngIf="fleetForm.controls['speedLimit'].errors">
+                <p class="form-tooltip-error sm " [ngClass]="{'error':true}"
+                   *ngIf="fleetForm.controls['speedLimit'].errors.required && checkSubmitStatus">
+                  Please enter Fleet Speed Limit
+                </p>
+                <p class="form-tooltip-error sm " [ngClass]="{'error':true}"
+                   *ngIf="fleetForm.controls['speedLimit'].errors.pattern && checkSubmitStatus">
+                  Special characters and white space not allowed in Speed Limit
+                </p>
+              </div>
+            </mat-form-field>
+          </fieldset>
+        </div>
+        <div class="col-md-6">
+          <fieldset class="form-group form-field">
+            <label class="form-label">Material Type<b>*</b></label>
+            <mat-form-field>
+              <mat-select placeholder="Select Material Type" formControlName="materialTypeGuid" tabindex="6"
+                          [(ngModel)]="fleetObject['materialTypeGuid']">
+                <mat-option *ngFor="let materialType of materialTypeList" [value]="materialType.value | lowercase">
+                  {{materialType.text}}
+                </mat-option>
+              </mat-select>
+              <div class="form-control-feedback" *ngIf="fleetForm.controls['materialTypeGuid'].errors">
+                <p class="form-tooltip-error sm " [ngClass]="{'error':true}"
+                   *ngIf="fleetForm.controls['materialTypeGuid'].errors.required && checkSubmitStatus">
+                  Please select Material Type
+                </p>
+              </div>
+            </mat-form-field>
+          </fieldset>
+        </div>
+        <div class="col-md-6">
+          <mat-label>Fleet Photo <b class="required">*</b></mat-label>
+          <fieldset class="form-group">
+            <label for="myFile" class="upload-file" title=".jpg, .jpeg, .png" alt=".jpg, .jpeg, .png">
+              <input formControlName="imageFile" #myFile id="myFile" (change)="handleImageInput($event)"
+                     tabindex="7" class="upload-image" type="file" accept=".jpg, .jpeg, .png" />
+              <div class="form-control-feedback" *ngIf="fleetForm.controls['imageFile'].errors">
+                <p class="form-tooltip-error sm" [ngClass]="{'error':true}"
+                   *ngIf="fleetForm.controls['imageFile'].errors.required && checkSubmitStatus">
+                  Upload Image
+                </p>
+              </div>
+            </label>
+          </fieldset>
+          <fieldset class="form-group">
+            <ul class="image-list ">
+              <li>
+                <div class="user-profle-image">
+                  <img alt="" class="img-fluid"
+                       src="{{fleetObject['image'] == '00000000-0000-0000-0000-000000000000' || fleetObject['image'] == null || fleetObject['image'] == '' ? _appConstant.noImg:  fleetObject['image']}}" />
+                </div>
+                <span *ngIf="fleetObject['image']">
+                  <i class="material-icons" (click)="imageRemove()">clear</i>
+                </span>
+              </li>
+            </ul>
+          </fieldset>
+          <p>{{fileName}}</p>
+        </div>
+      </div>
+      <hr>
+      <section class="content-header">
+        <h1>Device Information</h1>
+      </section>
+      <div class="row" [formGroup]="deviceForm">
+        <div class="col-md-6" formArrayName="templateGuid">
+          <div *ngFor="let sid of templateGuid.controls; index as idx">
+            <fieldset class="form-group form-field">
+              <label class="form-label">Select Template<b>*</b></label>
+              <mat-form-field>
+                <mat-select placeholder="Select Template" [formControlName]="idx"
+                            (selectionChange)="getDeviceLookup($event.value,null)"
+                            [(ngModel)]="(!fleetObject['devices'][idx])?'':fleetObject['devices'][idx].templateGuid">
+                  <mat-option *ngFor="let template of deviceTemplateList" [value]="template.value | lowercase">
+                    {{template.text}}
+                  </mat-option>
+                </mat-select>
+                <div class="form-control-feedback" *ngIf="deviceForm.get('templateGuid').controls[idx].invalid">
+                  <p class="form-tooltip-error sm " [ngClass]="{'error':true}"
+                     *ngIf="deviceForm.get('templateGuid').controls[idx].invalid && checkDeviceSubmitStatus">
+                    Please select Template
+                  </p>
+                </div>
+              </mat-form-field>
+            </fieldset>
+          </div>
+        </div>
+        <div class="col-md-6" formArrayName="deviceGuid">
+          <div *ngFor="let sid of deviceGuid.controls; index as idx">
+            <fieldset class="form-group form-field">
+              <label class="form-label">
+                Select Device<b>*</b>
+                <a *ngIf="!hasDevice" class="actionicon m-l-10" href="javascript:void(0);" title="{{addDeviceMsg}}">
+                  <img src="../../../../assets/images/i-info-icon.svg" alt="Wing">
+                </a>
+              </label>
+              <mat-form-field>
+                <mat-select placeholder="{{selectDevice}}" [formControlName]="idx"
+                            [(ngModel)]="(!fleetObject['devices'][idx])?'':fleetObject['devices'][idx].deviceGuid">
+                  <mat-option *ngFor="let device of deviceList" [value]="device.value | lowercase">
+                    {{device.text}}
+                  </mat-option>
+                </mat-select>
+                <div class="form-control-feedback" *ngIf="deviceForm.get('deviceGuid').controls[idx].invalid">
+                  <p class="form-tooltip-error sm " [ngClass]="{'error':true}"
+                     *ngIf="deviceForm.get('deviceGuid').controls[idx].invalid && checkDeviceSubmitStatus">
+                    Please select Device
+                  </p>
+                </div>
+              </mat-form-field>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <section class="content-header">
+        <h1>Permission Information</h1>
+      </section>
+      <div class="row">
+        <div class="col-md-6">
+          <mat-label>Permission Information </mat-label>
+          <fieldset class="form-group">
+            <label for="mediaFile" class="upload-file" title=".pdf, .doc, .docx" alt=".pdf, .doc, .docx">
+              <input formControlName="permissionFiles" id="mediaFile" tabindex="9"
+                     (change)="handleMediaFileInput($event)" class="upload-image" type="file" accept=".pdf,.doc,.docx"
+                     multiple #mediaFile />
+            </label>
+          </fieldset>
+
+          <fieldset class="form-group">
+
+            <ul class="upload-file-list m-b-15" *ngIf="fleetObject['fleetPermissionFiles']">
+              <li *ngFor="let file of selectedFilesObj">
+                <a href="javascript:;" class="file-name" [matTooltip]="file.description" matTooltipPosition="below">
+                  <i class="fas fa-file-pdf" *ngIf="file.fileName.split('.').slice(1, 2).join('.') == 'pdf'"></i>
+                  <i class="fas fa-file-word" *ngIf="file.fileName.split('.').slice(1, 2).join('.') == 'docx' ||
+                    file.fileName.split('.').slice(1, 2).join('.') == 'docx'"></i>
+                  <span>{{file.description}}</span>
+                </a>
+                <a href="javascript:;" *ngIf="selectedFiles" (click)="removeMediaImage(file.guid)">
+                  <i class="far fa-times-circle"></i>
+                </a>
+              </li>
+            </ul>
+            <ul class="upload-file-list">
+              <li *ngFor="let file of selectedFiles">
+                <a href="javascript:;" class="file-name" [matTooltip]="file.name" matTooltipPosition="below">
+                  <i class="fas fa-file-pdf" *ngIf="file.name.split('.').slice(1, 2).join('.') == 'pdf'"></i>
+                  <i class="fas fa-file-word" *ngIf="file.name.split('.').slice(1, 2).join('.') == 'docx' ||
+                      file.name.split('.').slice(1, 2).join('.') == 'docx'"></i>
+                  <span>{{file.name}}</span>
+                </a>
+                <a href="javascript:;" *ngIf="selectedFiles" (click)="fileRemove(file.name)">
+                  <i class="far fa-times-circle"></i>
+                </a>
+                <!-- {{file.name.split('.').slice(1, 2).join('.')}} -->
+              </li>
+            </ul>
+          </fieldset>
+        </div>
+      </div>
+      <section class="content-header">
+        <h1>Define Geofence</h1>
+      </section>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group form-field">
+            <div class="row">
+              <div class="col-md-6">
+                <label class="form-label">Location<b>*</b></label>
+                <input placeholder="Search for Location" autocorrect="off" autocapitalize="off" [(ngModel)]="currentAddress"
+                       spellcheck="false" type="text" class="form-control" id="search" #search [formControl]="searchControl"
+                       formControlName="location" tabindex="10" [readonly]="isEdit" >
+                <div class="form-control-feedback" *ngIf="fleetForm.controls['location'].errors">
+                  <p class="form-tooltip-error sm " [ngClass]="{'error':true}"
+                     *ngIf="fleetForm.controls['location'].errors.required && checkSubmitStatus">
+                    Please select Location
+                  </p>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Radius (In meter)<b>*</b></label>
+                <input placeholder="Radius" type="number" class="form-control" [(ngModel)]="radius"
+                       min="0" step="1" tabindex="11" [readonly]="isEdit" 
+                       oninput="validity.valid||(value='');" onKeyPress="if(this.value.length==9) return false;"
+                       [ngModelOptions]="{standalone: true}" (ngModelChange)="event('radiusChange',$event)">
+                <div class="form-control-feedback" *ngIf="fleetForm.controls['radius'].errors">
+                  <p class="form-tooltip-error sm " [ngClass]="{'error':true}"
+                     *ngIf="fleetForm.controls['radius'].errors.required && checkSubmitStatus">
+                    Please enter Radius
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <agm-map [latitude]="latitude"
+                   [longitude]="longitude"
+                   [zoom]="zoom"
+                   [disableDefaultUI]="false"
+                   [zoomControl]="false">
+
+            <agm-marker [latitude]="latitude" [longitude]="longitude">
+              <agm-info-window>
+                <strong>InfoWindow content</strong>
+              </agm-info-window>
+            </agm-marker>
+
+            <agm-circle [latitude]="latitude" [longitude]="longitude"
+                        [(radius)]="radius"
+                        [fillColor]="'red'"
+                        [circleDraggable]="false"
+                        [editable]="true"
+                        (radiusChange)="event('radiusChange',$event)">
+            </agm-circle>
+
+          </agm-map>
+        </div>
+      </div>
+      <div class="row mt-4 mb-0">
+        <div class="col-lg-12">
+          <div class="form-field">
+            <div class="input-field ">
+              <button mat-flat-button color="primary" class="text-white" title="{{buttonname}}" type="submit">
+                {{buttonName}}
+              </button>
+              <button mat-flat-button color="primary" class="text-white m-l-10" type="button" title="Cancel"
+                      routerLink="/fleet">
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </mat-card>
+</div>

@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <AssemblyName>iot.solution.service</AssemblyName>
+    <PackageId>iot.solution.service</PackageId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Implementation\RoleEngine.cs" />
+    <Compile Remove="Implementation\UserEngine.cs" />
+    <Compile Remove="Interface\IRoleEngine.cs" />
+    <Compile Remove="Interface\IUserEngine.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="9.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="3.1.0" />
+    <PackageReference Include="NetCore.AutoRegisterDi" Version="1.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\iot.solution.common\iot.solution.common.csproj" />
+    <ProjectReference Include="..\iot.solution.entity\iot.solution.entity.csproj" />
+    <ProjectReference Include="..\iot.solution.helper\iot.solution.helper.csproj" />
+    <ProjectReference Include="..\iot.solution.loghandler\iot.solution.loghandler.csproj" />
+    <ProjectReference Include="..\iot.solution.model\iot.solution.model.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,302 @@
+<!-- Content Header (Page header) -->
+
+<section class="content-header">
+  <h1>{{moduleName}}</h1>
+</section>
+<!-- Main content -->
+
+<section class="content">
+  <mat-card class="support-card">
+    <div class="row">
+      <div class="col col-ld-11">
+        <form [formGroup]="driverForm" (ngSubmit)="manageDriver()" autocomplete="off" class="form-horizontal common-form">
+          <div class="row">
+            <div class="col-md-6">
+              <fieldset class="form-group form-field">
+                <label class="form-label">First Name <b>*</b></label>
+                <mat-form-field>
+                  <input matInput formControlName="firstName" type="text" maxlength="60"
+                         [(ngModel)]="driverObject['firstName']"
+                         class="form-control" tabindex="1" placeholder="First Name">
+                  <div class="form-control-feedback" *ngIf="driverForm.controls['firstName'].errors">
+                    <p class="form-tooltip-error sm " [ngClass]="{'error':true}"
+                       *ngIf="driverForm.controls['firstName'].errors.required && checkSubmitStatus">
+                      Please enter First Name
+                    </p>
+                  </div>
+                </mat-form-field>
+              </fieldset>
+            </div>
+            <div class="col-md-6">
+              <fieldset class="form-group form-field">
+                <label class="form-label">Last Name <b>*</b></label>
+                <mat-form-field>
+                  <input matInput formControlName="lastName" type="text" maxlength="60" [(ngModel)]="driverObject['lastName']"
+                         class="form-control" tabindex="2" placeholder="Last Name">
+                  <div class="form-control-feedback" *ngIf="driverForm.controls['lastName'].errors">
+                    <p class="form-tooltip-error sm " [ngClass]="{'error':true}"
+                       *ngIf="driverForm.controls['lastName'].errors.required && checkSubmitStatus">
+                      Please enter Last Name
+                    </p>
+                  </div>
+                </mat-form-field>
+              </fieldset>
+            </div>
+            <div class="col-md-6">
+              <fieldset class="form-group form-field">
+                <label class="form-label">Driver ID <b>*</b></label>
+                <mat-form-field>
+                  <input matInput formControlName="driverId" type="text" maxlength="20"
+                         [(ngModel)]="driverObject['driverId']"
+                         class="form-control" tabindex="3" placeholder="Driver ID">
+                  <div class="form-control-feedback" *ngIf="driverForm.controls['driverId'].errors">
+                    <p class="form-tooltip-error sm " [ngClass]="{'error':true}"
+                       *ngIf="driverForm.controls['driverId'].errors.required && checkSubmitStatus">
+                      Please enter Driver ID
+                    </p>
+                  </div>
+                </mat-form-field>
+              </fieldset>
+            </div>
+            <div class="col-md-6">
+              <fieldset class="form-group form-field">
+                <label class="form-label">Email ID <b>*</b></label>
+                <mat-form-field>
+                  <input matInput formControlName="email" type="text" maxlength="60" [(ngModel)]="driverObject['email']"
+                         class="form-control" tabindex="4" placeholder="Email ID">
+                  <div class="form-control-feedback" *ngIf="driverForm.controls['email'].errors">
+                    <p class="form-tooltip-error sm " [ngClass]="{'error':true}"
+                       *ngIf="driverForm.controls['email'].errors.required && checkSubmitStatus">
+                      Please enter Email ID
+                    </p>
+                    <p class="form-tooltip-error sm " [ngClass]="{'error':true}"
+                       *ngIf="driverForm.controls['email'].errors.pattern">
+                      Please enter Valid Email ID
+                    </p>
+                  </div>
+                </mat-form-field>
+              </fieldset>
+            </div>
+
+            <div class="col-md-6">
+              <fieldset class="form-group form-field">
+                <label class="form-label">Phone Number <b>*</b></label>
+                <mat-form-field>
+                  <input matInput [(ngModel)]="driverObject['contactNo']" formControlName="contactNo"
+                         type="text" [textMask]="mask" maxlength="50" class="form-control"
+                         tabindex="5" placeholder="Enter Contact Number">
+                  <div class="form-control-feedback" *ngIf="driverForm.controls['contactNo'].errors">
+                    <p class="form-tooltip-error sm " [ngClass]="{'error':true}"
+                       *ngIf="driverForm.controls['contactNo'].errors.required && checkSubmitStatus">
+                      Please enter Contact
+                    </p>
+                  </div>
+                </mat-form-field>
+              </fieldset>
+            </div>
+            <div class="col-md-6">
+              <fieldset class="form-group form-field">
+                <label class="form-label">Country<b>*</b></label>
+                <mat-form-field>
+                  <mat-select (selectionChange)="getStateList($event)" [disabled]="isEdit" [(ngModel)]="driverObject['countryGuid']"
+                              tabindex="6" placeholder="Country" formControlName="countryGuid">
+                    <mat-option *ngFor="let template of countryList" [value]="template.countryId | lowercase">
+                      {{template.countryName}}
+                    </mat-option>
+                  </mat-select>
+                  <div class="form-control-feedback" *ngIf="driverForm.controls['countryGuid'].errors">
+                    <p class="form-tooltip-error sm " [ngClass]="{'error':true}"
+                       *ngIf="driverForm.controls['countryGuid'].errors.required && checkSubmitStatus">
+                      Please select Country
+                    </p>
+                  </div>
+                </mat-form-field>
+              </fieldset>
+            </div>
+            <div class="col-md-6">
+              <fieldset class="form-group form-field">
+                <label class="form-label">State<b>*</b></label>
+                <mat-form-field>
+                  <mat-select [(ngModel)]="driverObject['stateGuid']"
+                              tabindex="7" placeholder="State" formControlName="stateGuid">
+                    <mat-option *ngFor="let template of stateList" [value]="template.value">
+                      {{template.text}}
+                    </mat-option>
+                  </mat-select>
+                  <div class="form-control-feedback" *ngIf="driverForm.controls['stateGuid'].errors">
+                    <p class="form-tooltip-error sm " [ngClass]="{'error':true}"
+                       *ngIf="driverForm.controls['stateGuid'].errors.required && checkSubmitStatus">
+                      Please select State
+                    </p>
+                  </div>
+                </mat-form-field>
+              </fieldset>
+
+            </div>
+            <div class="col-md-6">
+              <fieldset class="form-group form-field">
+                <label class="form-label">City <b>*</b></label>
+                <mat-form-field>
+                  <input matInput formControlName="city" type="text" maxlength="60" [(ngModel)]="driverObject['city']"
+                         class="form-control" tabindex="8" placeholder="City">
+                  <div class="form-control-feedback" *ngIf="driverForm.controls['city'].errors">
+                    <p class="form-tooltip-error sm " [ngClass]="{'error':true}"
+                       *ngIf="driverForm.controls['city'].errors.required && checkSubmitStatus">
+                      Please enter City
+                    </p>
+                  </div>
+                </mat-form-field>
+              </fieldset>
+            </div>
+            <div class="col-md-6">
+              <fieldset class="form-group form-field">
+                <label class="form-label">Zip <b>*</b></label>
+                <mat-form-field>
+                  <input matInput formControlName="zipcode" type="text" maxlength="7" [(ngModel)]="driverObject['zipcode']"
+                         class="form-control" tabindex="9" placeholder="Zip Code">
+                  <div class="form-control-feedback" *ngIf="driverForm.controls['zipcode'].errors">
+                    <p class="form-tooltip-error sm " [ngClass]="{'error':true}"
+                       *ngIf="driverForm.controls['zipcode'].errors.required && checkSubmitStatus">
+                      Please enter Zip Code
+                    </p>
+                    <p class="form-tooltip-error sm " [ngClass]="{'error':true}"
+                       *ngIf="driverForm.controls['zipcode'].errors.pattern ">
+                      Please enter valid Zip Code
+                    </p>
+                  </div>
+                </mat-form-field>
+              </fieldset>
+            </div>
+            <div class="col-md-6">
+              <fieldset class="form-group form-field">
+                <label class="form-label">Address <b>*</b></label>
+                <mat-form-field>
+                  <input matInput formControlName="address" type="text" maxlength="250"
+                         class="form-control" tabindex="10" placeholder="Address" [(ngModel)]="driverObject['address']">
+                  <div class="form-control-feedback" *ngIf="driverForm.controls['address'].errors">
+                    <p class="form-tooltip-error sm " [ngClass]="{'error':true}"
+                       *ngIf="driverForm.controls['address'].errors.required && checkSubmitStatus">
+                      Please enter Address
+                    </p>
+                  </div>
+                </mat-form-field>
+              </fieldset>
+            </div>
+            <div class="col-md-6">
+              <fieldset class="form-group form-field">
+                <label class="form-label">Fleet<b>*</b></label>
+                <mat-form-field>
+                  <mat-select [(ngModel)]="driverObject['fleetGuid']"
+                              tabindex="11" placeholder="Fleet" formControlName="fleetGuid">
+                    <mat-option *ngFor="let template of fleetList" [value]="template.value | lowercase">
+
+
+                      {{template.text}}
+                    </mat-option>
+                  </mat-select>
+                  <div class="form-control-feedback" *ngIf="driverForm.controls['fleetGuid'].errors">
+                    <p class="form-tooltip-error sm " [ngClass]="{'error':true}"
+                       *ngIf="driverForm.controls['fleetGuid'].errors.required && checkSubmitStatus">
+                      Please select Fleet
+                    </p>
+                  </div>
+                </mat-form-field>
+              </fieldset>
+            </div>
+            <div class="col-md-6">
+              <fieldset class="form-group form-field">
+                <label class="form-label">License Number <b>*</b></label>
+                <mat-form-field>
+                  <input matInput formControlName="licenceNo" type="text" maxlength="20"
+                         class="form-control" tabindex="12" placeholder="License Number" [(ngModel)]="driverObject['licenceNo']">
+                  <div class="form-control-feedback" *ngIf="driverForm.controls['licenceNo'].errors">
+                    <p class="form-tooltip-error sm " [ngClass]="{'error':true}"
+                       *ngIf="driverForm.controls['licenceNo'].errors.required && checkSubmitStatus">
+                      Please enter License Number
+                    </p>
+                  </div>
+                </mat-form-field>
+              </fieldset>
+            </div>
+            <div class="col-md-6">
+              <mat-label>Driver Image <b class="image-required">*</b></mat-label>
+              <fieldset class="form-group">
+                <label for="driverImgFile" class="upload-file" title=".jpg, .jpeg, .png" alt=".jpg, .jpeg, .png">
+                  <input formControlName="imageFile" id="driverImgFile" (change)="handleImageInput($event,'P')" #driverImgFile
+                         class="upload-image" type="file" [(ngModel)]="driverObject['image']"
+                         accept=".jpg, .jpeg, .png" />
+                  <div class="form-control-feedback" *ngIf="driverForm.controls['imageFile'].errors">
+                    <p class="form-tooltip-error sm" [ngClass]="{'error':true}"
+                       *ngIf="driverForm.controls['imageFile'].errors.required && checkSubmitStatus">
+                      Upload Image
+                    </p>
+                  </div>
+                </label>
+              </fieldset>
+              <fieldset class="form-group">
+                <ul class="image-list ">
+                  <li>
+                    <div class="user-profle-image">
+                      <img alt="" class="img-fluid" #locationImg
+                           src="{{driverObject['image'] == '00000000-0000-0000-0000-000000000000' || driverObject['image'] == null || driverObject['image'] == '' ? _appConstant.noImg:  driverObject['image']}}" />
+                    </div>
+                    <span *ngIf="driverObject['image']">
+                      <i class="material-icons" (click)="driverImageRemove()">clear</i>
+                    </span>
+                  </li>
+                </ul>
+              </fieldset>
+              <p>{{imgFileName}}</p>
+            </div>
+            <div class="col-md-6">
+              <mat-label>Licence Image <b class="image-required">*</b></mat-label>
+              <fieldset class="form-group">
+                <label for="licenceImgFile" class="upload-file" title=".jpg, .jpeg, .png" alt=".jpg, .jpeg, .png">
+                  <input formControlName="licenceFile" id="licenceImgFile" (change)="handleImageInput($event,'L')" #licenceImgFile
+                         class="upload-image" type="file" [(ngModel)]="driverObject['licenceImage']"
+                         accept=".jpg, .jpeg, .png" />
+                  <div class="form-control-feedback" *ngIf="driverForm.controls['licenceFile'].errors">
+                    <p class="form-tooltip-error sm" [ngClass]="{'error':true}"
+                       *ngIf="driverForm.controls['licenceFile'].errors.required && checkSubmitStatus">
+                      Upload Image
+                    </p>
+                  </div>
+                </label>
+              </fieldset>
+              <fieldset class="form-group">
+                <ul class="image-list ">
+                  <li>
+                    <div class="user-profle-image">
+                      <img alt="" class="img-fluid" #licenceImg
+                           src="{{driverObject['licenceImage'] == '00000000-0000-0000-0000-000000000000' || driverObject['licenceImage'] == null || driverObject['licenceImage'] == '' ? _appConstant.noImg: driverObject['licenceImage']}}" />
+                    </div>
+                    <span *ngIf="driverObject['licenceImage']">
+                      <i class="material-icons" (click)="licenceImageRemove()">clear</i>
+                    </span>
+                  </li>
+                </ul>
+              </fieldset>
+              <p>{{licenceFileName}}</p>
+            </div>
+          </div>
+          <div class="row mt-4 mb-0">
+            <div class="col-lg-12">
+              <div class="form-field">
+                <div class="input-field ">
+                  <button mat-flat-button color="primary"
+                          class="text-white " [title]="buttonName">
+                    {{buttonName}}
+                  </button>
+                  <button mat-flat-button color="primary" class="text-white m-l-10" [routerLink]="['/drivers']"
+                          title="Cancel">
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </mat-card>
+</section>

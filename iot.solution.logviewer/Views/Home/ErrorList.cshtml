@@ -1,0 +1,194 @@
+﻿@model component.services.logger.viewer.Models.LoggerModel.ErrorModel
+@{
+    ViewBag.Title = "ErrorList";
+}
+
+<style>
+    .heading {
+        background-color: #ffd800;
+        width: 100%;
+    }
+
+    h3 {
+        padding: 10px;
+    }
+
+    h2 {
+        padding: 10px;
+    }
+
+    .modal-lg {
+        width: 80% !important;
+    }
+
+    .modal-content {
+        width: 100% !important;
+    }
+
+    .modal {
+    }
+
+        .modal .modal-dialog .modal-content {
+            border-radius: 10px;
+            /*position: fixed !important;*/
+        }
+
+            .modal .modal-dialog .modal-content .modal-header {
+                background-color: #ffd800;
+                border-radius: 9px 9px 0 0;
+                padding: 0;
+                min-height: 43px;
+                text-align: center;
+            }
+
+                .modal .modal-dialog .modal-content .modal-header h5.modal-title {
+                    margin: 0 auto;
+                    width: 100%;
+                    color: #333333;
+                    font-size: 16px;
+                    font-weight: bold;
+                    text-transform: uppercase;
+                    padding-top: 9px;
+                }
+
+    .modal-header .close {
+        padding: 0;
+        margin: -25px 13px 0 0;
+        text-shadow: none;
+        color: #333333;
+        font-size: 30px;
+        opacity: 9;
+        outline: 0;
+        box-shadow: none;
+    }
+
+        .modal-header .close:hover {
+            color: #fff;
+        }
+
+    .modal.fade {
+        opacity: 10 !important;
+    }
+
+    .modal-backdrop.fade {
+        opacity: 0.5 !important;
+    }
+
+    .backtolist {
+        float: right;
+    }
+</style>
+<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+<br />
+
+<div class="backtolist">
+    <a href="@Url.Action("Index", "Home", new { connId = Model.ConStringId })">Back To Home</a>
+</div>
+<br />
+@using (Html.BeginForm("ErrorList", "Home", FormMethod.Post))
+{
+<div style="margin-top:10px;width:100%;">
+    <span style="float:left;width:25%;margin-left:10px;">
+        @Html.DropDownListFor(n => n.ApplicationCode, new SelectList(Model.ApplicationList, "Value", "Text"), new { id = "drpApplication", @class = "form-control", @disabled = "disabled" })
+    </span>
+    <span style="float:left;width:25%;">
+        @Html.DropDownListFor(n => n.Severity, new SelectList(Model.SeverityList, "Value", "Text"), "Select Severity", new { id = "drpSeverity", @class = "form-control" })
+    </span>
+    <span style="float:left;width:25%;">
+        @Html.DropDownListFor(n => n.Hours, new SelectList(Model.HoursList, "Value", "Text"), "Select Before Hours", new { id = "drpHours", @class = "form-control" })
+    </span>
+    @Html.HiddenFor(m => m.Logger)
+    @Html.HiddenFor(m => m.ConStringId)
+    <span style="float:left;">
+        <button type="submit" class="btn btn-primary">Search</button>
+    </span>
+    @Html.HiddenFor(model => model.ApplicationCode)
+</div>
+    <div style="clear:both;">
+    </div>
+}
+<br />
+<div class="heading">
+    <h3>@Model.Logger (@Model.Severity)</h3>
+</div>
+<br />
+
+<table id="example" class="display" style="width:100%">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Error Code</th>
+            <th>File Name</th>
+            <th>Method</th>
+            <th>Message</th>
+            <th>Action</th>
+            @*<th>Message Data</th>
+                <th>StackTrace</th>*@
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.ErrorList)
+        {
+            <tr>
+                <td>@item.LogDate</td>
+                <td>@item.ErrorCode</td>
+                <td>@item.LogFile</td>
+                <td>@item.Method</td>
+                <td>@item.Message</td>
+                <td><a href="javascript:detailError('@item.LogId',@Model.ConStringId);"> View </a></td>
+                @*<td>@item.messagedata</td>
+                    <td>@item.stacktrace</td>*@
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<!-- Modal TelemetryData-->
+<div class="modal fade" id="modalDetailError" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Error Detail</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="DivDetailError"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#example').DataTable({
+            "scrollX": true,
+            "order": [[0, 'desc']]
+        });
+    });
+
+
+    function detailError(ErrorId, ConnectionId) {
+        $('#modalDetailError').modal('show');
+
+        $.ajax({
+           type: "GET",
+           url: "@(Url.Action("GetDetailError", "Home"))",
+           data: { ErrorId: ErrorId, ConnId: ConnectionId},
+           contentType: "application/json; charset=utf-8",
+           dataType: "html",
+           success: function (response) {
+               $('#DivDetailError').html(response);
+               $('#modalDetailError').modal('show');
+           },
+           error: function (response) {
+               toastr.error("", "Something went wrong. Please try again.");
+           }
+        })
+    }
+</script>

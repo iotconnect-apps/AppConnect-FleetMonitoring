@@ -1,0 +1,101 @@
+<section class="content-header">
+	<h1>{{moduleName}}</h1>
+	<div class="content-header-action">
+		<div>
+			<app-search-render [searchValue]="searchParameters.searchText" (searchEvent)="searchTextCallback($event)">
+			</app-search-render>
+		</div>
+		<div class="p-l-20">
+			<button type="button" (click)="clickAdd()" mat-flat-button color="primary"
+							class="text-white" title="Add User">
+				Add User
+			</button>
+		</div>
+
+	</div>
+</section>
+
+<div class="content p-t-0">
+	<div class="table-container">
+		<table mat-table [dataSource]="userList" matSort class="mat-elevation-z8" (matSortChange)="setOrder($event)"
+					 matSortActive="firstName" matSortDirection="asc" matSortDisableClear>
+			<!-- Name Column -->
+			<ng-container matColumnDef="firstName">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header>First Name </th>
+				<td mat-cell *matCellDef="let element"> {{element.firstName}}</td>
+			</ng-container>
+
+			<!-- Name Column -->
+			<ng-container matColumnDef="lastName">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header>Last Name </th>
+				<td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
+			</ng-container>
+
+			<!-- Type Column -->
+			<ng-container matColumnDef="email">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+				<td mat-cell *matCellDef="let element"> {{element.email}} </td>
+			</ng-container>
+
+			<!-- Type Column -->
+			<ng-container matColumnDef="contactNo">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header> Contact </th>
+				<td mat-cell *matCellDef="let element">
+					+{{(element.contactNo)}}
+				</td>
+			</ng-container>
+
+			<!-- Status Column -->
+			<ng-container matColumnDef="isActive">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+				<td mat-cell *matCellDef="let element">
+					<a href="javascript:void(0)" [ngClass]="element?.isActive ? 'disable-link active' :'disable-link inactive' "
+						 *ngIf="(element.guid == ((currentUser.userDetail.id | lowercase)))">
+						{{element?.isActive ? _appConstant.activeStatus : _appConstant.inactiveStatus }}
+					</a>
+
+					<a href="javascript:void(0)" [ngClass]="element?.isActive ? 'active' :'inactive' "
+						 (click)="activeInactiveuser(element.guid, element.isActive, element.firstName,element.lastName)"
+						 *ngIf="(element.guid != ((currentUser.userDetail.id | lowercase)))">
+						{{element?.isActive ? _appConstant.activeStatus : _appConstant.inactiveStatus }}
+					</a>
+				</td>
+			</ng-container>
+
+			<ng-container matColumnDef="action">
+				<th mat-header-cell *matHeaderCellDef class="w110">Actions</th>
+				<td mat-cell *matCellDef="let element">
+					<div class="table-icons" *ngIf="(element.guid == ((currentUser.userDetail.id | lowercase)))">
+						<a class="green disable-link" href="javascript:void(0)" title="Edit">
+							<img alt="Edit" src="./assets/images/icon-edit.svg">
+						</a>
+						<a class="red disable-link" href="javascript:void(0)" title="Delete">
+							<!-- <i class="far fa-trash-alt"></i> -->
+							<img src="./assets/images/icon-delete.svg">
+						</a>
+					</div>
+					<div class="table-icons" *ngIf="(element.guid != ((currentUser.userDetail.id | lowercase)))">
+						<a class="green" [routerLink]="['/admin/users',element.guid]" title="Edit">
+							<img alt="Edit" src="./assets/images/icon-edit.svg">
+						</a>
+						<a class="red" href="javascript:void(0)" data-toggle="modal"
+							 data-target="#deviceDeleteModal" (click)="deleteModel(element)" title="Delete">
+							<!-- <i class="far fa-trash-alt"></i> -->
+							<img src="./assets/images/icon-delete.svg">
+						</a>
+					</div>
+				</td>
+			</ng-container>
+
+			<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+			<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+		</table>
+		<div *ngIf="userList.length === 0 || totalRecords === 0 " class="centerclass">No records found</div>
+	</div>
+	<mat-paginator #paginator [length]="totalRecords" [pageIndex]="searchParameters.pageNumber"
+								 [pageSize]="searchParameters.pageSize" [pageSizeOptions]="pageSizeOptions"
+								 (page)="ChangePaginationAsPageChange($event)" [showFirstLastButtons]="true">
+	</mat-paginator>
+	<app-confirm-dialog [dialogId]="'spaceStatusModal'" [status]="changeStatusDeviceStatus" [msgType]="0"
+											[moduleName]="changeStatusDeviceName" (onSave)="changeDeviceStatus()"></app-confirm-dialog>

@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Description>IotConnect Common RDK</Description>
+    <PackageTags>IoTConnect.Common</PackageTags>
+    <Version>2.0.3</Version>
+    <Authors>IoTConnect</Authors>
+    <Company>Softweb Solutions Inc.</Company>
+    <Product>IoTConnect</Product>
+    <PackageId>IoTConnect.Common</PackageId>
+    <PackageReleaseNotes>Introduced TimeZone,Country and State master methods under Common.Master namespace. Renamed LoginProvider method to Auth. namespace changes.</PackageReleaseNotes>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <Optimize>false</Optimize>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>C:\zaveri\git repo\Avnet ATune\ConnectStudio-RDK\ms-avnet-atune-connectstudio-rdk\ATuneRDK\IOTConnect.Common\IoTConnect.Common.xml</DocumentationFile>
+    <OutputPath>bin\Release\</OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Flurl.Http" Version="2.4.2" />
+    <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Model\Entity\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="IoTConnect.Common.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

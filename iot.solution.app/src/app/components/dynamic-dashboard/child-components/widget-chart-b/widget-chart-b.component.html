@@ -1,0 +1,13 @@
+<div class="drag-body dashboard-widget">
+		<div class="panel-heading" [ngStyle]="{'background':widget?.widgetProperty?.background}">
+			<h5 class="panel-title w-100" [ngStyle]="{'font-size':widget?.widgetProperty?.fontSize+'px',
+			'font-family':widget?.widgetProperty?.fontFamily,
+			'color':widget?.widgetProperty?.fontColor}"> {{widget?.widgetProperty?.title}} </h5>
+		  </div>
+	  <mat-card >
+		<google-chart *ngIf="FleetStatusChartData.dataTable.length" [data]="FleetStatusChartData"></google-chart>
+		<div class="centerclass soil-nutritions" *ngIf="!FleetStatusChartData.dataTable.length">
+		  No Data Found
+		</div>
+	  </mat-card>
+  </div>

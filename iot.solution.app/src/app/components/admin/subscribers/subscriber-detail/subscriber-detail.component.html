@@ -1,0 +1,195 @@
+<section class="content-header">
+    <h1>Subscriber Detail</h1>
+</section>
+
+<div class="content p-t-0">
+    <div class="light-card mb-4">
+        <div class="light-card-body">
+            <ul class="m-0">
+                <li><span class="plan-decription">First Name: </span><span
+                        class="plan-details">{{SubscriberDetail['firstName']}}</span></li>
+                <li><span class="plan-decription">Last Name: </span><span
+                        class="plan-details">{{SubscriberDetail['lastName']}}</span></li>
+                <li><span class="plan-decription">Email: </span><span
+                        class="plan-details">{{SubscriberDetail['email']}}</span></li>
+                <li><span class="plan-decription">City: </span><span
+                        class="plan-details">{{SubscriberDetail['city']}}</span></li>
+                <li><span class="plan-decription">State: </span><span
+                        class="plan-details">{{SubscriberDetail['state']}}</span></li>
+                <li><span class="plan-decription">Country: </span><span
+                        class="plan-details">{{SubscriberDetail['country']}}</span></li>
+                <li><span class="plan-decription">Company Name: </span><span
+                        class="plan-details">{{SubscriberDetail['companyName']}}</span></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+
+<mat-tab-group animationDuration="0ms" (selectedTabChange)="clickassigned($event)">
+    <mat-tab label="Subscription Plan detail">
+        <!-- <section class="content-header">
+            <h1>Subscription Plan detail</h1>
+        </section> -->
+        <div class="content">
+            <mat-card class="environment-technical-details mat-card mb-4">
+                <div>
+                    <div class="row align-items-center no-gutters m-b-20">
+                        <div class="col-md-12">
+                            <h2 class="m-0 subscription-plan-si-title"> Your current subscription plan detail for
+                                solution:
+                                Smart Generator Solutions </h2>
+                                <div class="mat-tab-label mat-ripple ng-star-inserted" style="float: right">
+                                <p class="feature-icon-holder">
+                                    <span class="ng-star-inserted"> Last Sync {{displayName}}</span></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="plan-data style2 selected-plan-wrapper mb-4 row no-gutters selected-plan-margin m-l-0">
+                        <div class="plan-item active current-plan-wrapper m-l-0">
+                            <div class="plan-title activeplan">
+                                <div class="d-flex flex-wrap align-items-center plan-planName">
+                                    <p class="m-0" title="{{SubscriberDetail['planName']}}">
+                                        {{SubscriberDetail['planName']}}</p>
+                                </div>
+                                <!--<div class="d-flex flex-wrap align-items-center plan-planPrice">
+                                    <p class="m-0">USD {{SubscriberDetail['price']}}<span>/mo</span></p>
+                                </div>-->
+                            </div>
+                            <div class="plan-value-container custom-scroll-wrapper selected-plan-scroller-custom">
+                                <ul class="plan-value ">
+                                    <div>
+                                        <div>
+                                            <div>
+                                                <div _ngcontent-knw-c6="" cdkscrollable="" smoothscroll=""
+                                                    class="ng-scroll-view "
+                                                    style="width: calc(100% + 18px); height: calc(100% + 18px);">
+                                                    <li class="ng-star-inserted">
+                                                        <div class="feature-name-text text-left">
+                                                            <p class="feature-icon-holder">
+                                                                <span class="ng-star-inserted"> Messages</span></p>
+                                                        </div>
+                                                        <div
+                                                            class="feature-name-value text-right d-flex flex-wrap align-items-center">
+                                                            <p class="decimal m-0 ng-star-inserted">
+                                                                {{SubscriberDetail['noOfMessages']}}K /day</p>
+                                                        </div>
+                                                    </li>
+                                                    <li class="ng-star-inserted">
+                                                        <div class="feature-name-text text-left">
+                                                            <p class="feature-icon-holder">
+                                                                <span class="ng-star-inserted"> Devices</span></p>
+                                                        </div>
+                                                        <div
+                                                            class="feature-name-value text-right d-flex flex-wrap align-items-center">
+                                                            <p class="decimal m-0 ng-star-inserted" title="5">
+                                                                {{SubscriberDetail['noOfDevices']}}</p>
+                                                        </div>
+                                                    </li>
+                                                    <li class="ng-star-inserted">
+                                                        <div class="feature-name-text text-left">
+                                                            <p class="feature-icon-holder">
+                                                                <span class="ng-star-inserted"> Users</span></p>
+                                                        </div>
+                                                        <div
+                                                            class="feature-name-value text-right d-flex flex-wrap align-items-center">
+                                                            <p class="decimal m-0 ng-star-inserted" title="3">
+                                                                {{SubscriberDetail['noOfUsers']}}</p>
+                                                        </div>
+                                                    </li>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="consumption-plan-wrapper">
+                            <div class="light-card">
+                                <div class="light-card-header"><span>Plan Consumption Details -
+                                        {{SubscriberDetail['planName']}}</span></div>
+                                <div class="light-card-body">
+                                    <ul class="m-0">
+                                        <li><span class="plan-decription">Subscription Date</span><span
+                                                class="plan-details">{{SubscriberDetail['subscriptionDate'] | date:'MMM-dd-yyyy, h:mm a'}}</span>
+                                        </li>
+                                        <li><span class="plan-decription">Renewal Date</span><span
+                                                class="plan-details">{{SubscriberDetail['renewalDate'] | date:'MMM-dd-yyyy, h:mm a'}}</span></li>
+                                        <!--<li><span class="plan-decription">Total Cost</span><span
+                                                class="plan-details">USD
+                                                {{SubscriberDetail['price']}}/mo</span></li>-->
+                                        <li><span class="plan-decription"># of Messages</span><span
+                                                class="plan-details">{{SubscriberDetail['planPerDayMessages']}} (0
+                                                /day)</span></li>
+                                        <li><span class="plan-decription"># of Users</span><span
+                                                class="plan-details">{{SubscriberDetail['noOfUsers']}}</span>
+                                        </li>
+                                        <li><span class="plan-decription"># of Devices</span><span
+                                                class="plan-details">{{SubscriberDetail['noOfDevices']}}</span>
+                                        </li>
+                                        <li><span class="plan-decription">Others</span><span
+                                                class="plan-details">0</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </mat-card>
+        </div>
+    </mat-tab>
+    <!--<mat-tab label="Kit List" (selectedTabChange)="clickassigned($event)">
+        <section class="content-header">
+            <h1></h1>
+            <div class="content-header-action">
+                <div>
+                    <app-search-render [searchValue]="searchParameters.searchText"
+                        (searchEvent)="searchTextCallback($event)">
+                    </app-search-render>
+                </div>
+            </div>
+        </section>
+
+        <div class="content p-t-0">
+            <div class="table-container">
+                <table mat-table [dataSource]="SubscriberKitList" matSort class="mat-elevation-z8"
+                    (matSortChange)="setOrder($event)" matSortActive="solutionName" matSortDirection="asc"
+                    matSortDisableClear>
+
+                    <ng-container matColumnDef="kitTypeName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            Kit Type Name
+                        </th>
+                        <td mat-cell *matCellDef="let element"> {{element.kitTypeName}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="kitCode">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            Kit Code </th>
+                        <td mat-cell *matCellDef="let element"> {{element.kitCode}} </td>
+                    </ng-container>
+                    
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                </table>
+                <div *ngIf="totalKits === 0" class="centerclass">No records found</div>
+            </div>
+           
+        </div>
+        <mat-paginator #paginator [length]="totalKits" [pageIndex]="searchParameters.pageNo"
+        [pageSize]="searchParameters.pageSize" [pageSizeOptions]="pageSizeOptions"
+        (page)="ChangePaginationAsPageChange($event)" [showFirstLastButtons]="true">
+    </mat-paginator>
+    </mat-tab>-->
+   
+
+
+</mat-tab-group>
+
+<app-confirm-dialog [dialogId]="'spaceStatusModal'" [status]="changeStatusDeviceStatus" [msgType]="0"
+    [moduleName]="changeStatusDeviceName" (onSave)="changeDeviceStatus()"></app-confirm-dialog>

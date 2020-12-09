@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Models\devairqualityContext.cs" />
+    <Compile Remove="Models\devvendingmachineContext.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EntityFramework" Version="6.4.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="3.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.0" />
+    <PackageReference Include="System.Data.OleDb" Version="4.7.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\iot.solution.dataacess\iot.solution.dataacess.csproj" />
+    <ProjectReference Include="..\iot.solution.entity\iot.solution.entity.csproj" />
+    <ProjectReference Include="..\iot.solution.helper\iot.solution.helper.csproj" />
+    <ProjectReference Include="..\iot.solution.loghandler\iot.solution.loghandler.csproj" />
+  </ItemGroup>
+
+</Project>

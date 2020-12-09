@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.12.1" />
+    <PackageReference Include="Microsoft.Extensions.PlatformAbstractions" Version="1.1.0" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\iot.solution.common\iot.solution.common.csproj" />
+    <ProjectReference Include="..\iot.solution.eventbus\iot.solution.eventbus.csproj" />
+    <ProjectReference Include="..\iot.solution.log.common\iot.solution.log.common.csproj" />
+    <ProjectReference Include="..\iot.solution.log\iot.solution.log.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,15 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* 
+@import "assets/css/toaster-2.css";
+@import "assets/css/template.css";
+@import "assets/css/main.css";
+@import "assets/css/pages.css"; \
+*/
+@import "assets/css/old-template.css";
+@import "assets/css/common.css";
+@import "assets/css/widgets.css";
+@import "assets/css/dashboard.css";
+@import "assets/css/page.css";
+@import "assets/css/responsive.css";
+@import "~ng-pick-datetime/assets/style/picker.min.css";

@@ -1,0 +1,103 @@
+<section class="content-header">
+    <h1>Manage Fleet</h1>
+    <div class="content-header-action">
+      <div>
+              <app-search-render title="Search Fleet" [searchValue]="searchParameters.searchText" (searchEvent)="searchTextCallback($event)">
+              </app-search-render>
+          </div>
+  
+      <div class="p-l-10">
+        <button type="button" title="Add Fleet" mat-flat-button color="primary" class="width-auto text-white"
+        routerLink="/fleet/add">
+          Add Fleet
+        </button>
+      </div>
+      
+    </div>
+  </section>
+
+<div class="content">
+  <div class="sticky-table-wrapper table-container">
+    <table mat-table [dataSource]="fleetList" matSort class="mat-elevation-z8" (matSortChange)="setOrder($event)"
+           matSortActive="fleetId" matSortDirection="asc" matSortDisableClear>
+
+      <!-- Fleet Id Column -->
+      <ng-container matColumnDef="fleetId">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Fleet ID </th>
+        <td mat-cell *matCellDef="let element">
+          <a [routerLink]="['/fleet/dashboard/',element.guid]">{{element.fleetId}}</a>
+        </td>
+      </ng-container>
+
+      <!-- Fleet Type Column -->
+      <ng-container matColumnDef="fleetTypeName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Fleet Type </th>
+        <td mat-cell *matCellDef="let element"> {{element.fleetTypeName}} </td>
+      </ng-container>
+
+      <!-- Fleet Reg No Column -->
+      <ng-container matColumnDef="registrationNo">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Fleet Reg No </th>
+        <td mat-cell *matCellDef="let element"> {{element.registrationNo}} </td>
+      </ng-container>
+
+      <!-- Loading Capacity Column -->
+      <ng-container matColumnDef="loadingCapacity">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Loading Capacity (Tons) </th>
+        <td mat-cell *matCellDef="let element"> {{element.loadingCapacity}} </td>
+      </ng-container>
+
+      <!-- Material Type Column -->
+      <ng-container matColumnDef="materialTypeName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Material Type </th>
+        <td mat-cell *matCellDef="let element"> {{element.materialTypeName}} </td>
+      </ng-container>
+
+      <!-- Template Column -->
+      <ng-container matColumnDef="templateName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Template </th>
+        <td mat-cell *matCellDef="let element"> {{element.templateName}} </td>
+      </ng-container>
+
+      <!-- Status Column -->
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef> status </th>
+        <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef class="w110">Actions</th>
+        <td mat-cell *matCellDef="let element">
+          <div class="table-icons" *ngIf="element.status != 'On Duty'">
+            <a class="green" [routerLink]="['/fleet',element.guid]" title="Edit">
+              <img alt="Edit" src="./assets/images/icon-edit.svg">
+            </a>
+            <a class="red" href="javascript:void(0)" data-toggle="modal" data-target="#fleetDeleteModal"
+               (click)="deleteModel(element)" title="Delete">
+              <!-- <i class="far fa-trash-alt"></i> -->
+              <img src="./assets/images/icon-delete.svg">
+            </a>
+          </div>
+          <div class="table-icons" *ngIf="element.status == 'On Duty'">
+            <a class="green disable-link" title="Edit">
+              <img alt="Edit" src="./assets/images/icon-edit.svg">
+            </a>
+            <a class="red disable-link" title="Delete">
+              <!-- <i class="far fa-trash-alt"></i> -->
+              <img src="./assets/images/icon-delete.svg">
+            </a>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <div *ngIf="fleetList.length === 0" class="centerclass">No records found</div>
+  </div>
+  <mat-paginator #paginator [length]="totalRecords" [pageIndex]="searchParameters.pageNumber"
+                 [pageSize]="searchParameters.pageSize" [pageSizeOptions]="pageSizeOptions" (page)="ChangePaginationAsPageChange($event)"
+                 [showFirstLastButtons]="true">
+  </mat-paginator>
+
+</div>

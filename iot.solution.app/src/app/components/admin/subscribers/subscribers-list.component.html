@@ -1,0 +1,95 @@
+<section class="content-header">
+	<h1>Subscribers</h1>
+	<div class="content-header-action">
+		<div>
+			<app-search-render [searchValue]="searchParameters.searchText" (searchEvent)="searchTextCallback($event)">
+			</app-search-render>
+		</div>
+	</div>
+</section>
+
+<div class="content p-t-0">
+	<div class="table-container">
+		<table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" (matSortChange)="setOrder($event)"
+			matSortActive="solutionName" matSortDirection="asc" matSortDisableClear>
+
+			
+			<ng-container matColumnDef="subscriberName">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header>
+					Name </th>
+				<td mat-cell *matCellDef="let element">
+					<a [routerLink]="['/admin/subscribers/',element.email,element.productCode, element.ioTConnectCompanyGuid]">
+						{{element.subscriberName}}
+					</a>
+				</td>
+			</ng-container>
+			<!-- solutionName Column -->
+			<ng-container matColumnDef="companyName">
+					<th mat-header-cell *matHeaderCellDef mat-sort-header>
+						Company Name
+					</th>
+					<td mat-cell *matCellDef="let element"> {{element.companyName}} </td>
+				</ng-container>
+	
+				<!-- Name Column -->
+			<!-- Name Column -->
+			<ng-container matColumnDef="email">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header>
+					Email </th>
+				<td mat-cell *matCellDef="let element"> {{element.email}} </td>
+			</ng-container>
+			<!-- Name Column -->
+			<ng-container matColumnDef="subscriptionStartDate">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header>
+					Subscription StartDate </th>
+				<td mat-cell *matCellDef="let element"> {{element.subscriptionStartDate | date:'MM/dd/yyyy'}} </td>
+			</ng-container>
+
+			<!-- Name Column -->
+			<ng-container matColumnDef="subscriptionEndDate">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header>
+					Subscription EndDate </th>
+				<td mat-cell *matCellDef="let element"> {{element.subscriptionEndDate | date:'MM/dd/yyyy'}} </td>
+			</ng-container>
+			<!-- Name Column -->
+			<ng-container matColumnDef="planName">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header>
+					Subscription Plan </th>
+				<td mat-cell *matCellDef="let element"> {{element.planName}} </td>
+			</ng-container>
+			<!-- Status Column -->
+			<!-- <ng-container matColumnDef="subscriptionStatus" >
+						<th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+						<td mat-cell *matCellDef="let element">
+							<a href="javascript:void(0)" [ngClass]="element?.subscriptionStatus ? 'active' :'inactive' "
+								(click)="activeInactiveDevice(element.guid, element.subscriptionStatus, element.name)">
+								{{element?.subscriptionStatus ? _appConstant.activeStatus : _appConstant.inactiveStatus }}
+							</a>
+						
+						</td>
+					</ng-container>
+
+					<ng-container matColumnDef="action">
+						<th mat-header-cell *matHeaderCellDef class="w110">Actions</th>
+						<td mat-cell *matCellDef="let element">
+						<div class="table-icons">
+							<a class="green" [routerLink]="['/device',element.guid]" title="Edit" >
+							<img alt="Edit" src="../../../../assets/images/view-icon.svg">
+							</a>
+						</div>
+						</td>
+					</ng-container> -->
+
+			<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+			<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+		</table>
+		<div *ngIf="dataSource.length === 0 || totalRecords === 0 " class="centerclass">No records found</div>
+	</div>
+	<mat-paginator #paginator [length]="totalRecords" [pageIndex]="searchParameters.pageNo"
+		[pageSize]="searchParameters.pageSize" [pageSizeOptions]="pageSizeOptions"
+		(page)="ChangePaginationAsPageChange($event)" [showFirstLastButtons]="true">
+	</mat-paginator>
+
+</div>
+

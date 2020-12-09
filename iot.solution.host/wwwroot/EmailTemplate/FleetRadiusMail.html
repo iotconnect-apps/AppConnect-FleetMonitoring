@@ -1,0 +1,335 @@
+﻿<!--<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 6px;
+        }
+    </style>
+</head>
+<body>
+    <span>Hello {OwnerName},</span><br /><br />
+    <span>Please see below fleet details.</span><br /><br />
+    <table>
+        <tr>
+            <th>Fleet Id</th>
+            <th>Driver Id</th>
+            <th>Trip Id</th>
+            <th>Distance Covered (KM)</th>
+            <th>Radius Limit (KM)</th>
+
+        </tr>
+        {DynamicTR}
+    </table>
+    <br />
+    <span>Regards,</span><br />
+    <span>{Regards}</span>
+</body>
+</html>-->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Softweb Solutions</title>
+    <style type="text/css" media="screen">
+        * {
+            padding: 0px;
+            margin: 0px;
+        }
+
+        body, html {
+            background-color: #e3e6ea;
+            background: #e3e6ea;
+        }
+
+        body, a, p, ul, li, span, h1, h2, h3, h4, h5, table, td, th, tr, div {
+            margin: 0;
+            padding: 0;
+        }
+
+            a img {
+                border: none;
+            }
+
+        a {
+            border: none;
+            color: #096dba;
+            text-decoration: none;
+        }
+
+            a:hover {
+                border: none;
+                color: #000;
+                text-decoration: none;
+            }
+
+        p {
+            margin: 0;
+            padding: 0;
+        }
+
+        .table-des td {
+            border-collapse: collapse;
+            padding: 10px;
+        }
+
+        .service-listing tr {
+            padding-bottom: 0;
+        }
+
+        .service-listing th td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 6px;
+        }
+
+        .service-listing {
+        }
+
+            .service-listing tr:last-of-type td {
+                background: #fff;
+            }
+
+        .icon-close, .label-expired {
+            display: none;
+        }
+
+        .service-tab-item-expired .icon-tick, .service-tab-item-expired .label-valid {
+            display: none;
+        }
+
+        .service-tab-item-expired .icon-close, .service-tab-item-expired .label-expired {
+            display: table-row;
+        }
+
+        .date {
+            color: #40c261;
+        }
+
+        .service-tab-item-expired .date {
+            color: #ff0000;
+        }
+
+        .verticle-line {
+            display: table;
+            height: 100%;
+            /* background: #9fadb6; */
+            width: 1px;
+            margin: -5px auto 0;
+        }
+    </style>
+</head>
+
+<body bgcolor="#e3e6ea" style="background-color:#e3e6ea; background:#e3e6ea;">
+    <table width="670" border="0" cellspacing="0" cellpadding="0" align="center" style="width:670px;margin:0 auto;">
+        <tr>
+            <td>
+                <table width="670" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td style="height:20px;line-height:0;font-size:0;"></td>
+                    </tr>
+                    <tr>
+                        <td style="background-color:#ffffff;">
+                            <!-- BOF Header Section-->
+
+                            <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+                                <tbody>
+                                    <tr>
+                                        <td height="66" valign="middle" style="height:66px; vertical-align:middle">
+                                            <table border="0" cellspacing="0" cellpadding="0" style="width: 100%;">
+                                                <tbody>
+                                                    <tr>
+                                                        <td width="20"></td>
+                                                        <td width="650" valign="top">
+                                                            <table border="0" cellspacing="0" cellpadding="0" style="width: 100%;">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td height="10" style="font-size: 0; margin: 0; line-height: 0;"></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <table border="0" cellspacing="0" cellpadding="0" style="width: 100%;">
+                                                                                <tbody>
+                                                                                    <tr>
+                                                                                        <td align="left" valign="top"><img src="http://40.113.196.248:825/assets/images/logo.svg" border="0" /></td>
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td height="10" style="font-size: 0; margin: 0; line-height: 0;"></td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <!-- EOF Header Section-->
+                        </td>
+                    </tr>
+                    <tr>
+                        <!-- BOF Banner Section-->
+                        <td style="line-height:0;font-size:0;"><img src="https://devatunestcorewi.blob.core.windows.net/public/notification/banner-admin.jpg" width="670" height="178" style="vertical-align:top" /></td>
+                        <!-- EOF Banner Section-->
+                    </tr>
+                    <tr>
+                        <td style="height:45px;line-height:0;font-size:0;background-color:#ffffff;"></td>
+                    </tr>
+                    <tr>
+                        <td style="background-color:#ffffff;">
+                            <!-- BOF Container Section-->
+
+                            <table width="670" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                    <td rowspan="3" style="width:20px;"></td>
+                                    <td style="font:normal 22px/30px Arial, Helvetica, sans-serif;color:#000000;">Hello <strong>{OwnerName}</strong>,</td>
+                                    <td rowspan="3" style="width:20px;"></td>
+                                </tr>
+                                <tr>
+                                    <td style="height:15px;line-height:0;font-size:0;"></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                            <tr>
+                                                <td style="font:normal normal 16px/26px Arial, Helvetica, sans-serif;color:#000000;">
+                                                    Please see below fleet details.
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="height:15px;line-height:0;font-size:0;"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <table class="service-listing" style="width:100%" border="1" cellspacing="0" cellpadding="0">
+                                                        <tr>
+                                                            <th>Fleet Id</th>
+                                                            <th>Driver Id</th>
+                                                            <th>Trip Id</th>
+                                                            <th>Distance Covered (KM)</th>
+                                                            <th>Radius Limit (KM)</th>
+
+                                                        </tr>
+                                                        {DynamicTR}
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="height:45px;line-height:0;font-size:0;"></td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font:normal normal 16px/26px  Arial, Helvetica, sans-serif; color:#000000;">Regards,</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font:normal normal 16px/26px  Arial, Helvetica, sans-serif; color:#000000;">{Regards}</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="height:45px;line-height:0;font-size:0;"></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <!-- EOF Container Section-->
+                        </td>
+                    </tr>
+                    <tr>
+                        <td bgcolor="#40c261" style="background-color:#40c261;">
+                            <!-- BOF Fotoer Section-->
+
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                    <td rowspan="6" style="width:20px;"></td>
+                                    <td style="height:20px;line-height:0;font-size:0;"></td>
+                                    <td rowspan="6" style="width:20px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                            <tr>
+                                                <td align="left">
+                                                    <table border="0" cellspacing="0" cellpadding="0">
+                                                        <tr>
+                                                            <td valign="middle" style="width:20px;height:24px;vertical-align:middle;"><img src="https://devatunestcorewi.blob.core.windows.net/public/emailtemplate/partner-email2.png" /></td>
+                                                            <td style="width:10px;height:24px;"></td>
+                                                            <td style="height:24px;line-height:24px;vertical-align:middle;"><a style="color:#ffffff;font:normal normal 19px/24px Arial, Helvetica, sans-serif;display:inline-block;" href="mailto:contact-us@iotconnect.io">contact-us@iotconnect.io</a></td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                                <td align="right">
+                                                    <table border="0" cellspacing="0" cellpadding="0">
+                                                        <tr>
+                                                            <td style="width:20px;height:24px;"><img src="https://devatunestcorewi.blob.core.windows.net/public/emailtemplate/partner-call2.png" /></td>
+                                                            <td style="width:10px;height:24px;"></td>
+                                                            <td style="color:#ffffff;font:normal normal 19px/24px Arial, Helvetica, sans-serif;vertical-align:middle;height:24px;">866-345-7638</td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="height:15px;line-height:0;font-size:0;"></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                            <tr>
+                                                <td style="font:normal normal 12px/20px Arial, Helvetica, sans-serif;color:#ffffff;">Copyright ©{CurrentYear} Avnet, Inc. All rights reserved.</td>
+                                                <td rowspan="2" align="right" valign="middle"><img src="https://devatunestcorewi.blob.core.windows.net/public/notification/footer_logo.png" /></td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font:normal normal 12px/20px Arial, Helvetica, sans-serif;color:#ffffff;"><a href="https://knowledgebase.iotconnect.io/" style="color:#ffffff;text-decoration:none;">Knowledgebase</a> - <a href="https://knowledgebase.iotconnect.io/faq/general/" style="color:#ffffff;text-decoration:none;">FAQ</a> - <a href="https://www.avnet.com/wps/portal/us/about-avnet/human-rights/" style="color:#ffffff;text-decoration:none;">Human Rights</a> - <a href="https://www.avnet.com/wps/portal/us/about-avnet/privacy/" style="color:#ffffff;text-decoration:none;">Privacy</a> - <a href="https://www.avnet.com/wps/portal/us/about-avnet/legal/" style="color:#ffffff;text-decoration:none;">Terms of Use</a></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="height:20px;line-height:0;font-size:0;"></td>
+                                </tr>
+                            </table>
+
+                            <!-- EOF Fotoer Section-->
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="height:20px;line-height:0;font-size:0;"></td>
+                    </tr>
+                    <tr>
+                        <td style="font:normal normal 13px/18px Arial, Helvetica, sans-serif;color:#000000;">Disclaimer</td>
+                    </tr>
+                    <tr>
+                        <td style="font:italic normal 13px/18px Arial, Helvetica, sans-serif;color:#000000;">The content of this email and any attachments to it is confidential and only intended for the recipient specified in the email. It is strictly forbidden to share any part of this email with any third party, without a written consent of the sender. If you received this message by mistake, please notify us on <a href="mailto:contact-us@iotconnect.io" style="color:#004eff; text-decoration:underline">contact-us@iotconnect.io</a> and kindly delete this email from your system. Any use of the information contained herein in any way by persons other than the intended recipients is strictly prohibited.</td>
+                    </tr>
+                    <tr>
+                        <td style="height:20px;line-height:0;font-size:0;"></td>
+                    </tr>
+                    <tr>
+                        <td style="font:italic normal 13px/18px Arial, Helvetica, sans-serif;color:#000000;">*Please note this is an auto-generated email. Please do not reply to it. If you have any questions or comments kindly contact <a href="mailto:support@iotconnect.io" style="color:#004eff; text-decoration:underline">support@iotconnect.io</a></td>
+                    </tr>
+                    <tr>
+                        <td style="height:20px;line-height:0;font-size:0;"></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

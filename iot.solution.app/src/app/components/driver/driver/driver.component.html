@@ -1,0 +1,112 @@
+<section class="content-header">
+	<h1>Manage Drivers</h1>
+	<div class="content-header-action">
+		<div>
+			<app-search-render title="Search Driver" [searchValue]="searchParameters.searchText" (searchEvent)="searchTextCallback($event)">
+			</app-search-render>
+		</div>
+		<div class="p-l-20"><button type="button" title="Add Driver" (click)="clickAdd()" mat-flat-button color="primary"
+				class="text-white" title="Add Driver">Add Driver</button></div>
+
+	</div>
+</section>
+
+<div class="content p-t-0">
+	<div class="table-container">
+		<table mat-table [dataSource]="driverList" matSort class="mat-elevation-z8" (matSortChange)="setOrder($event)"
+					 matSortActive="firstName" matSortDirection="asc" matSortDisableClear>
+
+			<!-- UniqueID Column
+	<ng-container matColumnDef="sn">
+		<th mat-header-cell *matHeaderCellDef>SN.</th>
+		<td mat-cell *matCellDef="let element; let i = index;">
+			{{ (paginator.pageIndex * paginator.pageSize) + (i + 1) }}
+
+		</td>
+	</ng-container> -->
+			<ng-container matColumnDef="driverId">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header> Driver ID </th>
+				<td mat-cell *matCellDef="let element">
+					<a [routerLink]="['/drivers/dashboard/',element.guid]">{{element.driverId}}</a>
+				</td>
+			</ng-container>
+			<ng-container matColumnDef="firstName">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header> First Name </th>
+				<td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
+			</ng-container>
+
+			<ng-container matColumnDef="lastName">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header> Last Name </th>
+				<td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
+			</ng-container>
+
+
+			<ng-container matColumnDef="email">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+				<td mat-cell *matCellDef="let element"> {{element.email}} </td>
+			</ng-container>
+
+			<ng-container matColumnDef="contactNo">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header> Mobile </th>
+				<td mat-cell *matCellDef="let element"> +{{element.contactNo}} </td>
+			</ng-container>
+
+			<ng-container matColumnDef="licenceNo">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header> Licence No </th>
+				<td mat-cell *matCellDef="let element"> {{element.licenceNo}} </td>
+			</ng-container>
+
+			<ng-container matColumnDef="fleetName">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header> Fleet Id </th>
+				<td mat-cell *matCellDef="let element"> {{element.fleetName}} </td>
+			</ng-container>
+
+			<!-- Status Column -->
+			<ng-container matColumnDef="isActive">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+				<td mat-cell *matCellDef="let element">
+
+					<a href="javascript:void(0)" [ngClass]="element?.isActive ? 'active' :'inactive' "
+						 (click)="activeInactiveDriver(element.guid, element.isActive, element.firstName +' '+ element.lastName )">
+						{{element?.isActive ? _appConstant.activeStatus : _appConstant.inactiveStatus }}
+					</a>
+
+				</td>
+			</ng-container>
+
+			<ng-container matColumnDef="action">
+				<th mat-header-cell *matHeaderCellDef class="w110">Actions</th>
+				<td mat-cell *matCellDef="let element">
+					<div class="table-icons" *ngIf="element.isEditDelete">
+						<a class="green" [routerLink]="['/drivers',element.guid]" title="Edit">
+							<img alt="Edit" src="./assets/images/icon-edit.svg">
+						</a>
+						<a class="red" href="javascript:void(0)" data-toggle="modal" data-target="#driverDeleteModal"
+							 (click)="deleteModel(element)" title="Delete">
+							<!-- <i class="far fa-trash-alt"></i> -->
+							<img src="./assets/images/icon-delete.svg">
+						</a>
+					</div>
+					<div class="table-icons" *ngIf="!element.isEditDelete">
+						<a class="green disable-link" title="Edit">
+							<img alt="Edit" src="./assets/images/icon-edit.svg">
+						</a>
+						<a class="red disable-link" title="Delete">
+							<!-- <i class="far fa-trash-alt"></i> -->
+							<img src="./assets/images/icon-delete.svg">
+						</a>
+					</div>
+				</td>
+			</ng-container>
+
+			<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+			<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+		</table>
+		<div *ngIf="driverList.length === 0" class="centerclass">No records found</div>
+	</div>
+	<mat-paginator #paginator [length]="totalRecords" [pageIndex]="searchParameters.pageNumber"
+		[pageSize]="searchParameters.pageSize" [pageSizeOptions]="pageSizeOptions" (page)="changePaginationAsPageChange($event)"
+		[showFirstLastButtons]="true">
+	</mat-paginator>
+</div>

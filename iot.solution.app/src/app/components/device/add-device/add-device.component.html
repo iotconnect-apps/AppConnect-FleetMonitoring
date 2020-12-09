@@ -1,0 +1,109 @@
+<!-- Content Header (Page header) -->
+
+<section class="content-header">
+  <h1>{{moduleName}}</h1>
+</section>
+<!-- Main content -->
+
+<section class="content">
+  <mat-card class="support-card">
+    <div class="row">
+      <div class="col col-ld-11">
+        <form [formGroup]="deviceForm" (ngSubmit)="manageDevice()" autocomplete="off" class="form-horizontal common-form">
+          <div class="row">
+            <div class="col-md-6">
+              <fieldset class="form-group form-field">
+                <label class="form-label">Select Template<b>*</b></label>
+                <mat-form-field>
+                  <mat-select [disabled]="isEdit" [(ngModel)]="deviceObject['templateGuid']"
+                              tabindex="1" placeholder="Select Template" formControlName="templateGuid">
+                    <mat-option *ngFor="let template of deviceTemplateList" [value]="template.value | lowercase">
+                      {{template.text}}
+                    </mat-option>
+                  </mat-select>
+                  <div class="form-control-feedback" *ngIf="deviceForm.controls['templateGuid'].errors">
+                    <p class="form-tooltip-error sm " [ngClass]="{'error':true}"
+                       *ngIf="deviceForm.controls['templateGuid'].errors.required && checkSubmitStatus">
+                      Please select Template
+                    </p>
+                  </div>
+                </mat-form-field>
+              </fieldset>
+
+            </div>
+            <div class="col-md-6">
+              <fieldset class="form-group form-field">
+                <label class="form-label">Device ID <b>*</b></label>
+                <mat-form-field>
+                  <input matInput formControlName="uniqueId" type="text" maxlength="60" [(ngModel)]="deviceObject['uniqueId']" [readonly]="isEdit"
+                         class="form-control" tabindex="2" placeholder="Device ID">
+                  <div class="form-control-feedback" *ngIf="deviceForm.controls['uniqueId'].errors">
+                    <p class="form-tooltip-error sm " [ngClass]="{'error':true}"
+                       *ngIf="deviceForm.controls['uniqueId'].errors.required && checkSubmitStatus">
+                      Please enter Device ID
+                    </p>
+                    <p class="form-tooltip-error sm " [ngClass]="{'error':true}"
+                       *ngIf="deviceForm.controls['uniqueId'].errors.pattern && checkSubmitStatus">
+                      Special characters and white space not allowed in Device ID
+                    </p>
+                  </div>
+                </mat-form-field>
+              </fieldset>
+            </div>
+            <div class="col-md-6">
+              <fieldset class="form-group form-field">
+                <label class="form-label">Device Name <b>*</b></label>
+                <mat-form-field>
+                  <input matInput formControlName="name" type="text" maxlength="60" [(ngModel)]="deviceObject['name']"
+                         class="form-control" tabindex="3" placeholder="Device Name">
+                  <div class="form-control-feedback" *ngIf="deviceForm.controls['name'].errors">
+                    <p class="form-tooltip-error sm " [ngClass]="{'error':true}"
+                       *ngIf="deviceForm.controls['name'].errors.required && checkSubmitStatus">
+                      Please enter Device Name
+                    </p>
+                  </div>
+                </mat-form-field>
+              </fieldset>
+            </div>
+
+            <div class="col-md-6">
+              <fieldset class="form-group form-field">
+                <label class="form-label">Description</label>
+                <mat-form-field>
+                  <textarea matInput tabindex="4" rows="3" maxlength="500" formControlName="description" type="text" [(ngModel)]="deviceObject['description']"
+                            class="form-control" placeholder="Description"></textarea>
+                </mat-form-field>
+              </fieldset>
+            </div>
+            <div class="col-md-6">
+              <fieldset class="form-group form-field">
+                <label class="form-label">Specification</label>
+                <mat-form-field>
+                  <textarea rows="3" matInput tabindex="5" maxlength="500" formControlName="specification" type="text" [(ngModel)]="deviceObject['specification']"
+                            class="form-control" placeholder="Specification"></textarea>
+                </mat-form-field>
+              </fieldset>
+            </div>
+
+          </div>
+          <div class="row mt-4 mb-0">
+            <div class="col-lg-12">
+              <div class="form-field">
+                <div class="input-field ">
+                  <button mat-flat-button color="primary"
+                          class="text-white " [title]="buttonName" type="Save">
+                    {{buttonName}}
+                  </button>
+                  <button mat-flat-button color="primary" class="text-white m-l-10" [routerLink]="['/devices']"
+                          title="Cancel">
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </mat-card>
+</section>

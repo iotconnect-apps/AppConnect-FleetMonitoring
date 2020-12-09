@@ -1,0 +1,4 @@
+agm-map {
+  height: 300px !important;
+  width: 100%; /* This is really important*/
+}
