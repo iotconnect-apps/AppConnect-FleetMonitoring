@@ -208,7 +208,7 @@ export function initializeApp(appConfigService: ApiConfigService) {
 		OwlNativeDateTimeModule,
 		FullCalendarModule,
     SocketIoModule.forRoot(config),
-    AgmCoreModule.forRoot({ apiKey: 'AIzaSyArka-ycL09oaYjEoPHMjFV5LKcoomCD4Y', libraries:['places'] }),
+    AgmCoreModule.forRoot({ apiKey: '--GOOGLE MAP API KEY--', libraries:['places'] }),
 		AgmJsMarkerClustererModule,
 		AgmDirectionModule,
 		TextMaskModule,
