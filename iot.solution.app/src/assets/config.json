@@ -1,6 +1,6 @@
 {
   "env": {
-      "name": "uat"
+      "name": ""
   },
   "apiServer": {
     "baseUrl": "[Your API URL]"
