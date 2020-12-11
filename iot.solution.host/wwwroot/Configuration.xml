@@ -39,8 +39,8 @@
     <TelemetryHours>15</TelemetryHours>
     <ShelfConsumptionMinutes>5</ShelfConsumptionMinutes>
     <DelayedMinutes>30</DelayedMinutes>
-    <IsSendTripMailEnabled>true</IsSendTripMailEnabled>
-    <IsSendRadiusMailEnabled>true</IsSendRadiusMailEnabled>
+    <IsSendTripMailEnabled></IsSendTripMailEnabled><!-- Values : True/False -->
+    <IsSendRadiusMailEnabled></IsSendRadiusMailEnabled><!-- Values : True/False -->
   </HangFire>
   <IOTConnectSettings>
     <IOTConnectSetting>
@@ -73,17 +73,17 @@
     <Regards>Smart Fleet Monitoring</Regards>
   </SmtpSetting>
   <EmailTemplateSettings>
-      <UserList>sunil.bhawsar@softwebsolutions.com</UserList>
+      <UserList></UserList><!-- Comma separated email addresses of recepients -->
       <FleetDelaySubject>Smart Fleet Monitoring : Trip Delayed</FleetDelaySubject>
-    <RadiusUserList>jully.rajpura@softwebsolutions.com</RadiusUserList>
+    <RadiusUserList></RadiusUserList><!-- Comma separated email addresses of recepients who should receive GeoFencing notifications-->
     <FleetRadiusSubject>Smart Fleet Monitoring : Fleet is out of its defined radius</FleetRadiusSubject>
     <FleetRadiusDurationMinutes>30</FleetRadiusDurationMinutes>
 
     <CompanyRegistrationSubject>Smart Fleet Monitoring : Company Registered</CompanyRegistrationSubject>
-    <CompanyUserList>sunil.bhawsar@softwebsolutions.com</CompanyUserList>
+    <CompanyUserList></CompanyUserList><!-- Comma separated email addresses of recepients -->
 
     <SubscriptionExpirySubject>Smart Fleet Monitoring : User Subscription Expiry</SubscriptionExpirySubject>
-    <SubscriptionExpiryUserList>sunil.bhawsar@softwebsolutions.com</SubscriptionExpiryUserList>
+    <SubscriptionExpiryUserList></SubscriptionExpiryUserList><!-- Comma separated email addresses of recepients -->
     
   </EmailTemplateSettings>
   <!--SQL server Database connection string -->
